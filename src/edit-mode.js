@@ -17,6 +17,8 @@
 (function (root) {
   const Stage = root.Stage = root.Stage || {};
 
+  let dragJustEndedAt = 0;
+
   const EditUI = {
     ws: null,
     active: false,
@@ -28,12 +30,19 @@
       bindPresentMode();
     },
 
+    // Engine consults this before treating a tile click as a "jump-to-slide"
+    // intent. After a drag-drop, the browser synthesises a click — we want
+    // to swallow that so the overview doesn't close.
+    justFinishedDrag() {
+      return Date.now() - dragJustEndedAt < 300;
+    },
+
+    markDragEnded() { dragJustEndedAt = Date.now(); },
+
     // Called by engine after a storyboard tile is built
     decorateTile(tile, slide, idx) {
-      // Reorder drag handle
       attachDragHandles(tile, idx);
 
-      // Slide-level note icon (top-right)
       const noteBtn = document.createElement('button');
       noteBtn.className = 'tile-edit-ui tile-note-btn';
       noteBtn.textContent = '💬';
@@ -45,10 +54,11 @@
       tile.appendChild(noteBtn);
     },
 
-    // Called after storyboard is fully built — add inter-tile transition controls
+    // Called after storyboard is fully built AND scaleTiles ran — add the
+    // inter-tile transition connectors (which need geometry).
     afterOverviewBuilt(ov) {
-      attachTransitionConnectors(ov);
       attachDropZones(ov);
+      attachTransitionConnectors(ov);
     }
   };
 
@@ -288,9 +298,13 @@
   function attachDragHandles(tile, idx) {
     tile.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/x-stagecraft-idx', String(idx));
+      e.dataTransfer.effectAllowed = 'move';
       tile.classList.add('dragging');
     });
-    tile.addEventListener('dragend', () => tile.classList.remove('dragging'));
+    tile.addEventListener('dragend', () => {
+      tile.classList.remove('dragging');
+      EditUI.markDragEnded();
+    });
   }
 
   function attachDropZones(ov) {
@@ -298,17 +312,18 @@
     tiles.forEach((tile, idx) => {
       tile.addEventListener('dragover', (e) => {
         e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
         tile.classList.add('drop-target');
       });
       tile.addEventListener('dragleave', () => tile.classList.remove('drop-target'));
       tile.addEventListener('drop', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         tile.classList.remove('drop-target');
+        EditUI.markDragEnded();        // suppress the post-drop synthetic click
         const from = parseInt(e.dataTransfer.getData('text/x-stagecraft-idx'), 10);
         if (Number.isNaN(from) || from === idx) return;
-        const newOrder = [];
-        const total = Stage.slides.length;
-        const orig = Array.from({ length: total }, (_, i) => i);
+        const orig = Array.from({ length: Stage.slides.length }, (_, i) => i);
         const moved = orig.splice(from, 1)[0];
         orig.splice(idx, 0, moved);
         apiPost('/api/manifest/reorder', { newOrder: orig })
@@ -318,53 +333,106 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Transition picker between storyboard tiles
+  // Transition connectors — lines + icons drawn between adjacent storyboard tiles
   // ---------------------------------------------------------------------------
   const TRANSITION_ICONS = {
     cut: '━', fade: '◇', slide: '▶', dissolve: '◌', glitch: '⚡', wipe: '╱'
   };
 
   function attachTransitionConnectors(ov) {
-    const grid = ov.querySelector('.overview-grid');
-    if (!grid) return;
-    const tiles = ov.querySelectorAll('.tile');
-    tiles.forEach((tile, i) => {
-      if (i === 0) return;
+    // Clear any previous connectors (handles resize re-run)
+    ov.querySelectorAll('.tx-connector-line, .tx-connector-icon').forEach(n => n.remove());
+
+    const tiles = Array.from(ov.querySelectorAll('.tile'));
+    if (tiles.length < 2) return;
+
+    for (let i = 1; i < tiles.length; i++) {
+      const prev = tiles[i - 1];
+      const cur = tiles[i];
       const slide = Stage.slides[i];
       const trans = slide?.transition || 'fade';
-      const conn = document.createElement('div');
-      conn.className = 'transition-connector tile-edit-ui';
-      conn.title = `Transition: ${trans}`;
-      conn.innerHTML = `<span class="tx-icon">${TRANSITION_ICONS[trans] || '◇'}</span><span class="tx-name">${trans}</span>`;
-      conn.addEventListener('click', (e) => {
+
+      const prevTop = prev.offsetTop;
+      const prevLeft = prev.offsetLeft;
+      const prevRight = prevLeft + prev.offsetWidth;
+      const prevH = prev.offsetHeight;
+      const curTop = cur.offsetTop;
+      const curLeft = cur.offsetLeft;
+
+      // Same row? Tolerance for sub-pixel drift.
+      const sameRow = Math.abs(prevTop - curTop) < 6;
+
+      const icon = document.createElement('div');
+      icon.className = 'tx-connector-icon tile-edit-ui';
+      icon.dataset.idx = String(i);
+      icon.title = `Transition into slide ${i}: ${trans} — click to change`;
+      icon.innerHTML = `
+        <span class="tx-connector-glyph">${TRANSITION_ICONS[trans] || '◇'}</span>
+        <span class="tx-connector-label">${trans}</span>
+      `;
+      icon.addEventListener('click', (e) => {
         e.stopPropagation();
         openTransitionPicker(i, slide);
       });
-      tile.appendChild(conn);
-    });
+
+      if (sameRow) {
+        const midY = prevTop + prevH / 2;
+        const lineLeft = prevRight;
+        const lineRight = curLeft;
+        const lineWidth = lineRight - lineLeft;
+
+        const line = document.createElement('div');
+        line.className = 'tx-connector-line tile-edit-ui';
+        line.style.left = lineLeft + 'px';
+        line.style.top = (midY - 1) + 'px';
+        line.style.width = lineWidth + 'px';
+        ov.appendChild(line);
+
+        // Icon centered on the line
+        icon.style.left = (lineLeft + lineWidth / 2 - 16) + 'px';
+        icon.style.top = (midY - 16) + 'px';
+      } else {
+        // Row break: small icon on the top-left edge of the new-row tile,
+        // with a tiny arc-line hint above it.
+        icon.classList.add('row-break');
+        icon.style.left = (curLeft + 8) + 'px';
+        icon.style.top = (curTop - 16) + 'px';
+      }
+
+      ov.appendChild(icon);
+    }
   }
 
   function openTransitionPicker(idx, slide) {
     document.querySelectorAll('.transition-picker').forEach(n => n.remove());
+    const currentTx = slide?.transition || 'fade';
     const pick = document.createElement('div');
     pick.className = 'transition-picker edit-affordance';
     pick.innerHTML = `
-      <div class="tp-title">How does slide ${idx} enter?</div>
+      <div class="tp-title">How does slide ${idx} enter? <span class="tp-current">currently: <strong>${currentTx}</strong></span></div>
+      <div class="tp-hint">Hover an option to preview · click to apply</div>
       <div class="tp-grid">
         ${Object.keys(TRANSITION_ICONS).map(n => `
-          <div class="tp-option" data-tx="${n}">
-            <div class="tp-preview"><div class="tp-preview-slide tx-${n}-preview"></div></div>
-            <div class="tp-icon">${TRANSITION_ICONS[n]}</div>
-            <div class="tp-name">${n}</div>
+          <div class="tp-option${n === currentTx ? ' is-current' : ''}" data-tx="${n}">
+            <div class="tp-stage"><div class="tp-stage-content">${TRANSITION_ICONS[n]} ${n}</div></div>
+            <div class="tp-meta">
+              <span class="tp-glyph">${TRANSITION_ICONS[n]}</span>
+              <span class="tp-name">${n}</span>
+            </div>
           </div>
         `).join('')}
       </div>
-      <button class="tp-close">Cancel</button>
+      <button class="tp-close">Cancel · esc</button>
     `;
     document.body.appendChild(pick);
+
+    // Hover → play the transition once on the option's preview stage.
     pick.querySelectorAll('.tp-option').forEach(opt => {
+      const tx = opt.dataset.tx;
+      const stageContent = opt.querySelector('.tp-stage-content');
+      opt.addEventListener('mouseenter', () => playPreviewOnce(stageContent, tx));
+      opt.addEventListener('mouseleave', () => resetPreview(stageContent, tx));
       opt.addEventListener('click', () => {
-        const tx = opt.dataset.tx;
         apiPost('/api/manifest/transition', { idx, transition: tx })
           .then(r => {
             if (r.ok) {
@@ -376,28 +444,34 @@
           });
       });
     });
+
     pick.querySelector('.tp-close').addEventListener('click', () => pick.remove());
-    // Trigger looping previews
-    pick.querySelectorAll('.tp-preview-slide').forEach(el => {
-      const cls = Array.from(el.classList).find(c => c.startsWith('tx-'));
-      const txName = cls?.replace('tx-', '').replace('-preview', '');
-      if (txName) startLoopingPreview(el, txName);
-    });
+
+    // Esc to close
+    function onEsc(e) { if (e.key === 'Escape') { pick.remove(); window.removeEventListener('keydown', onEsc); } }
+    window.addEventListener('keydown', onEsc);
   }
 
-  function startLoopingPreview(el, name) {
-    const inner = document.createElement('div');
-    inner.className = 'tp-preview-content';
-    inner.textContent = name;
-    el.appendChild(inner);
-    function loop() {
-      inner.classList.remove(`tx-${name}-enter`);
-      void inner.offsetWidth;
-      inner.classList.add(`tx-${name}-enter`);
+  function playPreviewOnce(el, name) {
+    if (!el) return;
+    // Restart the animation by removing + forcing reflow + adding.
+    el.classList.remove(`tx-${name}-enter`);
+    if (name === 'glitch') {
+      // Extra: spawn the scanline overlay used in glitch
+      el.parentElement?.querySelectorAll('.tx-glitch-overlay').forEach(n => n.remove());
+      const ov = document.createElement('div');
+      ov.className = 'tx-glitch-overlay';
+      el.parentElement?.appendChild(ov);
+      setTimeout(() => ov.remove(), 700);
     }
-    loop();
-    const id = setInterval(loop, 1500);
-    el._previewLoop = id;
+    void el.offsetWidth;
+    el.classList.add(`tx-${name}-enter`);
+  }
+
+  function resetPreview(el, name) {
+    if (!el) return;
+    el.classList.remove(`tx-${name}-enter`);
+    el.parentElement?.querySelectorAll('.tx-glitch-overlay').forEach(n => n.remove());
   }
 
   // ---------------------------------------------------------------------------
@@ -523,28 +597,58 @@
       }
       .tile-note-btn:hover { border-color: var(--accent, #00FF9C); }
 
-      .transition-connector {
+      /* Connector line + icon between adjacent storyboard tiles */
+      .tx-connector-line {
         position: absolute;
-        bottom: 0.4rem; left: 50%;
-        transform: translateX(-50%);
-        background: rgba(10, 10, 10, 0.85);
+        height: 1px;
+        background: linear-gradient(to right, transparent 0%, var(--dim, #666) 20%, var(--dim, #666) 80%, transparent 100%);
+        pointer-events: none;
+        z-index: 5;
+      }
+      .tx-connector-icon {
+        position: absolute;
+        width: 32px; height: 32px;
+        background: var(--bg, #0a0a0a);
         border: 1px solid var(--dim-2, #2a2a2a);
-        padding: 0.2rem 0.6rem;
-        font-size: 0.65rem;
-        letter-spacing: 0.15em;
-        color: var(--dim, #666);
-        cursor: pointer;
+        border-radius: 50%;
         display: flex;
-        gap: 0.4rem;
         align-items: center;
+        justify-content: center;
+        cursor: pointer;
         z-index: 6;
+        transition: border-color 180ms, transform 180ms, box-shadow 180ms;
+        color: var(--dim, #666);
       }
-      .transition-connector:hover {
-        color: var(--accent, #00FF9C);
+      .tx-connector-icon:hover {
         border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
+        transform: scale(1.15);
+        box-shadow: 0 0 14px var(--accent-glow, rgba(0,255,156,0.45));
       }
-      .transition-connector .tx-icon { font-size: 0.85rem; }
+      .tx-connector-icon.row-break {
+        background: rgba(10, 10, 10, 0.92);
+        backdrop-filter: blur(4px);
+      }
+      .tx-connector-glyph { font-size: 0.95rem; line-height: 1; }
+      .tx-connector-label {
+        position: absolute;
+        top: 100%; left: 50%;
+        transform: translateX(-50%);
+        margin-top: 0.4rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        color: var(--dim, #666);
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 180ms;
+        pointer-events: none;
+        background: rgba(10, 10, 10, 0.95);
+        padding: 0.2rem 0.5rem;
+      }
+      .tx-connector-icon:hover .tx-connector-label { opacity: 1; }
 
+      /* Transition picker */
       .transition-picker {
         position: fixed;
         top: 50%; left: 50%;
@@ -553,14 +657,27 @@
         border: 1px solid var(--accent, #00FF9C);
         padding: 1.4rem;
         z-index: 9200;
-        min-width: 600px;
+        min-width: 680px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.7);
       }
       .transition-picker .tp-title {
         color: var(--fg, #e6e6e6);
         font-size: 0.85rem;
         letter-spacing: 0.15em;
         text-transform: uppercase;
+        margin-bottom: 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .transition-picker .tp-current { color: var(--dim, #666); font-weight: 400; }
+      .transition-picker .tp-current strong { color: var(--accent, #00FF9C); font-weight: 500; }
+      .transition-picker .tp-hint {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        color: var(--dim, #666);
         margin-bottom: 1rem;
+        text-transform: uppercase;
       }
       .transition-picker .tp-grid {
         display: grid;
@@ -569,36 +686,50 @@
       }
       .transition-picker .tp-option {
         border: 1px solid var(--dim-2, #2a2a2a);
-        padding: 0.6rem;
+        padding: 0;
         cursor: pointer;
-        text-align: center;
-      }
-      .transition-picker .tp-option:hover {
-        border-color: var(--accent, #00FF9C);
-      }
-      .transition-picker .tp-preview {
-        height: 80px;
         background: var(--bg, #0a0a0a);
-        margin-bottom: 0.4rem;
+        transition: border-color 180ms;
         position: relative;
         overflow: hidden;
       }
-      .transition-picker .tp-preview-content {
-        position: absolute;
-        inset: 0;
+      .transition-picker .tp-option:hover { border-color: var(--accent, #00FF9C); }
+      .transition-picker .tp-option.is-current {
+        border-color: var(--accent, #00FF9C);
+        box-shadow: inset 0 0 0 1px var(--accent, #00FF9C);
+      }
+      .transition-picker .tp-stage {
+        height: 90px;
+        background: var(--bg-elevated, #121212);
+        position: relative;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.75rem;
+      }
+      .transition-picker .tp-stage-content {
+        font-size: 0.95rem;
+        letter-spacing: 0.1em;
         color: var(--accent, #00FF9C);
         background: var(--bg-elevated, #121212);
+        padding: 0.4rem 0.9rem;
+        border: 1px solid var(--dim-2, #2a2a2a);
+        /* Initially invisible — only the hover-triggered animation reveals it */
+        opacity: 0;
       }
-      .transition-picker .tp-icon { font-size: 1.2rem; color: var(--accent, #00FF9C); }
+      .transition-picker .tp-meta {
+        padding: 0.5rem 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-top: 1px solid var(--dim-2, #2a2a2a);
+      }
+      .transition-picker .tp-glyph { font-size: 1rem; color: var(--accent, #00FF9C); }
       .transition-picker .tp-name {
         font-size: 0.7rem;
-        letter-spacing: 0.15em;
-        color: var(--dim, #666);
-        margin-top: 0.2rem;
+        letter-spacing: 0.18em;
+        color: var(--fg, #e6e6e6);
+        text-transform: uppercase;
       }
       .transition-picker .tp-close {
         margin-top: 1rem;
@@ -608,6 +739,13 @@
         padding: 0.4rem 0.9rem;
         cursor: pointer;
         font-family: inherit;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .transition-picker .tp-close:hover {
+        border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
       }
 
       .tile.dragging { opacity: 0.4; }

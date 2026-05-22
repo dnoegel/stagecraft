@@ -321,6 +321,8 @@
 
       tile.addEventListener('click', (e) => {
         if (e.target.closest('.tile-edit-ui')) return; // ignore clicks on edit UI
+        // Suppress the synthetic click that fires after a drag-drop sequence.
+        if (Stage._editUI?.justFinishedDrag?.()) return;
         closeOverview();
         go(i);
       });
@@ -341,9 +343,11 @@
 
     document.body.appendChild(ov);
 
+    scaleTiles();
+    // Edit-mode decorations (connectors, transition icons) need geometry, so
+    // they run AFTER scaleTiles. Re-run on every resize.
     if (editMode && Stage._editUI) Stage._editUI.afterOverviewBuilt?.(ov);
 
-    scaleTiles();
     requestAnimationFrame(() => ov.classList.add('in'));
     requestAnimationFrame(() => {
       const cur = ov.querySelector('.tile.current');
@@ -472,7 +476,12 @@
   }
 
   function bindResize() {
-    window.addEventListener('resize', () => { if (overviewActive) scaleTiles(); });
+    window.addEventListener('resize', () => {
+      if (!overviewActive) return;
+      scaleTiles();
+      const ov = document.getElementById('overview');
+      if (editMode && Stage._editUI && ov) Stage._editUI.afterOverviewBuilt?.(ov);
+    });
   }
 
   function parseHash() {

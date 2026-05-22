@@ -1,64 +1,54 @@
-/* Stagecraft — Phosphor theme: transitions library */
+/* Stagecraft — Phosphor theme: transitions library
+ *
+ * The animations apply to anything carrying the tx-<name>-enter / tx-<name>-exit
+ * class, not just .slide elements — so previews in the edit-mode picker share
+ * the exact same motion as the real thing.
+ */
 
-/* Base: all slides start invisible, current is visible. */
 /* fade */
-.slide.tx-fade-enter {
-  animation: tx-fade-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.slide.tx-fade-exit {
-  animation: tx-fade-exit 400ms ease-in both;
-}
+.tx-fade-enter { animation: tx-fade-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.tx-fade-exit  { animation: tx-fade-exit 400ms ease-in both; }
 @keyframes tx-fade-enter {
   from { opacity: 0; transform: scale(0.985); }
-  to { opacity: 1; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1); }
 }
 @keyframes tx-fade-exit {
   from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(1.01); }
+  to   { opacity: 0; transform: scale(1.01); }
 }
 
 /* slide */
-.slide.tx-slide-enter {
-  animation: tx-slide-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.slide.tx-slide-exit {
-  animation: tx-slide-exit 500ms ease-in both;
-}
+.tx-slide-enter { animation: tx-slide-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.tx-slide-exit  { animation: tx-slide-exit 500ms ease-in both; }
 @keyframes tx-slide-enter {
   from { opacity: 0; transform: translateX(60px); }
-  to { opacity: 1; transform: translateX(0); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes tx-slide-exit {
   from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 0; transform: translateX(-60px); }
 }
 
 /* dissolve */
-.slide.tx-dissolve-enter {
-  animation: tx-dissolve-enter 1200ms ease-out both;
-}
-.slide.tx-dissolve-exit {
-  animation: tx-dissolve-exit 1000ms ease-in both;
-}
+.tx-dissolve-enter { animation: tx-dissolve-enter 1200ms ease-out both; }
+.tx-dissolve-exit  { animation: tx-dissolve-exit 1000ms ease-in both; }
 @keyframes tx-dissolve-enter {
   from { opacity: 0; filter: blur(8px); }
-  to { opacity: 1; filter: blur(0); }
+  to   { opacity: 1; filter: blur(0); }
 }
 @keyframes tx-dissolve-exit {
   from { opacity: 1; filter: blur(0); }
-  to { opacity: 0; filter: blur(8px); }
+  to   { opacity: 0; filter: blur(8px); }
 }
 
-/* glitch — phosphor flavor: heavy on green scanlines */
-.slide.tx-glitch-enter {
-  animation: tx-glitch-enter 600ms steps(8, end) both;
-}
+/* glitch — phosphor flavor */
+.tx-glitch-enter { animation: tx-glitch-enter 600ms steps(8, end) both; }
 @keyframes tx-glitch-enter {
-  0%   { opacity: 0; transform: translateX(0); filter: hue-rotate(0deg); }
+  0%   { opacity: 0;   transform: translateX(0);  filter: hue-rotate(0deg); }
   20%  { opacity: 0.6; transform: translateX(-3px); filter: hue-rotate(30deg) contrast(1.3); }
-  40%  { opacity: 0.4; transform: translateX(4px); filter: hue-rotate(-20deg); }
+  40%  { opacity: 0.4; transform: translateX(4px);  filter: hue-rotate(-20deg); }
   60%  { opacity: 0.8; transform: translateX(-1px); }
-  100% { opacity: 1; transform: translateX(0); filter: none; }
+  100% { opacity: 1;   transform: translateX(0);  filter: none; }
 }
 .tx-glitch-overlay {
   position: absolute;
@@ -77,26 +67,24 @@
   animation: tx-glitch-overlay 600ms steps(6, end) both;
 }
 @keyframes tx-glitch-overlay {
-  0% { opacity: 0.9; }
-  50% { opacity: 0.5; transform: translateX(3px); }
-  100% { opacity: 0; transform: translateX(0); }
+  0%   { opacity: 0.9; }
+  50%  { opacity: 0.5; transform: translateX(3px); }
+  100% { opacity: 0;   transform: translateX(0); }
 }
 
 /* wipe — masked reveal left-to-right */
-.slide.tx-wipe-enter {
+.tx-wipe-enter {
   animation: tx-wipe-enter 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
   clip-path: inset(0 100% 0 0);
 }
 @keyframes tx-wipe-enter {
   from { opacity: 1; clip-path: inset(0 100% 0 0); }
-  to { opacity: 1; clip-path: inset(0 0% 0 0); }
+  to   { opacity: 1; clip-path: inset(0 0%   0 0); }
 }
-.slide.tx-wipe-exit {
-  animation: tx-wipe-exit 500ms ease-in both;
-}
+.tx-wipe-exit { animation: tx-wipe-exit 500ms ease-in both; }
 @keyframes tx-wipe-exit {
-  from { opacity: 1; clip-path: inset(0 0% 0 0); }
-  to { opacity: 1; clip-path: inset(0 0 0 100%); }
+  from { opacity: 1; clip-path: inset(0 0%   0 0); }
+  to   { opacity: 1; clip-path: inset(0 0   0 100%); }
 }
 
-/* cut: instant, no animation needed (slide just snaps to .current) */
+/* cut: instant, no animation */
