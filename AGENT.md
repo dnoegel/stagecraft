@@ -306,6 +306,335 @@ Stage.register(Stage.Venn({
 }));
 ```
 
+### Data-viz family (10)
+
+#### Stage.KPI — hero metric card
+```js
+Stage.register(Stage.KPI({
+  section: 8, value: 42_300, unit: '€',
+  label: 'monthly recurring revenue',
+  change: { value: 18, direction: 'up', period: 'QoQ' },
+  color: 'accent', icon: 'trending_up'
+}));
+```
+
+#### Stage.DonutChart — pie/donut with segments
+```js
+Stage.register(Stage.DonutChart({
+  section: 8,
+  segments: [
+    { label: 'Engineering', value: 12, color: 'accent' },
+    { label: 'Sales',       value: 7,  color: 'amber'  },
+    { label: 'Ops',         value: 3,  color: 'blue'   }
+  ],
+  centerLabel: 'headcount',
+  reveal: 'animated'
+}));
+```
+
+#### Stage.LineChart — multi-series line/area chart
+```js
+Stage.register(Stage.LineChart({
+  section: 8,
+  xLabels: ['Q1','Q2','Q3','Q4'],
+  series: [
+    { label: 'Revenue', color: 'accent', points: [12, 18, 24, 32] },
+    { label: 'Cost',    color: 'amber',  points: [8, 11, 14, 17]  }
+  ],
+  area: true,
+  reveal: 'animated'
+}));
+```
+
+#### Stage.Gauge — semi-circular progress meter
+```js
+Stage.register(Stage.Gauge({
+  section: 8, value: 73, max: 100,
+  label: 'capacity used', color: 'amber', ticks: 5
+}));
+```
+
+#### Stage.SparkLine — number + tiny inline trend
+```js
+Stage.register(Stage.SparkLine({
+  section: 8, value: 1247, label: 'daily signups',
+  points: [820, 880, 910, 1050, 1100, 1180, 1247],
+  color: 'accent', period: 'past 7 days'
+}));
+```
+
+#### Stage.Heatmap — calendar-style intensity grid
+```js
+Stage.register(Stage.Heatmap({
+  section: 8, rows: 7, cols: 12,
+  data: [[1,3,5,...], [2,4,6,...], ...],
+  color: 'accent',
+  xLabels: ['Jan','Feb','Mar', ...],
+  yLabels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+}));
+```
+
+#### Stage.Roadmap — quarterly swimlanes
+```js
+Stage.register(Stage.Roadmap({
+  section: 8,
+  months: ['Q1','Q2','Q3','Q4'],
+  lanes: [
+    { label: 'Platform', color: 'accent', bars: [{start:0, end:2, label:'auth'}, {start:2, end:4, label:'billing'}] },
+    { label: 'Growth',   color: 'amber',  bars: [{start:1, end:3, label:'onboarding'}] }
+  ],
+  reveal: 'staggered'
+}));
+```
+
+#### Stage.SWOT — strengths/weaknesses/opportunities/threats
+```js
+Stage.register(Stage.SWOT({
+  section: 8,
+  strengths:     ['fast iteration', 'small team'],
+  weaknesses:    ['no enterprise sales'],
+  opportunities: ['LLM tailwind', 'market shift'],
+  threats:       ['incumbents catching up'],
+  reveal: 'per-click'
+}));
+```
+
+#### Stage.CodeBlock — syntax-highlighted code
+```js
+Stage.register(Stage.CodeBlock({
+  section: 8,
+  language: 'javascript',
+  fileName: 'engine.js',
+  code: `function go(idx) {\n  if (idx < 0) return;\n  current = idx;\n}`,
+  highlight: [2],
+  reveal: 'typewriter'
+}));
+```
+
+#### Stage.CodeDiff — unified diff with +/- lines
+```js
+Stage.register(Stage.CodeDiff({
+  section: 8, fileName: 'engine.js',
+  lines: [
+    { type: 'context', text: 'function go(idx) {' },
+    { type: 'remove',  text: '  if (idx < 0) return;' },
+    { type: 'add',     text: '  if (idx < 0 || idx >= slides.length) return;' },
+    { type: 'context', text: '  current = idx;' },
+    { type: 'context', text: '}' }
+  ],
+  reveal: 'staggered'
+}));
+```
+
+### Business family (10)
+
+#### Stage.Pricing — N tiers with features
+```js
+Stage.register(Stage.Pricing({
+  section: 9,
+  tiers: [
+    { name: 'Free',    price: '$0',  period: '/mo', features: ['1 deck', 'public sharing'] },
+    { name: 'Pro',     price: '$12', period: '/mo', features: ['unlimited decks', 'edit mode', 'all themes'], featured: true, ctaLabel: 'Start trial' },
+    { name: 'Team',    price: '$48', period: '/mo', features: ['everything Pro', '5 seats', 'analytics'] }
+  ],
+  reveal: 'staggered'
+}));
+```
+
+#### Stage.Testimonial — quote with photo + logo
+```js
+Stage.register(Stage.Testimonial({
+  section: 9,
+  quote: 'It cut our deck-prep time by 80%.',
+  author: { name: 'Jane Doe', role: 'VP Product', company: 'Acme', photo: 'photo.jpg', logo: 'logo.svg' }
+}));
+```
+
+#### Stage.TeamGrid — N people cards
+```js
+Stage.register(Stage.TeamGrid({
+  section: 9, columns: 3,
+  people: [
+    { name: 'Ada Lovelace', role: 'Founder', photo: 'ada.jpg', bio: 'wrote the first program' },
+    { name: 'Alan Turing',  role: 'CTO',     photo: 'alan.jpg', social: { linkedin: '…' } }
+  ]
+}));
+```
+
+#### Stage.Agenda — timed schedule
+```js
+Stage.register(Stage.Agenda({
+  section: 9,
+  items: [
+    { time: '09:00', label: 'Kickoff',    duration: '30m', icon: 'flag' },
+    { time: '09:30', label: 'Deep dive',  duration: '90m', icon: 'psychology' },
+    { time: '11:00', label: 'Demo',       duration: '20m', icon: 'play_arrow' }
+  ],
+  reveal: 'per-click'
+}));
+```
+
+#### Stage.Checklist — checked/unchecked items
+```js
+Stage.register(Stage.Checklist({
+  section: 9,
+  items: [
+    { text: 'set up project',    done: true },
+    { text: 'wire up auth',      done: true },
+    { text: 'write tests',       done: false, body: 'integration first' },
+    { text: 'ship it' }
+  ],
+  reveal: 'staggered'
+}));
+```
+
+#### Stage.Steps — numbered tutorial steps
+```js
+Stage.register(Stage.Steps({
+  section: 9,
+  steps: [
+    { number: 1, label: 'install', icon: 'download', body: 'npm i stagecraft' },
+    { number: 2, label: 'init',    icon: 'create',   body: 'npx stagecraft init' },
+    { number: 3, label: 'present', icon: 'play_arrow', body: 'open index.html' }
+  ],
+  orientation: 'horizontal',
+  reveal: 'per-click'
+}));
+```
+
+#### Stage.CTA — call to action
+```js
+Stage.register(Stage.CTA({
+  section: 9,
+  headline: 'Start building today',
+  body: 'No credit card required.',
+  action: { label: 'Sign up', hint: '→' },
+  accent: true
+}));
+```
+
+#### Stage.Callout — colored sidebar box
+```js
+Stage.register(Stage.Callout({
+  section: 9,
+  kind: 'warning',         // 'info' | 'tip' | 'warning' | 'danger' | 'success'
+  icon: 'warning',
+  heading: 'Heads up',
+  body: 'Don\'t run this in production without backing up the database.'
+}));
+```
+
+#### Stage.Tip — compact emphasis box
+```js
+Stage.register(Stage.Tip({
+  section: 9, kind: 'tip',
+  icon: 'lightbulb',
+  body: 'Combining BarChart with reveal: per-click makes a great explainer.'
+}));
+```
+
+#### Stage.BeforeAfter — split comparison
+```js
+Stage.register(Stage.BeforeAfter({
+  section: 9,
+  before: { label: 'BEFORE', image: { src: 'old.jpg' } },
+  after:  { label: 'AFTER',  image: { src: 'new.jpg' } },
+  reveal: 'slider'   // 'slider' animates the divider from 0 → 50%
+}));
+```
+
+### Content / typography family (8)
+
+#### Stage.Statement — single massive declarative
+```js
+Stage.register(Stage.Statement({
+  section: 10,
+  text: 'We are not in the widget business. We are in the trust business.',
+  emphasis: ['trust']
+}));
+```
+
+#### Stage.QandA — question + answer
+```js
+Stage.register(Stage.QandA({
+  section: 10,
+  question: 'What slows teams down most?',
+  answer: 'Unclear ownership.',
+  attribution: 'observed across 47 projects'
+}));
+```
+
+#### Stage.Manifesto — numbered "We believe…"
+```js
+Stage.register(Stage.Manifesto({
+  section: 10,
+  intro: 'We believe...',
+  declarations: [
+    { text: 'Software should be honest.',      emphasis: ['honest'] },
+    { text: 'Defaults should be excellent.',   emphasis: ['excellent'] },
+    { text: 'Customers should never wait.',    emphasis: ['never wait'] }
+  ],
+  reveal: 'per-click'
+}));
+```
+
+#### Stage.Punchline — buildup + payoff
+```js
+Stage.register(Stage.Punchline({
+  section: 10,
+  buildup: [
+    'We tried scaling the team.',
+    'We tried adding tools.',
+    'We tried more meetings.'
+  ],
+  payoff: 'What worked was deleting code.',
+  reveal: 'manual'
+}));
+```
+
+#### Stage.Definition — dictionary-style entry
+```js
+Stage.register(Stage.Definition({
+  section: 10,
+  term: 'stagecraft',
+  definition: 'a small JavaScript library for cinematic, agent-authored presentations.',
+  etymology: 'from "stage" + "-craft"',
+  examples: ['Stagecraft handled the keynote deck beautifully.']
+}));
+```
+
+#### Stage.ImageGrid — gallery
+```js
+Stage.register(Stage.ImageGrid({
+  section: 10, columns: 3,
+  images: [
+    { src: 'a.jpg', caption: 'one' },
+    { src: 'b.jpg', caption: 'two' },
+    { src: 'c.jpg' }
+  ],
+  reveal: 'cascade'
+}));
+```
+
+#### Stage.Spotlight — focus + context strip
+```js
+Stage.register(Stage.Spotlight({
+  section: 10,
+  focus: { heading: 'The big one',  body: 'this is what matters', icon: 'star' },
+  context: ['supporting fact 1', 'supporting fact 2', 'supporting fact 3'],
+  reveal: 'staggered'
+}));
+```
+
+#### Stage.Marquee — scrolling ticker
+```js
+Stage.register(Stage.Marquee({
+  section: 10,
+  items: ['shipped 2024-01', 'shipped 2024-02', 'shipped 2024-03', 'shipped 2024-04'],
+  direction: 'left', speed: 'medium', double: true
+}));
+```
+
 ## 3. The toolbox (Layer-1 primitives)
 
 Available globally as `Stage.<name>`. Use them in any slide's `init()` to build bespoke motion.
@@ -421,10 +750,13 @@ The split should be roughly: ~40% workhorse components (KineticText, SectionCard
 
 | Family | Components |
 |---|---|
-| **Core** | KineticText · SectionCard · ActivityList · Compare · Counter · ShiftArrow |
-| **Layout** | ImageText · FullImage · Quote · BigNumber · Stats · Bento |
-| **Diagram** | Pillars · Timeline · Pyramid · Cycle · Funnel |
-| **Chart** | Matrix2x2 · BarChart · Progress · ProcessFlow · Venn |
-| **Bespoke** | TokenStream · OrchestrationGraph · TerminalLog · Whoami · ClosingCard (cookbook in `examples/`) |
+| **Core (6)** | KineticText · SectionCard · ActivityList · Compare · Counter · ShiftArrow |
+| **Layout (6)** | ImageText · FullImage · Quote · BigNumber · Stats · Bento |
+| **Diagram (5)** | Pillars · Timeline · Pyramid · Cycle · Funnel |
+| **Chart (5)** | Matrix2x2 · BarChart · Progress · ProcessFlow · Venn |
+| **Data-viz (10)** | KPI · DonutChart · LineChart · Gauge · SparkLine · Heatmap · Roadmap · SWOT · CodeBlock · CodeDiff |
+| **Business (10)** | Pricing · Testimonial · TeamGrid · Agenda · Checklist · Steps · CTA · Callout · Tip · BeforeAfter |
+| **Content (8)** | Statement · QandA · Manifesto · Punchline · Definition · ImageGrid · Spotlight · Marquee |
+| **Bespoke (5)** | TokenStream · OrchestrationGraph · TerminalLog · Whoami · ClosingCard (cookbook in `examples/`) |
 
-22 anchored components + 5 cookbook bespoke patterns. Pick the closest anchor, then customize. Animate. Pace. **Direct the scene.**
+**50 anchored components + 5 cookbook bespoke patterns + 14 transitions.** Pick the closest anchor, then customize. Animate. Pace. **Direct the scene.**

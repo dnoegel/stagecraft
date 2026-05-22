@@ -56,20 +56,19 @@ When you ask the agent to "process my notes":
 
 That's the whole loop.
 
-## Layer-2 components
+## Layer-2 components — 50 building blocks in 7 families
 
-Six building blocks, distilled from a real production deck. Each is one file in `src/components/`:
+| Family | Count | Examples |
+|---|---|---|
+| **Core** | 6 | KineticText, SectionCard, ActivityList, Compare, Counter, ShiftArrow |
+| **Layout** | 6 | ImageText, FullImage, Quote, BigNumber, Stats, Bento |
+| **Diagram** | 5 | Pillars, Timeline, Pyramid, Cycle, Funnel |
+| **Chart** | 5 | Matrix2x2, BarChart, Progress, ProcessFlow, Venn |
+| **Data-viz** | 10 | KPI, DonutChart, LineChart, Gauge, SparkLine, Heatmap, Roadmap, SWOT, CodeBlock, CodeDiff |
+| **Business** | 10 | Pricing, Testimonial, TeamGrid, Agenda, Checklist, Steps, CTA, Callout, Tip, BeforeAfter |
+| **Content** | 8 | Statement, QandA, Manifesto, Punchline, Definition, ImageGrid, Spotlight, Marquee |
 
-| Component | Purpose |
-|---|---|
-| `KineticText` | Multi-line staggered text reveal (workhorse, ~50% of slides) |
-| `SectionCard` | Section divider with number + title + tag |
-| `ActivityList` | Numbered items with name + description |
-| `Compare` | Two-column comparison (old vs new) |
-| `Counter` | Large numeric counters with optional live tick |
-| `ShiftArrow` | `from → to` mental-model shift |
-
-See `AGENT.md` for the full toolbox + examples.
+50 anchors total + 5 bespoke cookbook examples (`examples/`). See `AGENT.md` for the full catalog with code examples.
 
 ## Transitions
 
