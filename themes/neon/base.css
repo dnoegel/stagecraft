@@ -1,0 +1,10 @@
+@import url('../phosphor/base.css');
+
+:root[data-theme="neon"] body::before {
+  background: radial-gradient(ellipse at center, rgba(255, 45, 230, 0.05) 0%, transparent 60%);
+}
+
+:root[data-theme="neon"] .caret { box-shadow: 0 0 16px var(--accent-glow); }
+
+/* Stronger glow on focal elements */
+:root[data-theme="neon"] .ui-dots .dot.active { box-shadow: 0 0 18px var(--accent-glow); }

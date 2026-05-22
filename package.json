@@ -1,0 +1,36 @@
+{
+  "name": "stagecraft",
+  "version": "0.1.0",
+  "description": "Cinematic, agent-authored presentations. Reveal.js reimagined for the LLM era.",
+  "type": "module",
+  "main": "src/engine.js",
+  "bin": {
+    "stagecraft": "bin/cli.js"
+  },
+  "files": [
+    "src",
+    "themes",
+    "examples",
+    "bin",
+    "starter",
+    "AGENT.md",
+    "README.md"
+  ],
+  "scripts": {
+    "serve": "node bin/serve.js",
+    "init": "node bin/init.js",
+    "demo": "node bin/serve.js --root demo",
+    "verify": "node scripts/verify.js"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.24.0",
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0",
+    "chokidar": "^3.6.0",
+    "mime-types": "^2.1.35",
+    "ws": "^8.16.0"
+  },
+  "keywords": ["slides", "presentation", "reveal", "agent", "llm"],
+  "license": "MIT"
+}

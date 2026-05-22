@@ -1,0 +1,17 @@
+/* Stagecraft — Brand theme tokens */
+:root[data-theme="brand"] {
+  --bg: #0E1117;
+  --bg-elevated: #161B22;
+  --fg: #F0F6FC;
+  --dim: #7D8590;
+  --dim-2: #21262D;
+  --accent: #189EFF;          /* Shopware-ish blue */
+  --accent-soft: rgba(24, 158, 255, 0.12);
+  --accent-glow: rgba(24, 158, 255, 0.4);
+  --blue: #189EFF;
+  --amber: #DBAB0A;
+  --red: #F85149;
+  --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+  --display: 'Inter', system-ui, sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+}

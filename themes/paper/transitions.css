@@ -1,0 +1,11 @@
+@import url('../phosphor/transitions.css');
+
+/* Paper-specific: subtler glitch (no green scanlines) */
+:root[data-theme="paper"] .tx-glitch-overlay { display: none; }
+:root[data-theme="paper"] .slide.tx-glitch-enter {
+  animation: tx-paper-glitch 400ms steps(4, end) both;
+}
+@keyframes tx-paper-glitch {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

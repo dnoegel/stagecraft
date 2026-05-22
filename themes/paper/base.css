@@ -1,0 +1,9 @@
+/* Paper theme — base styles. Token-driven, so most rules inherit from phosphor/base.css
+ * (you should also link that file). This file overrides anything paper-specific. */
+
+@import url('../phosphor/base.css');
+
+:root[data-theme="paper"] body::before,
+:root[data-theme="paper"] body::after { display: none; }
+
+:root[data-theme="paper"] .caret { animation: none; background: var(--accent); }

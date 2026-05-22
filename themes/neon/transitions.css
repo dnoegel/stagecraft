@@ -1,0 +1,13 @@
+@import url('../phosphor/transitions.css');
+
+/* Neon: pinker glitch with cyan ghosting */
+:root[data-theme="neon"] .tx-glitch-overlay {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 45, 230, 0.08) 0,
+      rgba(255, 45, 230, 0.08) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}

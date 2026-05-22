@@ -1,0 +1,12 @@
+@import url('../phosphor/components.css');
+
+/* Neon glow on key elements */
+:root[data-theme="neon"] .kinetic .line.accent {
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+:root[data-theme="neon"] .sec-title .accent {
+  text-shadow: 0 0 16px var(--accent-glow);
+}
+:root[data-theme="neon"] .counter-num.accent {
+  text-shadow: 0 0 24px var(--accent-glow);
+}

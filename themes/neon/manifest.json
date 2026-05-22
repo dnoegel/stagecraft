@@ -1,0 +1,9 @@
+{
+  "name": "neon",
+  "displayName": "Neon",
+  "description": "Cyberpunk, magenta + cyan, heavy glow.",
+  "fonts": [
+    "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+  ],
+  "stylesheets": ["tokens.css", "base.css", "components.css", "transitions.css"]
+}

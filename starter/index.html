@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-theme="phosphor">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Deck — Stagecraft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/tokens.css">
+  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/base.css">
+  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/components.css">
+  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/transitions.css">
+</head>
+<body>
+
+  <div class="welcome" id="welcome">
+    <div class="key-prompt"><span class="accent">●</span>&nbsp;&nbsp;Press <span class="accent">→</span> or <span class="accent">Space</span> to begin</div>
+    <h1>My Deck</h1>
+    <div class="by">Made with Stagecraft</div>
+  </div>
+
+  <main id="stage"></main>
+
+  <div class="ui">
+    <div class="ui-brand"><span class="br-accent">DECK</span></div>
+    <div class="ui-title" id="uiTitle"></div>
+    <div class="ui-counter">
+      <span id="curSec">00</span><span class="slash">/</span><span class="total">00</span>
+    </div>
+    <div class="ui-dots" id="uiDots"></div>
+    <div class="ui-hint" id="uiHint">→ next · ← prev · S storyboard · F fullscreen · R replay</div>
+  </div>
+
+  <!-- Engine + helpers + components -->
+  <script src="node_modules/stagecraft/src/helpers.js"></script>
+  <script src="node_modules/stagecraft/src/engine.js"></script>
+  <script src="node_modules/stagecraft/src/transitions.js"></script>
+  <script src="node_modules/stagecraft/src/components/kinetic-text.js"></script>
+  <script src="node_modules/stagecraft/src/components/section-card.js"></script>
+  <script src="node_modules/stagecraft/src/components/activity-list.js"></script>
+  <script src="node_modules/stagecraft/src/components/compare.js"></script>
+  <script src="node_modules/stagecraft/src/components/counter.js"></script>
+  <script src="node_modules/stagecraft/src/components/shift-arrow.js"></script>
+  <script src="node_modules/stagecraft/src/edit-mode.js"></script>
+
+  <!-- Deck manifest: order + transitions -->
+  <script src="stagecraft.config.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* Stagecraft — Phosphor theme tokens */
+:root[data-theme="phosphor"] {
+  --bg: #0A0A0A;
+  --bg-elevated: #121212;
+  --fg: #E6E6E6;
+  --dim: #666666;
+  --dim-2: #2a2a2a;
+  --accent: #00FF9C;                              /* phosphor green */
+  --accent-soft: rgba(0, 255, 156, 0.12);
+  --accent-glow: rgba(0, 255, 156, 0.45);
+  --blue: #189EFF;                                /* alt accent */
+  --amber: #FFB454;
+  --red: #FF5C5C;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --display: var(--mono);
+  --body: var(--mono);
+}

@@ -1,0 +1,4 @@
+@import url('../phosphor/transitions.css');
+
+/* Brand: muted glitch — no overlay */
+:root[data-theme="brand"] .tx-glitch-overlay { display: none; }

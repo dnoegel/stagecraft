@@ -1,0 +1,17 @@
+/* Stagecraft — Neon theme tokens */
+:root[data-theme="neon"] {
+  --bg: #060214;
+  --bg-elevated: #0F0726;
+  --fg: #F0E9FF;
+  --dim: #6A5D9C;
+  --dim-2: #261A4E;
+  --accent: #FF2DE6;          /* magenta */
+  --accent-soft: rgba(255, 45, 230, 0.15);
+  --accent-glow: rgba(255, 45, 230, 0.6);
+  --blue: #00E0FF;            /* cyan */
+  --amber: #FFE94A;
+  --red: #FF4F77;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --body: 'Space Grotesk', system-ui, sans-serif;
+}

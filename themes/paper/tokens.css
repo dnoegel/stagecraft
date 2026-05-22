@@ -1,0 +1,21 @@
+/* Stagecraft — Paper theme tokens */
+:root[data-theme="paper"] {
+  --bg: #FAFAF7;
+  --bg-elevated: #FFFFFF;
+  --fg: #1F1F1F;
+  --dim: #888888;
+  --dim-2: #DCDCD8;
+  --accent: #1F4F87;            /* navy */
+  --accent-soft: rgba(31, 79, 135, 0.08);
+  --accent-glow: rgba(31, 79, 135, 0.18);
+  --blue: #1F4F87;
+  --amber: #B57F2C;
+  --red: #9B2C2C;
+  --mono: 'Source Serif 4', 'IBM Plex Serif', Georgia, serif;
+  --display: 'Inter', system-ui, sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+}
+
+/* Paper theme has no film grain, no ambient gradient */
+:root[data-theme="paper"] body::before,
+:root[data-theme="paper"] body::after { display: none; }

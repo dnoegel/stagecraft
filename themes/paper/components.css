@@ -1,0 +1,5 @@
+@import url('../phosphor/components.css');
+
+/* Paper-specific overrides */
+:root[data-theme="paper"] .pre-label .dot { animation: none; }
+:root[data-theme="paper"] .ui-dots .dot.active { box-shadow: none; }

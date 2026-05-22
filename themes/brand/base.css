@@ -1,0 +1,4 @@
+@import url('../phosphor/base.css');
+
+/* Brand: cleaner, no film grain */
+:root[data-theme="brand"] body::after { display: none; }
