@@ -1,5 +1,6 @@
 'use strict';
 
+// @note: no content here?
 Stage.register(Stage.ActivityList({
   section: 2,
   title: '02 · Activities',

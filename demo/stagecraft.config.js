@@ -3,13 +3,14 @@
 Stage.deck({
   theme: 'phosphor',
   slides: [{
-    src: 'slides/06-custom.js',
-    transition: 'wipe'
-  }, {
     src: 'slides/01-section.js',
     transition: "glitch"
   }, {
-    src: 'slides/00-title.js'
+    src: 'slides/06-custom.js',
+    transition: 'wipe'
+  }, {
+    src: 'slides/00-title.js',
+    transition: "slide"
   }, {
     src: 'slides/02-activities.js',
     transition: 'slide'

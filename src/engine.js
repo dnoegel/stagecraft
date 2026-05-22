@@ -106,6 +106,24 @@
       go(initial);
       showHint();
     }
+
+    // If the storyboard was open before a reload (e.g. drag-drop triggered
+    // a manifest write → reload), restore it. We wait briefly so the
+    // current slide has rendered and the edit-mode WS has had a chance
+    // to attach (so connectors + drag handles are wired up).
+    try {
+      if (sessionStorage.getItem('stagecraft:overview') === '1') {
+        if (initial === null) go(0); // need a current slide so storyboard has context
+        const restore = () => {
+          if (overviewActive) return;
+          openOverview();
+        };
+        // Two-stage: try fast (edit mode already on), then again after WS
+        // has had time to upgrade.
+        setTimeout(restore, 50);
+        setTimeout(restore, 400);
+      }
+    } catch (e) {}
   }
 
   function buildChrome() {
@@ -274,6 +292,9 @@
   function openOverview() {
     if (overviewActive) return;
     overviewActive = true;
+    // Persist state across reloads (e.g. when a drag-drop triggers a manifest
+    // reload, we want the storyboard to come back open).
+    try { sessionStorage.setItem('stagecraft:overview', '1'); } catch (e) {}
 
     const ov = document.createElement('div');
     ov.id = 'overview';
@@ -377,6 +398,7 @@
   function closeOverview() {
     if (!overviewActive) return;
     overviewActive = false;
+    try { sessionStorage.removeItem('stagecraft:overview'); } catch (e) {}
     overviewCleanups.forEach(c => { try { c(); } catch (e) {} });
     overviewCleanups = [];
     const ov = document.getElementById('overview');

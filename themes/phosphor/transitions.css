@@ -87,4 +87,14 @@
   to   { opacity: 1; clip-path: inset(0 0   0 100%); }
 }
 
-/* cut: instant, no animation */
+/* cut — picker-preview only. The real cut in the deck is instant (no class
+ * is added on enter, see src/transitions.js). This animation is just so the
+ * picker preview can demonstrate what cut means: 0% opacity for the first
+ * half of the hover, then a hard snap to 100% — no easing, no fade. */
+.tx-cut-enter {
+  animation: tx-cut-enter 600ms steps(2, jump-none) both;
+}
+@keyframes tx-cut-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
