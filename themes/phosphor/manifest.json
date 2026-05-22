@@ -3,8 +3,9 @@
   "displayName": "Phosphor",
   "description": "Cinematic, technical, dark. JetBrains Mono on phosphor green.",
   "fonts": [
-    "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
+    "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap",
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
   ],
-  "stylesheets": ["tokens.css", "base.css", "components.css", "transitions.css"],
+  "stylesheets": ["tokens.css", "base.css", "components.css", "components-layout.css", "components-diagram.css", "components-chart.css", "transitions.css"],
   "effects": "effects.js"
 }

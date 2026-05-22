@@ -1,5 +1,10 @@
 /* Stagecraft — Phosphor theme: Layer-2 component styles. */
 
+/* Component expansion (Phase 2): layout / diagram / chart families */
+@import url('./components-layout.css');
+@import url('./components-diagram.css');
+@import url('./components-chart.css');
+
 /* KineticText */
 .kinetic .line {
   display: block;

@@ -98,3 +98,116 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* ============================================================================
+ * Phase 2 transitions
+ * ============================================================================ */
+
+/* zoom-in: scales up from small while fading in */
+.tx-zoom-in-enter { animation: tx-zoom-in-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.tx-zoom-in-exit  { animation: tx-zoom-in-exit  400ms ease-in both; }
+@keyframes tx-zoom-in-enter {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tx-zoom-in-exit {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(1.4); }
+}
+
+/* zoom-out: opposite — starts large and shrinks in */
+.tx-zoom-out-enter { animation: tx-zoom-out-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.tx-zoom-out-exit  { animation: tx-zoom-out-exit  400ms ease-in both; }
+@keyframes tx-zoom-out-enter {
+  from { opacity: 0; transform: scale(1.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tx-zoom-out-exit {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.6); }
+}
+
+/* flip: 3D Y-axis rotation */
+.tx-flip-enter {
+  animation: tx-flip-enter 900ms cubic-bezier(0.45, 0, 0.55, 1) both;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+.tx-flip-exit { animation: tx-flip-exit 500ms ease-in both; }
+@keyframes tx-flip-enter {
+  from { opacity: 0; transform: perspective(1200px) rotateY(-90deg); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
+}
+@keyframes tx-flip-exit {
+  from { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
+  to   { opacity: 0; transform: perspective(1200px) rotateY(90deg); }
+}
+
+/* iris: circular reveal from center */
+.tx-iris-enter {
+  animation: tx-iris-enter 900ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tx-iris-exit { animation: tx-iris-exit 500ms ease-in both; }
+@keyframes tx-iris-enter {
+  from { opacity: 1; clip-path: circle(0% at 50% 50%); }
+  to   { opacity: 1; clip-path: circle(80% at 50% 50%); }
+}
+@keyframes tx-iris-exit {
+  from { opacity: 1; clip-path: circle(80% at 50% 50%); }
+  to   { opacity: 1; clip-path: circle(0% at 50% 50%); }
+}
+
+/* shutter: horizontal bands close → open */
+.tx-shutter-enter {
+  animation: tx-shutter-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes tx-shutter-enter {
+  0%   { opacity: 0; clip-path: polygon(0 0, 100% 0, 100% 8%, 0 8%, 0 17%, 100% 17%, 100% 25%, 0 25%, 0 34%, 100% 34%, 100% 42%, 0 42%, 0 50%, 100% 50%, 100% 58%, 0 58%, 0 66%, 100% 66%, 100% 75%, 0 75%, 0 83%, 100% 83%, 100% 92%, 0 92%); }
+  100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+.tx-shutter-exit { animation: tx-fade-exit 500ms ease-in both; }
+
+/* push: pushes in horizontally, like slide but stronger */
+.tx-push-enter { animation: tx-push-enter 800ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.tx-push-exit  { animation: tx-push-exit  800ms cubic-bezier(0.7, 0, 0.84, 0) both; }
+@keyframes tx-push-enter {
+  from { opacity: 1; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes tx-push-exit {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 1; transform: translateX(-100%); }
+}
+
+/* typewriter: wide → narrow reveal, like a CRT power-on */
+.tx-typewriter-enter {
+  animation: tx-typewriter-enter 900ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  transform-origin: center;
+}
+@keyframes tx-typewriter-enter {
+  0%   { opacity: 0; transform: scaleX(0); }
+  40%  { opacity: 1; transform: scaleX(1); transform-origin: center; }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+.tx-typewriter-exit {
+  animation: tx-typewriter-exit 300ms ease-in both;
+}
+@keyframes tx-typewriter-exit {
+  from { opacity: 1; transform: scaleY(1); }
+  to   { opacity: 0; transform: scaleY(0); }
+}
+
+/* shatter: many tiny grid-shifts then resolve */
+.tx-shatter-enter {
+  animation: tx-shatter-enter 900ms steps(10, jump-end) both;
+  filter: contrast(1) blur(0);
+}
+@keyframes tx-shatter-enter {
+  0%   { opacity: 0; filter: blur(20px) saturate(0.2); transform: translate(-4px, 2px) skew(2deg); }
+  20%  { opacity: 0.4; filter: blur(8px) saturate(0.4); transform: translate(3px, -1px) skew(-1deg); }
+  40%  { opacity: 0.7; filter: blur(3px); transform: translate(-1px, 1px); }
+  60%  { opacity: 0.9; filter: blur(1px); transform: translate(1px, 0); }
+  100% { opacity: 1; filter: none; transform: none; }
+}
+.tx-shatter-exit { animation: tx-fade-exit 500ms ease-in both; }

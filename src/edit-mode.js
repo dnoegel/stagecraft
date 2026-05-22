@@ -336,7 +336,20 @@
   // Transition connectors — lines + icons drawn between adjacent storyboard tiles
   // ---------------------------------------------------------------------------
   const TRANSITION_ICONS = {
-    cut: '━', fade: '◇', slide: '▶', dissolve: '◌', glitch: '⚡', wipe: '╱'
+    cut: '━',
+    fade: '◇',
+    slide: '▶',
+    dissolve: '◌',
+    glitch: '⚡',
+    wipe: '╱',
+    'zoom-in': '⊙',
+    'zoom-out': '⊚',
+    flip: '⟲',
+    iris: '◉',
+    shutter: '☰',
+    push: '⇉',
+    typewriter: '⎯',
+    shatter: '✦'
   };
 
   function attachTransitionConnectors(ov) {
@@ -657,7 +670,10 @@
         border: 1px solid var(--accent, #00FF9C);
         padding: 1.4rem;
         z-index: 9200;
-        min-width: 680px;
+        min-width: 720px;
+        max-width: min(900px, 92vw);
+        max-height: 86vh;
+        overflow-y: auto;
         box-shadow: 0 30px 80px rgba(0,0,0,0.7);
       }
       .transition-picker .tp-title {
@@ -681,7 +697,7 @@
       }
       .transition-picker .tp-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 0.8rem;
       }
       .transition-picker .tp-option {

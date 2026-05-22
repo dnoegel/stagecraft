@@ -56,4 +56,46 @@
     exit(el) { classToggle(el, 'tx-wipe-exit', 500); }
   });
 
+  // -- Additional transitions (Phase 2) -- //
+
+  Stage.registerTransition('zoom-in', {
+    enter(el) { classToggle(el, 'tx-zoom-in-enter', 700); },
+    exit(el) { classToggle(el, 'tx-zoom-in-exit', 400); }
+  });
+
+  Stage.registerTransition('zoom-out', {
+    enter(el) { classToggle(el, 'tx-zoom-out-enter', 700); },
+    exit(el) { classToggle(el, 'tx-zoom-out-exit', 400); }
+  });
+
+  Stage.registerTransition('flip', {
+    enter(el) { classToggle(el, 'tx-flip-enter', 900); },
+    exit(el) { classToggle(el, 'tx-flip-exit', 500); }
+  });
+
+  Stage.registerTransition('iris', {
+    enter(el) { classToggle(el, 'tx-iris-enter', 900); },
+    exit(el) { classToggle(el, 'tx-iris-exit', 500); }
+  });
+
+  Stage.registerTransition('shutter', {
+    enter(el) { classToggle(el, 'tx-shutter-enter', 800); },
+    exit(el) { classToggle(el, 'tx-shutter-exit', 500); }
+  });
+
+  Stage.registerTransition('push', {
+    enter(el) { classToggle(el, 'tx-push-enter', 800); },
+    exit(el) { classToggle(el, 'tx-push-exit', 800); }
+  });
+
+  Stage.registerTransition('typewriter', {
+    enter(el) { classToggle(el, 'tx-typewriter-enter', 900); },
+    exit(el) { classToggle(el, 'tx-typewriter-exit', 300); }
+  });
+
+  Stage.registerTransition('shatter', {
+    enter(el) { classToggle(el, 'tx-shatter-enter', 900); },
+    exit(el) { classToggle(el, 'tx-shatter-exit', 500); }
+  });
+
 })(typeof window !== 'undefined' ? window : globalThis);
