@@ -440,9 +440,10 @@
     window.addEventListener('touchend', (e) => {
       if (touchStartX == null) return;
       const dx = e.changedTouches[0].clientX - touchStartX;
+      // Swipe always navigates. Tap only navigates outside edit mode.
       if (Math.abs(dx) > 50) {
         if (dx < 0) next(); else prev();
-      } else {
+      } else if (!editMode) {
         next();
       }
       touchStartX = null;
@@ -452,9 +453,11 @@
       if (overviewActive) return;
       if (e.target.closest('#overview')) return;
       if (e.target.closest('.qr-frame')) return;
-      // In edit mode, ignore clicks on edit affordances
-      if (editMode && e.target.closest('.edit-affordance, .note-overlay, .note-pin')) return;
-      if (editMode && e.target.hasAttribute('contenteditable')) return;
+      // In edit mode, the slide surface is for editing — never advance
+      // on a free-space click. Navigation happens via keyboard (←/→/Space),
+      // swipe, or the storyboard. This is essential so single-click of a
+      // potential double-click target doesn't skip the slide.
+      if (editMode) return;
       if (current === -1) { go(0); return; }
       const w = window.innerWidth;
       if (e.clientX < w / 3) prev(); else next();
