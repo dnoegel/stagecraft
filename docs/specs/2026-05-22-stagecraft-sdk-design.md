@@ -348,7 +348,7 @@ Stage.register(Stage.KineticText({
   ]
 }));
 
-// User double-clicks "You start" in the browser, types "You begin", blurs.
+// User clicks "You start" in the browser, types "You begin", blurs.
 // Server rewrites the file:
 Stage.register(Stage.KineticText({
   lines: [
@@ -362,7 +362,7 @@ Stage.register(Stage.KineticText({
 
 - Layer-2 components automatically tag text-bearing elements with `data-stage-edit="<prop-path>"`. Example: `KineticText` sets `data-stage-edit="lines[0].text"` on the first line's `<span>`. Components carry the source-of-truth mapping.
 - Bespoke slides opt in by tagging elements themselves, provided the relevant data lives in a parseable top-level object literal passed to a component call (or `Stage.register({...})` itself).
-- Editable elements get a subtle hover hint (dotted underline). Double-click → element becomes `contenteditable`. Enter or blur → save via server. Esc → cancel.
+- Editable elements get a subtle hover hint (dotted underline). Click → element becomes `contenteditable`. Enter or blur → save via server. Esc → cancel. (In edit mode, single clicks don't advance the slide — only keyboard navigation does — so a single click is unambiguous.)
 - The server reads the slide file, locates the relevant `Stage.<Component>({...})` or `Stage.register({...})` call via AST parse (`@babel/parser` or equivalent), navigates the prop path, replaces the string literal, writes back. The slide file remains valid JavaScript with comments and formatting intact (codemod-style edit, not regex).
 - Live reload picks up the change. No DOM-to-source guesswork.
 
@@ -415,7 +415,7 @@ The dev server binds to `127.0.0.1` only, refuses non-loopback connections, and 
 2. Human opens deck with `serve`           (live edit mode)
 3. Human iterates:
    - in storyboard, drags slide 7 into slot 4
-   - in present-mode, double-clicks a bullet's text, fixes a typo
+   - in present-mode, clicks a bullet's text, fixes a typo
    - clicks a stale bullet element, pins a note: "this line is dishonest"
    - taps the storyboard tile of slide 12: "too text-heavy"
    - clicks transition between 3 → 4, picks "glitch" from the live preview

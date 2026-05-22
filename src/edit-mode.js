@@ -9,7 +9,7 @@
  *
  *   - Level 1: slide-level note via Storyboard tile or 'N' key in present mode
  *   - Level 2: element pin notes via click on hovered element
- *   - Level 3: inline text edit via dblclick on [data-stage-edit] elements
+ *   - Level 3: inline text edit via single click on [data-stage-edit] elements
  *   - Drag-to-reorder in Storyboard
  *   - Transition picker between Storyboard tiles
  */
@@ -55,7 +55,7 @@
   Stage._editUI = EditUI;
 
   // ---------------------------------------------------------------------------
-  // Present-mode bindings: element hover, click-to-pin, dblclick-to-inline-edit
+  // Present-mode bindings: element hover, click-to-edit, shift-click-to-pin
   // ---------------------------------------------------------------------------
   function bindPresentMode() {
     let hoverEl = null;
@@ -96,6 +96,9 @@
       if (!slideEl) return;
       if (el === slideEl) return;
       if (el.closest('.edit-affordance, .note-overlay')) return;
+      // Already editing this element? Leave it alone (cursor placement).
+      if (el.contentEditable === 'true') return;
+
       // Shift+click → pin note
       if (e.shiftKey) {
         e.preventDefault();
@@ -106,19 +109,16 @@
           return;
         }
         openElementNoteDialog(el, stageKey);
+        return;
+      }
+
+      // Plain click on an editable element → inline edit immediately
+      if (el.dataset?.stageEdit) {
+        e.preventDefault();
+        e.stopPropagation();
+        makeEditable(el);
       }
     }, true);
-
-    window.addEventListener('dblclick', (e) => {
-      if (!EditUI.active) return;
-      if (Stage._engine.isEditMode() === false) return;
-      if (document.getElementById('overview')) return;
-      const el = e.target;
-      if (!el || !el.dataset?.stageEdit) return;
-      e.preventDefault();
-      e.stopPropagation();
-      makeEditable(el);
-    });
 
     // Keyboard: 'N' opens slide-level note for current slide
     window.addEventListener('keydown', (e) => {
@@ -159,6 +159,7 @@
   // Level 3: inline edit
   // ---------------------------------------------------------------------------
   function makeEditable(el) {
+    if (el.contentEditable === 'true') return; // already editing
     const original = el.textContent;
     el.contentEditable = 'true';
     el.classList.add('inline-editing');

@@ -45,7 +45,7 @@ The dev server turns the browser into a collaborative editor:
 - **Drag slides** in the storyboard to reorder (writes the manifest back to disk).
 - **Click transitions** between storyboard tiles to pick from 6 effects with live preview.
 - **Pin a note** on any element (Shift+click): `// @note[stage-key="..."]:` ends up in the slide file.
-- **Inline-edit text** on Layer-2 components (double-click): AST-aware rewrite of the component prop.
+- **Inline-edit text** on Layer-2 components (single click on the text): AST-aware rewrite of the component prop.
 - **Slide-level notes** (`N` key or 💬 on a tile): `// @note:` comment, top of slide file.
 
 When you ask the agent to "process my notes":
