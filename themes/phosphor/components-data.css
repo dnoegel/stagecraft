@@ -387,22 +387,25 @@
   grid-template-columns: minmax(3rem, auto) 1fr;
   gap: clamp(0.4rem, 0.8vw, 0.7rem);
 }
-.hm-x-labels .hm-corner {
-  /* placeholder above y-labels */
+.hm-x-labels .hm-corner { /* placeholder above y-labels */ }
+.hm-x-row {
+  display: grid;
+  grid-template-columns: repeat(var(--hm-cols), 1fr);
+  gap: clamp(2px, 0.3vw, 4px);
 }
-.hm-x-labels .hm-x-label,
 .hm-x-label {
   font-size: clamp(0.7rem, 0.95vw, 0.85rem);
   color: var(--dim);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
+  font-variant-numeric: tabular-nums;
 }
-.hm-x-labels > :nth-child(2) {
-  display: grid;
-  grid-template-columns: repeat(var(--hm-cols), 1fr);
-  gap: clamp(2px, 0.3vw, 4px);
+/* When y-labels are absent, drop the corner and stretch x-row full width */
+.heatmap:not(:has(.hm-y-label)) .hm-x-labels {
+  grid-template-columns: 1fr;
 }
+.heatmap:not(:has(.hm-y-label)) .hm-x-labels .hm-corner { display: none; }
 .hm-body {
   display: flex;
   flex-direction: column;

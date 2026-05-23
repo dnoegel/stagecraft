@@ -64,7 +64,7 @@
                 </span>
               </div>
             ` : ''}
-            <pre class="cd-body">${lineHtml}</pre>
+            <div class="cd-body">${lineHtml}</div>
           </div>
         `;
 

@@ -396,10 +396,20 @@
 }
 .venn .v-label.in { opacity: 1; }
 .venn .v-label.set { font-weight: 500; }
+.venn .v-label.set .name {
+  display: inline-block;
+  color: var(--vl-color, var(--fg));
+  background: var(--bg);
+  padding: 0.1rem 0.4rem;
+  letter-spacing: 0.04em;
+}
 .venn .v-label.overlap {
   color: var(--fg);
   font-size: clamp(0.78rem, 1vw, 0.95rem);
   letter-spacing: 0.06em;
 }
-.venn .v-label.set .name { display: block; }
-.venn .v-label.set .name { color: var(--vl-color, var(--fg)); }
+.venn .v-label.overlap > span {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  padding: 0.1rem 0.35rem;
+  display: inline-block;
+}

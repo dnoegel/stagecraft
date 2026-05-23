@@ -71,9 +71,11 @@
         const xLabelRow = xLabels.length
           ? `<div class="hm-x-labels">
               <div class="hm-corner"></div>
-              ${Array.from({ length: cols }, (_, c) => `
-                <div class="hm-x-label" data-stage-edit="xLabels[${c}]">${escape(xLabels[c] || '')}</div>
-              `).join('')}
+              <div class="hm-x-row">
+                ${Array.from({ length: cols }, (_, c) => `
+                  <div class="hm-x-label" data-stage-edit="xLabels[${c}]">${escape(xLabels[c] || '')}</div>
+                `).join('')}
+              </div>
             </div>`
           : '';
 

@@ -54,8 +54,12 @@
     return COLOR_MAP[name] || COLOR_MAP.accent;
   }
 
-  // Geometry presets (cx, cy, r) and label positions per region.
-  // All coordinates are in % of width/height to match the .v-label positioning.
+  // Geometry presets — ALL coordinates in SVG viewBox units (100 × 78).
+  // The render function converts to container-% for CSS positioning, so labels
+  // align exactly with the circles regardless of the container's aspect ratio.
+  // Each set label is placed in that set's *exclusive* region (the horn that
+  // doesn't overlap any other set), and each overlap label sits in the
+  // overlap region it names.
   const GEOMETRY = {
     2: {
       circles: [
@@ -63,33 +67,37 @@
         { cx: 62, cy: 39, r: 22 }
       ],
       setLabels: [
-        { left: 22,  top: 39 },
-        { left: 78,  top: 39 }
+        { x: 25, y: 39 },     // Knows-only horn (left)
+        { x: 75, y: 39 }      // Cares-only horn (right)
       ],
       overlapLabels: {
-        '0-1': { left: 50, top: 39 }
+        '0-1': { x: 50, y: 39 }
       }
     },
     3: {
-      // Triangle of circles, larger so they overlap in the middle.
       circles: [
         { cx: 38, cy: 32, r: 22 },
         { cx: 62, cy: 32, r: 22 },
         { cx: 50, cy: 53, r: 22 }
       ],
       setLabels: [
-        { left: 22, top: 22 },
-        { left: 78, top: 22 },
-        { left: 50, top: 70 }
+        { x: 28, y: 22 },     // Knows-only horn (upper-left)
+        { x: 72, y: 22 },     // Cares-only horn (upper-right)
+        { x: 50, y: 70 }      // Does-only horn (bottom)
       ],
       overlapLabels: {
-        '0-1':   { left: 50, top: 26 },
-        '0-2':   { left: 36, top: 48 },
-        '1-2':   { left: 64, top: 48 },
-        '0-1-2': { left: 50, top: 42 }
+        '0-1':   { x: 50, y: 23 },   // Knows ∩ Cares  (top center)
+        '0-2':   { x: 31, y: 50 },   // Knows ∩ Does   (lower-left)
+        '1-2':   { x: 69, y: 50 },   // Cares ∩ Does   (lower-right)
+        '0-1-2': { x: 50, y: 40 }    // all three      (center)
       }
     }
   };
+
+  // Convert viewBox-units position to container-% (which is what CSS uses).
+  function toCSS(p) {
+    return { left: (p.x / VB_W) * 100, top: (p.y / VB_H) * 100 };
+  }
 
   Stage.Venn = function (opts) {
     const sets = (opts.sets || []).slice(0, 3);
@@ -118,7 +126,7 @@
         }).join('');
 
         const setLabels = sets.map((s, i) => {
-          const pos = geo.setLabels[i] || { left: 50, top: 50 };
+          const pos = toCSS(geo.setLabels[i] || { x: 50, y: 39 });
           return `<div class="v-label set"
                        data-set="${i}"
                        data-stage-key="Venn/set-label[${i}]"
@@ -129,8 +137,9 @@
 
         const overlapLabels = overlaps.map((o, j) => {
           const key = keyFor(o.ids || []);
-          const pos = geo.overlapLabels[key];
-          if (!pos) return '';
+          const rawPos = geo.overlapLabels[key];
+          if (!rawPos) return '';
+          const pos = toCSS(rawPos);
           return `<div class="v-label overlap"
                        data-overlap="${j}"
                        data-stage-key="Venn/overlap-label[${j}]"

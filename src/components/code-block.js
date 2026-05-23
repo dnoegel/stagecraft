@@ -54,7 +54,7 @@
                 ${language ? `<span class="cb-lang">${escape(language)}</span>` : ''}
               </div>
             ` : ''}
-            <pre class="cb-body" data-stage-edit="code">${lineHtml}</pre>
+            <div class="cb-body" data-stage-edit="code">${lineHtml}</div>
           </div>
         `;
 
