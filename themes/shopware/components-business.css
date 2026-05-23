@@ -1,0 +1,344 @@
+/* Stagecraft — Shopware theme: business / marketing component overrides. */
+@import url('../phosphor/components-business.css');
+
+/* ---------------------------------------------------------------------------
+ * Pricing — white tiers, featured pops with --shadow-brand
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .pricing-tier {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease, box-shadow 200ms ease;
+}
+:root[data-theme="shopware"] .pricing-tier:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="shopware"] .pricing-tier--featured {
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-brand);
+  transform: scale(1.02);
+}
+:root[data-theme="shopware"] .pricing-tier--featured.in {
+  transform: translateY(0) scale(1.02);
+}
+:root[data-theme="shopware"] .pricing-badge {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+:root[data-theme="shopware"] .pricing-name {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 600;
+}
+:root[data-theme="shopware"] .pricing-tier--featured .pricing-name { color: var(--accent); }
+:root[data-theme="shopware"] .pricing-price {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 600;
+  text-shadow: none;
+}
+:root[data-theme="shopware"] .pricing-tier--featured .pricing-price {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="shopware"] .pricing-period   { color: var(--dim); }
+:root[data-theme="shopware"] .pricing-feature  { color: var(--fg); }
+:root[data-theme="shopware"] .pricing-check    { color: var(--accent); }
+:root[data-theme="shopware"] .pricing-cta {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: var(--radius-pill);
+  font-family: var(--display);
+  font-weight: 600;
+}
+:root[data-theme="shopware"] .pricing-tier--featured .pricing-cta {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Testimonial — sans, brand quote mark
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .testimonial-photo-wrap {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="shopware"] .testimonial-mark {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--display);
+  font-weight: 600;
+}
+:root[data-theme="shopware"] .testimonial-quote {
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+}
+:root[data-theme="shopware"] .testimonial-author { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .testimonial-affil  { color: var(--dim); }
+:root[data-theme="shopware"] .testimonial-sep    { color: var(--border-primary); }
+
+/* ---------------------------------------------------------------------------
+ * TeamGrid — white card, photo on elevated grey
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .team-card {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease, box-shadow 200ms ease;
+}
+:root[data-theme="shopware"] .team-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="shopware"] .team-photo-wrap {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-primary);
+}
+:root[data-theme="shopware"] .team-name { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .team-role { color: var(--accent); font-family: var(--display); font-weight: 500; }
+:root[data-theme="shopware"] .team-bio  { color: var(--dim); }
+:root[data-theme="shopware"] .team-social-icon { color: var(--dim); }
+:root[data-theme="shopware"] .team-social-icon:hover { color: var(--accent); }
+
+/* ---------------------------------------------------------------------------
+ * Agenda
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .agenda-rail { background: var(--border-primary); }
+:root[data-theme="shopware"] .agenda-dot {
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  box-shadow: none;
+}
+:root[data-theme="shopware"] .agenda-dot .material-symbols-outlined { color: var(--accent); }
+:root[data-theme="shopware"] .agenda-time { color: var(--dim); font-family: var(--display); font-variant-numeric: tabular-nums; }
+:root[data-theme="shopware"] .agenda-label { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .agenda-duration { color: var(--dim); }
+
+/* ---------------------------------------------------------------------------
+ * Checklist
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .checklist-item {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .checklist-item.is-done {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border-primary));
+  background: color-mix(in srgb, var(--accent-soft) 60%, var(--bg));
+}
+:root[data-theme="shopware"] .checklist-box { color: var(--dim); }
+:root[data-theme="shopware"] .checklist-item.is-done .checklist-box {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="shopware"] .checklist-text { color: var(--fg); }
+:root[data-theme="shopware"] .checklist-item.is-done .checklist-text { color: var(--dim); }
+:root[data-theme="shopware"] .checklist-sub  { color: var(--dim); }
+
+/* ---------------------------------------------------------------------------
+ * Steps
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .step-card {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease, box-shadow 200ms ease;
+}
+:root[data-theme="shopware"] .step-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="shopware"] .step-numeral {
+  text-shadow: none;
+  color: var(--accent);
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+:root[data-theme="shopware"] .step-icon  { color: var(--accent); }
+:root[data-theme="shopware"] .step-label { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .step-body  { color: var(--dim); }
+
+/* ---------------------------------------------------------------------------
+ * CTA — pill button, brand fill, --shadow-brand when accent
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .cta {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .cta--accent {
+  border-color: var(--accent);
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 55%),
+    var(--bg);
+  box-shadow: var(--shadow-brand);
+}
+:root[data-theme="shopware"] .cta-headline {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+:root[data-theme="shopware"] .cta--accent .cta-headline { color: var(--fg); }
+:root[data-theme="shopware"] .cta-body { color: var(--dim); }
+:root[data-theme="shopware"] .cta-button {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: none;
+  transition: background 160ms ease, box-shadow 200ms ease, transform 160ms ease;
+}
+:root[data-theme="shopware"] .cta-button:hover {
+  background: var(--accent-hover);
+}
+:root[data-theme="shopware"] .cta--accent .cta-button {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-brand);
+}
+:root[data-theme="shopware"] .cta--accent .cta-button:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-brand);
+}
+:root[data-theme="shopware"] .cta-hint { color: var(--dim); }
+
+/* ---------------------------------------------------------------------------
+ * Callout — colored left border, *-soft tint
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .callout {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-left: 4px solid var(--border-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .callout-heading { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .callout-text    { color: var(--dim); }
+
+:root[data-theme="shopware"] .callout--info {
+  border-left-color: var(--blue);
+  background: linear-gradient(90deg, var(--blue-soft), transparent 45%), var(--bg);
+}
+:root[data-theme="shopware"] .callout--info    .callout-icon,
+:root[data-theme="shopware"] .callout--info    .callout-heading { color: var(--blue); }
+
+:root[data-theme="shopware"] .callout--tip {
+  border-left-color: var(--accent);
+  background: linear-gradient(90deg, var(--accent-soft), transparent 45%), var(--bg);
+}
+:root[data-theme="shopware"] .callout--tip     .callout-icon,
+:root[data-theme="shopware"] .callout--tip     .callout-heading { color: var(--accent); }
+
+:root[data-theme="shopware"] .callout--warning {
+  border-left-color: var(--amber);
+  background: linear-gradient(90deg, var(--amber-soft), transparent 45%), var(--bg);
+}
+:root[data-theme="shopware"] .callout--warning .callout-icon,
+:root[data-theme="shopware"] .callout--warning .callout-heading { color: var(--amber); }
+
+:root[data-theme="shopware"] .callout--danger {
+  border-left-color: var(--red);
+  background: linear-gradient(90deg, var(--red-soft), transparent 45%), var(--bg);
+}
+:root[data-theme="shopware"] .callout--danger  .callout-icon,
+:root[data-theme="shopware"] .callout--danger  .callout-heading { color: var(--red); }
+
+:root[data-theme="shopware"] .callout--success {
+  border-left-color: var(--green);
+  background: linear-gradient(90deg, var(--green-soft), transparent 50%), var(--bg);
+}
+:root[data-theme="shopware"] .callout--success .callout-icon,
+:root[data-theme="shopware"] .callout--success .callout-heading { color: var(--green); }
+:root[data-theme="shopware"] .callout--success .callout-icon { text-shadow: none; }
+
+/* ---------------------------------------------------------------------------
+ * Tip
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .tip {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .tip-icon { color: var(--accent); }
+:root[data-theme="shopware"] .tip-body { color: var(--fg); }
+
+:root[data-theme="shopware"] .tip--info    { border-color: color-mix(in srgb, var(--blue) 40%, var(--border-primary));   background: linear-gradient(135deg, var(--blue-soft), transparent 60%), var(--bg); }
+:root[data-theme="shopware"] .tip--info    .tip-icon { color: var(--blue); }
+:root[data-theme="shopware"] .tip--tip     { border-color: color-mix(in srgb, var(--accent) 40%, var(--border-primary)); background: linear-gradient(135deg, var(--accent-soft), transparent 60%), var(--bg); }
+:root[data-theme="shopware"] .tip--tip     .tip-icon { color: var(--accent); }
+:root[data-theme="shopware"] .tip--warning { border-color: color-mix(in srgb, var(--amber) 45%, var(--border-primary));  background: linear-gradient(135deg, var(--amber-soft), transparent 60%), var(--bg); }
+:root[data-theme="shopware"] .tip--warning .tip-icon { color: var(--amber); }
+:root[data-theme="shopware"] .tip--danger  { border-color: color-mix(in srgb, var(--red) 45%, var(--border-primary));    background: linear-gradient(135deg, var(--red-soft), transparent 60%), var(--bg); }
+:root[data-theme="shopware"] .tip--danger  .tip-icon { color: var(--red); }
+:root[data-theme="shopware"] .tip--success { border-color: color-mix(in srgb, var(--green) 45%, var(--border-primary)); background: linear-gradient(135deg, var(--green-soft), transparent 60%), var(--bg); }
+:root[data-theme="shopware"] .tip--success .tip-icon { color: var(--green); text-shadow: none; }
+
+/* ---------------------------------------------------------------------------
+ * BeforeAfter
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .ba-col {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .ba-col.ba-after {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="shopware"] .ba-arrow {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+:root[data-theme="shopware"] .before-after--image {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .ba-tag {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-primary);
+  color: var(--fg);
+  border-radius: var(--radius-pill);
+  font-family: var(--display);
+  font-weight: 600;
+}
+:root[data-theme="shopware"] .ba-tag--accent {
+  color: #ffffff;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+:root[data-theme="shopware"] .before-after--image .ba-divider {
+  background: var(--accent);
+  box-shadow: none;
+}

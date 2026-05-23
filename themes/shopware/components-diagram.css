@@ -1,0 +1,129 @@
+/* Stagecraft — Shopware theme: diagram component overrides. */
+@import url('../phosphor/components-diagram.css');
+
+/* ===========================================================================
+ * Pillars — icons in brand, white tile with subtle hover lift
+ * ===========================================================================*/
+:root[data-theme="shopware"] .pillars-intro {
+  font-family: var(--display);
+  color: var(--dim);
+}
+:root[data-theme="shopware"] .pillar {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease, box-shadow 200ms ease;
+}
+:root[data-theme="shopware"] .pillar:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+:root[data-theme="shopware"] .pillar:hover .pillar-icon {
+  animation: none;
+  filter: none;
+}
+:root[data-theme="shopware"] .pillar-icon { color: var(--accent); }
+:root[data-theme="shopware"] .pillar.pc-accent .pillar-icon { color: var(--accent); }
+:root[data-theme="shopware"] .pillar.pc-blue   .pillar-icon { color: var(--blue);   }
+:root[data-theme="shopware"] .pillar.pc-amber  .pillar-icon { color: var(--amber);  }
+:root[data-theme="shopware"] .pillar.pc-red    .pillar-icon { color: var(--red);    }
+:root[data-theme="shopware"] .pillar.pc-dim    .pillar-icon { color: var(--dim);    }
+:root[data-theme="shopware"] .pillar.pc-fg     .pillar-icon { color: var(--fg);     }
+:root[data-theme="shopware"] .pillar-heading {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+:root[data-theme="shopware"] .pillar-body { color: var(--dim); }
+
+/* ===========================================================================
+ * Timeline
+ * ===========================================================================*/
+:root[data-theme="shopware"] .tl-dot {
+  background: var(--bg);
+  border: 1px solid var(--border-secondary);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .tl-event.active .tl-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+:root[data-theme="shopware"] .tl-event.tc-accent.active .tl-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+:root[data-theme="shopware"] .tl-event.tc-blue.active   .tl-dot { background: var(--blue);   border-color: var(--blue);   box-shadow: 0 0 0 4px var(--blue-soft); }
+:root[data-theme="shopware"] .tl-event.tc-amber.active  .tl-dot { background: var(--amber);  border-color: var(--amber);  box-shadow: 0 0 0 4px var(--amber-soft); }
+:root[data-theme="shopware"] .tl-event.tc-red.active    .tl-dot { background: var(--red);    border-color: var(--red);    box-shadow: 0 0 0 4px var(--red-soft); }
+:root[data-theme="shopware"] .tl-icon { color: #ffffff; }
+:root[data-theme="shopware"] .tl-event:not(.active) .tl-icon { color: var(--dim); }
+:root[data-theme="shopware"] .tl-date { color: var(--dim); font-family: var(--display); }
+:root[data-theme="shopware"] .tl-heading { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .tl-body { color: var(--dim); }
+:root[data-theme="shopware"] .timeline-track { background: var(--border-primary); }
+
+/* ===========================================================================
+ * Pyramid — tinted layers, brand border on active
+ * ===========================================================================*/
+:root[data-theme="shopware"] .pyr-shape {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .pyr-layer.pyc-accent .pyr-shape { background: var(--accent-soft); border-color: var(--accent); }
+:root[data-theme="shopware"] .pyr-layer.pyc-accent .pyr-label { color: var(--accent); }
+:root[data-theme="shopware"] .pyr-layer.pyc-blue   .pyr-shape { background: var(--blue-soft);   border-color: var(--blue);   }
+:root[data-theme="shopware"] .pyr-layer.pyc-blue   .pyr-label { color: var(--blue); }
+:root[data-theme="shopware"] .pyr-layer.pyc-amber  .pyr-shape { background: var(--amber-soft);  border-color: var(--amber);  }
+:root[data-theme="shopware"] .pyr-layer.pyc-amber  .pyr-label { color: var(--amber); }
+:root[data-theme="shopware"] .pyr-layer.pyc-red    .pyr-shape { background: var(--red-soft);    border-color: var(--red);    }
+:root[data-theme="shopware"] .pyr-layer.pyc-red    .pyr-label { color: var(--red); }
+:root[data-theme="shopware"] .pyr-layer.pyc-dim    .pyr-shape { background: var(--bg-elevated); border-color: var(--border-secondary); }
+:root[data-theme="shopware"] .pyr-layer.pyc-dim    .pyr-label { color: var(--dim); }
+:root[data-theme="shopware"] .pyr-label { font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .pyr-body  { color: var(--dim); }
+
+/* ===========================================================================
+ * Cycle — clean ring + white circle items with colored borders
+ * ===========================================================================*/
+:root[data-theme="shopware"] .cyc-ring {
+  stroke: var(--border-primary);
+  opacity: 1;
+}
+:root[data-theme="shopware"] .cyc-arc {
+  stroke: var(--accent);
+  opacity: 0;
+}
+:root[data-theme="shopware"] .cyc-arc.in { opacity: 0.9; }
+:root[data-theme="shopware"] .cyc-arrow { color: var(--accent); }
+:root[data-theme="shopware"] .cyc-item {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .cyc-item.cyc-accent { border-color: var(--accent); }
+:root[data-theme="shopware"] .cyc-item.cyc-accent .cyc-icon { color: var(--accent); }
+:root[data-theme="shopware"] .cyc-item.cyc-blue   { border-color: var(--blue); }
+:root[data-theme="shopware"] .cyc-item.cyc-blue   .cyc-icon { color: var(--blue); }
+:root[data-theme="shopware"] .cyc-item.cyc-amber  { border-color: var(--amber); }
+:root[data-theme="shopware"] .cyc-item.cyc-amber  .cyc-icon { color: var(--amber); }
+:root[data-theme="shopware"] .cyc-item.cyc-red    { border-color: var(--red); }
+:root[data-theme="shopware"] .cyc-item.cyc-red    .cyc-icon { color: var(--red); }
+:root[data-theme="shopware"] .cyc-label { color: var(--fg); font-family: var(--display); font-weight: 500; }
+
+/* ===========================================================================
+ * Funnel — soft tinted stages
+ * ===========================================================================*/
+:root[data-theme="shopware"] .fn-shape {
+  background: var(--bg);
+  border-top: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
+}
+:root[data-theme="shopware"] .fn-stage.fnc-accent .fn-shape { background: var(--accent-soft); border-color: var(--accent); }
+:root[data-theme="shopware"] .fn-stage.fnc-blue   .fn-shape { background: var(--blue-soft);   border-color: var(--blue);   }
+:root[data-theme="shopware"] .fn-stage.fnc-amber  .fn-shape { background: var(--amber-soft);  border-color: var(--amber);  }
+:root[data-theme="shopware"] .fn-stage.fnc-red    .fn-shape { background: var(--red-soft);    border-color: var(--red);    }
+:root[data-theme="shopware"] .fn-stage.fnc-dim    .fn-shape { background: var(--bg-elevated); border-color: var(--border-secondary); }

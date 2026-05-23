@@ -125,7 +125,7 @@ console.log('-----------------');
 const js = buildJsBundle();
 console.log(`JS:  ${relative(ROOT, js.outPath)}  (${js.fileCount} files, ${fmtBytes(js.bytes)})`);
 
-const themes = ['phosphor', 'paper', 'neon', 'brand'];
+const themes = ['phosphor', 'paper', 'neon', 'brand', 'shopware'];
 let cssTotal = 0;
 let cssFileCount = 0;
 const cssBundles = [];

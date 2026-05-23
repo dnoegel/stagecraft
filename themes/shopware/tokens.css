@@ -1,0 +1,68 @@
+/* Stagecraft — Shopware theme tokens
+ *
+ * Sourced from the Meteor design system (@shopware-ag/meteor-tokens v1.4.0)
+ * which is Shopware's official open-source token system.
+ *   Brand: #0870ff (brand/500)
+ *   Family palette: blue · zinc · slate · purple · pumpkin · pink · yellow · cyan · emerald
+ *
+ * https://shopware.design/tokens/  ·  https://github.com/shopware/meteor
+ */
+:root[data-theme="shopware"] {
+  /* Surface — soft white-on-light-grey hierarchy */
+  --bg: #ffffff;                    /* zinc/0 */
+  --bg-elevated: #fafbfe;            /* zinc/50 */
+  --bg-tertiary: #f2f3f8;            /* zinc/75 */
+
+  /* Text */
+  --fg: #1e1e24;                     /* zinc/900 */
+  --dim: #696a6e;                    /* zinc/600 */
+  --dim-2: #e2e3e9;                  /* zinc/100 — used for borders + faint lines */
+
+  /* Brand */
+  --accent: #0870ff;                 /* brand/500 — the signature Shopware blue */
+  --accent-hover: #005cd7;           /* brand/600 */
+  --accent-pressed: #0042a0;         /* brand/700 */
+  --accent-soft: #f0f6ff;            /* brand/50 — pale tinted bg */
+  --accent-glow: rgba(8, 112, 255, 0.28);
+
+  /* Secondary blue (cyan-ish for variety) */
+  --blue: #189eff;                   /* blue/500 — used in charts as the second blue */
+  --blue-soft: #eef6ff;              /* blue/50 */
+
+  /* Semantic — directly from Meteor */
+  --amber: #fbaf18;                  /* orange/500 — warning */
+  --amber-soft: #fff3e3;             /* orange/50 */
+  --red: #e2262a;                    /* red/500 — critical */
+  --red-soft: #fff2f0;               /* red/50 */
+  --green: #36d046;                  /* green/500 — positive */
+  --green-soft: #e1ffe0;             /* green/50 */
+  --purple: #633bc6;                 /* purple/700 — accent / icon emphasis */
+  --purple-soft: #f5f4ff;            /* purple/50 */
+  --cyan: #2fc3f0;                   /* cyan/500 */
+  --pink: #ff5ea1;                   /* pink/500 */
+
+  /* Borders */
+  --border-primary: #e2e3e9;         /* zinc/100 */
+  --border-secondary: #cdced4;       /* zinc/200 */
+  --border-brand: #0870ff;           /* brand/500 */
+
+  /* Typography */
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Radii — Shopware uses subtle rounding throughout (~4-8px) */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  /* Elevation — flat with subtle shadows */
+  --shadow-sm: 0 1px 2px rgba(30, 30, 36, 0.04), 0 1px 3px rgba(30, 30, 36, 0.06);
+  --shadow-md: 0 4px 12px rgba(30, 30, 36, 0.06), 0 2px 4px rgba(30, 30, 36, 0.04);
+  --shadow-brand: 0 8px 24px rgba(8, 112, 255, 0.18);
+}
+
+/* Disable the cinematic body decorations for this clean light theme */
+:root[data-theme="shopware"] body::before,
+:root[data-theme="shopware"] body::after { display: none; }

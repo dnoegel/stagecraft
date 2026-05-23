@@ -2,6 +2,8 @@
 
 Cinematic, agent-authored presentations. **Reveal.js reimagined for the LLM era.**
 
+▶ **[Live demo](https://dnoegel.github.io/stagecraft/)** — the deck about Stagecraft, built with Stagecraft. Auto-deployed from `main` via GitHub Pages.
+
 A small JavaScript library for building animated slide decks that live in a single HTML file. Designed so an LLM can generate a deck that doesn't look like an LLM generated it.
 
 ## Why
@@ -55,7 +57,7 @@ The browser detects the server and unlocks the editing affordances:
 - **🎙 button** per tile in storyboard: speaker notes (shown in presenter view, hidden from audience)
 - **× button** per tile: delete slide
 - **+ tile** at the end of the grid: add a new slide from a template
-- **Theme picker** at the top of the storyboard: live-switch between Phosphor/Paper/Neon/Brand
+- **Theme picker** at the top of the storyboard: live-switch between Phosphor/Paper/Neon/Brand/Shopware
 - **📋 Process notes** copies a ready-made agent prompt to the clipboard
 
 When you ask the agent to "process my notes":
@@ -106,7 +108,7 @@ Built-in: `cut · fade · slide · dissolve · glitch · wipe · zoom-in · zoom
 
 Themes override visuals. Unknown name → falls back to `fade`. Hover any transition in the picker to play it once.
 
-## 4 themes
+## 5 themes
 
 | Theme | Vibe | Typography |
 |---|---|---|
@@ -114,6 +116,7 @@ Themes override visuals. Unknown name → falls back to `fade`. Hover any transi
 | **Paper** | Academic, restrained, light. Navy accent, no glow | Inter + Source Serif 4 |
 | **Neon** | Cyberpunk, magenta + cyan, heavy glow | Space Grotesk + JetBrains Mono |
 | **Brand** | Corporate, schlicht. Blue accent, GitHub-dark adjacent | Inter |
+| **Shopware** | Official Shopware brand. Light, Meteor design tokens, brand-blue `#0870ff` | Inter |
 
 Switch live from the edit-mode storyboard, or set `data-theme="..."` on `<html>` plus link the matching theme CSS bundle.
 

@@ -1,0 +1,121 @@
+/* Stagecraft — Shopware theme: chart/relationship component overrides. */
+@import url('../phosphor/components-chart.css');
+
+/* ============================================================
+ * Matrix2x2
+ * ============================================================ */
+:root[data-theme="shopware"] .matrix2x2 .grid {
+  background: var(--border-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+:root[data-theme="shopware"] .matrix2x2 .quadrant {
+  background: var(--bg);
+  filter: none;
+}
+:root[data-theme="shopware"] .matrix2x2 .quadrant.active {
+  background: color-mix(in srgb, var(--q-color, var(--accent)) 8%, var(--bg));
+  box-shadow: inset 0 0 0 1px var(--q-color, var(--accent));
+}
+:root[data-theme="shopware"] .matrix2x2 .quadrant .q-label { color: var(--dim); font-family: var(--display); }
+:root[data-theme="shopware"] .matrix2x2 .quadrant .q-body  { color: var(--fg); }
+:root[data-theme="shopware"] .matrix2x2 .quadrant .q-tag   { color: var(--dim); }
+:root[data-theme="shopware"] .matrix2x2 .x-axis .label,
+:root[data-theme="shopware"] .matrix2x2 .y-axis .label    { color: var(--dim); font-family: var(--display); }
+
+/* ============================================================
+ * BarChart — accent fill, no glow
+ * ============================================================ */
+:root[data-theme="shopware"] .barchart .bar-track {
+  background: var(--border-primary);
+  border-radius: var(--radius-pill);
+}
+:root[data-theme="shopware"] .barchart .bar-fill {
+  background: var(--accent);
+  box-shadow: none;
+  border-radius: var(--radius-pill);
+}
+:root[data-theme="shopware"] .barchart .bar-row.accent .bar-fill { background: var(--accent); }
+:root[data-theme="shopware"] .barchart .bar-row.blue   .bar-fill { background: var(--blue);   }
+:root[data-theme="shopware"] .barchart .bar-row.amber  .bar-fill { background: var(--amber);  }
+:root[data-theme="shopware"] .barchart .bar-row.red    .bar-fill { background: var(--red);    }
+:root[data-theme="shopware"] .barchart .bar-row.dim    .bar-fill { background: var(--dim);    }
+:root[data-theme="shopware"] .barchart .bar-label { color: var(--dim); font-family: var(--display); }
+:root[data-theme="shopware"] .barchart .bar-value { color: var(--fg); font-family: var(--display); font-weight: 600; }
+
+/* ============================================================
+ * Progress — accent fill, no glow
+ * ============================================================ */
+:root[data-theme="shopware"] .progress-track {
+  background: var(--border-primary);
+  border-radius: var(--radius-pill);
+}
+:root[data-theme="shopware"] .progress-fill {
+  background: var(--accent);
+  box-shadow: none;
+  border-radius: var(--radius-pill);
+}
+:root[data-theme="shopware"] .progress-row.accent .progress-fill { background: var(--accent); }
+:root[data-theme="shopware"] .progress-row.blue   .progress-fill { background: var(--blue);   }
+:root[data-theme="shopware"] .progress-row.amber  .progress-fill { background: var(--amber);  }
+:root[data-theme="shopware"] .progress-row.red    .progress-fill { background: var(--red);    }
+:root[data-theme="shopware"] .progress-label { color: var(--fg); font-family: var(--display); }
+:root[data-theme="shopware"] .progress-value { color: var(--dim); font-family: var(--display); font-weight: 600; }
+
+/* ============================================================
+ * ProcessFlow
+ * ============================================================ */
+:root[data-theme="shopware"] .processflow {
+  --pf-card-bg: var(--bg);
+  --pf-card-border: var(--border-primary);
+}
+:root[data-theme="shopware"] .processflow .pf-step {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .processflow .pf-step.accent { border-color: color-mix(in srgb, var(--accent) 40%, var(--border-primary)); }
+:root[data-theme="shopware"] .processflow .pf-step.amber  { border-color: color-mix(in srgb, var(--amber) 40%, var(--border-primary));  }
+:root[data-theme="shopware"] .processflow .pf-step.blue   { border-color: color-mix(in srgb, var(--blue) 40%, var(--border-primary));   }
+:root[data-theme="shopware"] .processflow .pf-step.red    { border-color: color-mix(in srgb, var(--red) 40%, var(--border-primary));    }
+:root[data-theme="shopware"] .processflow .pf-icon { color: var(--accent); }
+:root[data-theme="shopware"] .processflow .pf-step.accent .pf-icon { color: var(--accent); }
+:root[data-theme="shopware"] .processflow .pf-step.amber  .pf-icon { color: var(--amber);  }
+:root[data-theme="shopware"] .processflow .pf-step.blue   .pf-icon { color: var(--blue);   }
+:root[data-theme="shopware"] .processflow .pf-step.red    .pf-icon { color: var(--red);    }
+:root[data-theme="shopware"] .processflow .pf-label { color: var(--fg); font-family: var(--display); font-weight: 600; }
+:root[data-theme="shopware"] .processflow .pf-body  { color: var(--dim); }
+:root[data-theme="shopware"] .processflow .pf-arrow { color: var(--border-secondary); }
+:root[data-theme="shopware"] .processflow .pf-arrow.pulse {
+  animation: pf-pulse-shopware 900ms ease-out;
+  color: var(--accent);
+}
+@keyframes pf-pulse-shopware {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================
+ * Venn — gentle fill opacities, white-backed labels
+ * ============================================================ */
+:root[data-theme="shopware"] .venn .v-circle {
+  fill-opacity: 0.16;
+  stroke-width: 1.5;
+}
+:root[data-theme="shopware"] .venn .v-label.set .name {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .venn .v-label.overlap > span {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  font-family: var(--display);
+}

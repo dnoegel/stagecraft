@@ -1,0 +1,169 @@
+/* Stagecraft — Shopware theme: content/typography component overrides. */
+@import url('../phosphor/components-content.css');
+
+/* ---------------------------------------------------------------------------
+ * Statement — emphasized words pop in brand, no text glow
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .statement-text {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+:root[data-theme="shopware"] .statement .st-em {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="shopware"] .statement .st-em--amber { color: var(--amber); text-shadow: none; }
+:root[data-theme="shopware"] .statement .st-em--blue  { color: var(--blue);  text-shadow: none; }
+
+/* ---------------------------------------------------------------------------
+ * QandA
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .qa-q {
+  color: var(--dim);
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 500;
+}
+:root[data-theme="shopware"] .qa-q::before { color: var(--border-secondary); }
+:root[data-theme="shopware"] .qa-a {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+:root[data-theme="shopware"] .qa-attr { color: var(--dim); font-family: var(--display); }
+
+/* ---------------------------------------------------------------------------
+ * Manifesto
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .mf-intro {
+  color: var(--dim);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .mf-num {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+:root[data-theme="shopware"] .mf-item {
+  border-bottom: 1px solid var(--border-primary);
+}
+:root[data-theme="shopware"] .mf-item.in { border-color: var(--border-primary); }
+:root[data-theme="shopware"] .mf-text {
+  color: var(--fg);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .mf-text .mf-em { color: var(--accent); }
+
+/* ---------------------------------------------------------------------------
+ * Punchline
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .pl-line {
+  color: var(--dim);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .pl-payoff {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* ---------------------------------------------------------------------------
+ * Definition
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .df-term {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+:root[data-theme="shopware"] .df-pos {
+  color: var(--dim);
+  font-family: var(--display);
+  font-style: italic;
+}
+:root[data-theme="shopware"] .df-def {
+  color: var(--fg);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .df-def::before { color: var(--accent); }
+:root[data-theme="shopware"] .df-ety { color: var(--dim); font-family: var(--display); }
+:root[data-theme="shopware"] .df-ex  { color: var(--dim); font-family: var(--display); }
+:root[data-theme="shopware"] .df-mark {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 0 0.2em;
+}
+
+/* ---------------------------------------------------------------------------
+ * ImageGrid
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .ig-frame {
+  background: var(--bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+:root[data-theme="shopware"] .ig-frame::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04),
+    var(--shadow-md);
+}
+:root[data-theme="shopware"] .ig-img { filter: none; }
+:root[data-theme="shopware"] .ig-cap { color: var(--dim); font-family: var(--display); }
+
+/* ---------------------------------------------------------------------------
+ * Spotlight — focused card pops with --shadow-brand
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .sp-focus {
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-brand);
+}
+:root[data-theme="shopware"] .sp-icon {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="shopware"] .sp-heading {
+  color: var(--accent);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+:root[data-theme="shopware"] .sp-body { color: var(--fg); }
+:root[data-theme="shopware"] .sp-ctx-item {
+  color: var(--dim);
+  font-family: var(--display);
+}
+:root[data-theme="shopware"] .sp-ctx-item:hover { color: var(--fg); }
+
+/* ---------------------------------------------------------------------------
+ * Marquee — calm brand-accent row
+ * ------------------------------------------------------------------------- */
+:root[data-theme="shopware"] .marquee {
+  mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 94%, transparent 100%);
+}
+:root[data-theme="shopware"] .mq-item {
+  color: var(--fg);
+  font-family: var(--display);
+  font-weight: 500;
+}
+:root[data-theme="shopware"] .mq-track--b .mq-item {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--display);
+  font-weight: 600;
+  font-style: normal;
+}
+:root[data-theme="shopware"] .mq-sep { color: var(--border-secondary); }

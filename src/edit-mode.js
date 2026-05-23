@@ -371,7 +371,7 @@
   // ---------------------------------------------------------------------------
   // Storyboard toolbar — theme picker, process-notes, add-slide
   // ---------------------------------------------------------------------------
-  const THEMES = ['phosphor', 'paper', 'neon', 'brand'];
+  const THEMES = ['phosphor', 'paper', 'neon', 'brand', 'shopware'];
 
   function attachStoryboardToolbar(ov) {
     if (ov.querySelector('.sb-toolbar')) return;

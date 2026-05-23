@@ -759,4 +759,34 @@ The split should be roughly: ~40% workhorse components (KineticText, SectionCard
 | **Content (8)** | Statement · QandA · Manifesto · Punchline · Definition · ImageGrid · Spotlight · Marquee |
 | **Bespoke (5)** | TokenStream · OrchestrationGraph · TerminalLog · Whoami · ClosingCard (cookbook in `examples/`) |
 
-**50 anchored components + 5 cookbook bespoke patterns + 14 transitions.** Pick the closest anchor, then customize. Animate. Pace. **Direct the scene.**
+**50 anchored components + 5 cookbook bespoke patterns + 15 transitions.** Pick the closest anchor, then customize. Animate. Pace. **Direct the scene.**
+
+## 10. Speaker notes
+
+Slides take an optional second arg to `Stage.register` for metadata. The most common field is `notes`:
+
+```js
+Stage.register(Stage.KineticText({...}), {
+  notes: 'Pause after the third line. The audience needs the beat.'
+});
+```
+
+Notes show only in the **Presenter View** (`P` opens a second window with current + next + notes + timer). They're editable via the 🎙 button on each storyboard tile.
+
+## 11. Themes (5)
+
+| | |
+|---|---|
+| `phosphor` (default) | dark, JetBrains Mono, phosphor-green |
+| `paper`              | light, Inter + Source Serif 4, navy |
+| `neon`               | dark, magenta + cyan, heavy glow |
+| `brand`              | dark, Inter, blue, schlicht |
+| `shopware`           | light, Inter, brand-blue `#0870ff` — sourced from Shopware's Meteor design tokens |
+
+Switch live from the storyboard, or set `data-theme="..."` on `<html>` and link the matching CSS bundle.
+
+## 12. Keyboard cheat sheet
+
+`→ ← Space` navigate · `1-9` jump to section · `R` replay · `F` fullscreen
+`S` storyboard · `P` presenter window · `E` toggle edit mode · `N` slide-level note
+`?` show hint · `Esc` close overlay

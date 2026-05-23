@@ -1,0 +1,83 @@
+/* Stagecraft — Shopware theme component overrides.
+ *
+ * Cascade: phosphor base components (unscoped) → shopware family overrides
+ * (scoped by :root[data-theme="shopware"]).
+ */
+
+@import url('../phosphor/components.css');
+
+@import url('./components-layout.css');
+@import url('./components-diagram.css');
+@import url('./components-chart.css');
+@import url('./components-data.css');
+@import url('./components-business.css');
+@import url('./components-content.css');
+
+/* -----------------------------------------------------------------------------
+ * Core 6 overrides (KineticText, SectionCard, ActivityList, Compare, Counter,
+ * ShiftArrow) for the Shopware brand
+ * --------------------------------------------------------------------------- */
+
+/* KineticText — Inter, no glow, brand-blue for accent lines */
+:root[data-theme="shopware"] .kinetic .line {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+:root[data-theme="shopware"] .kinetic .line.accent { color: var(--accent); }
+:root[data-theme="shopware"] .kinetic .line.dim { color: var(--dim); }
+:root[data-theme="shopware"] .kinetic .line.amber { color: var(--amber); }
+:root[data-theme="shopware"] .kinetic .line.blue { color: var(--blue); }
+
+/* SectionCard — clean number-rule-title-tag pattern with brand */
+:root[data-theme="shopware"] .sec-num { color: var(--dim); }
+:root[data-theme="shopware"] .sec-line { background: var(--border-primary); }
+:root[data-theme="shopware"] .sec-title {
+  color: var(--fg);
+  font-weight: 600;
+}
+:root[data-theme="shopware"] .sec-title .accent { color: var(--accent); }
+:root[data-theme="shopware"] .sec-tag { color: var(--dim); font-style: italic; }
+
+/* ActivityList */
+:root[data-theme="shopware"] .activity .num {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+:root[data-theme="shopware"] .activity .name { font-weight: 600; }
+:root[data-theme="shopware"] .activity .name .accent { color: var(--accent); }
+:root[data-theme="shopware"] .activity .desc { color: var(--dim); }
+
+/* Compare */
+:root[data-theme="shopware"] .compare-h.old::before { color: var(--dim); }
+:root[data-theme="shopware"] .compare-h.new::before { color: var(--accent); }
+:root[data-theme="shopware"] .compare-list { color: var(--fg); }
+:root[data-theme="shopware"] .compare-list.strikethrough li { color: var(--dim); }
+:root[data-theme="shopware"] .compare-list.accent li::before { color: var(--accent); }
+:root[data-theme="shopware"] .compare-divider {
+  background: linear-gradient(to bottom, transparent, var(--border-primary) 20%, var(--border-primary) 80%, transparent);
+}
+
+/* Counter — large brand number, no glow */
+:root[data-theme="shopware"] .counter-num { color: var(--fg); font-weight: 600; }
+:root[data-theme="shopware"] .counter-num.accent { color: var(--accent); }
+:root[data-theme="shopware"] .counter-num.amber { color: var(--amber); }
+:root[data-theme="shopware"] .counter-num.blue { color: var(--blue); }
+:root[data-theme="shopware"] .counter-num.red { color: var(--red); }
+:root[data-theme="shopware"] .counter-label { color: var(--dim); }
+:root[data-theme="shopware"] .counter-label.accent .dot { background: var(--accent); box-shadow: none; }
+:root[data-theme="shopware"] .counter-label.amber .dot { background: var(--amber); }
+:root[data-theme="shopware"] .counter-label.blue .dot { background: var(--blue); }
+:root[data-theme="shopware"] .counter-label.red .dot { background: var(--red); }
+:root[data-theme="shopware"] .counter-foot { color: var(--dim); }
+:root[data-theme="shopware"] .counter-foot .accent { color: var(--accent); }
+
+/* ShiftArrow */
+:root[data-theme="shopware"] .shift-from {
+  color: var(--dim);
+  text-decoration-color: var(--dim-2);
+  font-weight: 500;
+}
+:root[data-theme="shopware"] .shift-to { color: var(--accent); font-weight: 600; }
+:root[data-theme="shopware"] .shift-arrow { color: var(--accent); }
