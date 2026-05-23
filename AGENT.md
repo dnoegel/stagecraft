@@ -2,18 +2,104 @@
 
 You're not filling a template. You're directing a scene.
 
-If your slide is fewer than three lines, it's probably boring. The components below are anchors, not cages. Take them apart. Add particles, typewriters, glitch transitions, SVG. The Web Animations API is your friend.
+**Reach for custom JS first. Reach for the component catalog when a pattern truly fits.** The 50 components below are sugar around one tiny primitive — they are anchors, never cages. Take them apart. Write raw `render(el)` and `init(el)` functions. Use the Web Animations API. Use SVG. Use Canvas. Animation is the language of your deck — not a checkbox.
 
-## 1. The rule
+If your slide reads like a filled-in form, you wasted the moment.
 
-- A deck is a collection of `.js` files registered via `Stage.register({...})`.
-- Each slide owns its DOM, its animation, its lifecycle.
-- The engine handles navigation, the storyboard, and transitions.
-- If you copy-paste a component call and don't customize it, you've wasted the opportunity.
+## 1. What a slide actually is
 
-## 2. The toolbox (Layer-2 components)
+There is exactly one foundational API:
 
-Components have spare defaults on purpose. Adding animation is opt-in.
+```js
+Stage.register({
+  section, title,
+  render(el)       { /* set up DOM */ },
+  init(el)?        { /* run animation, return cleanup */ },
+  replay(el)?      { /* re-run on R */ },
+  steps?, onStep?  { /* internal step navigation */ }
+});
+```
+
+That's the whole contract. Everything else — every factory you'll see below — is sugar around this primitive.
+
+### A 100% custom slide (the canonical form)
+
+```js
+Stage.register({
+  section: 2,
+  title: '02 · Custom motion',
+  render(el) {
+    el.innerHTML = `
+      <h1 style="font-size: clamp(3rem, 9vw, 8rem); font-weight: 600;
+                 letter-spacing: -0.025em; text-align: center;">
+        Write <span class="accent">whatever HTML</span> you want.
+      </h1>
+      <svg id="field" viewBox="0 0 800 200"
+           style="width:min(800px,80vw); height:200px; margin-top:2rem;"></svg>
+    `;
+  },
+  init(el) {
+    // Whatever JS animation you want. Web Animations API, RAF, intervals.
+    const svg = el.querySelector('#field');
+    const id = setInterval(() => {
+      const x = Math.random() * 800;
+      Stage.emitParticle(svg, x, 200, x + (Math.random() - 0.5) * 200, -20, 2400);
+    }, 220);
+    return () => clearInterval(id);     // cleanup when slide leaves
+  }
+}, {
+  notes: 'Take this as proof: the catalog is optional. The full power lives here.'
+});
+```
+
+That's a complete, finished slide. No factory required. You can do anything CSS, SVG, Canvas, the Web Animations API, and JS can do — which is everything.
+
+### A factory call (sugar for common shapes)
+
+```js
+Stage.register(Stage.KineticText({
+  lines: [
+    { text: 'Sometimes', color: 'fg' },
+    { text: 'a list of lines', color: 'dim' },
+    { text: 'is enough.', color: 'accent' }
+  ]
+}));
+```
+
+Both forms coexist. Both accept a second `meta` arg for speaker notes (`{ notes: '...' }`).
+
+## 2. When to write custom vs. reach for a factory
+
+**Write a fully custom slide when:**
+- The animation IS the message (token streams, particle fields, terminal logs)
+- You're combining motion patterns no factory covers
+- The slide is the centerpiece of a section — it deserves the time
+- You can see the slide in your head and the catalog can't reproduce it
+
+**Extend a factory's `init` when:**
+- The shape fits (a bulleted list, a quote, a stat grid) but you want extra motion on top
+- Get a factory, then call `Object.assign(slide, { init(el) { … } })` or write a wrapping registration
+
+**Reach for the factory plain when:**
+- It is genuinely the right pattern — list, comparison, divider — and motion sugar via `reveal: 'staggered' | 'per-click'` is enough
+
+A healthy deck: roughly **20–30% bespoke from scratch**, **40% factory + customized init**, **30–40% plain factories**. If your bespoke share is 0%, the deck has gone flat. Add a centerpiece.
+
+## 3. The cookbook (start here for bespoke inspiration)
+
+Five real bespoke slides ship in `examples/` — they are not abstract demos, they are slides from a production deck. Read them before writing your own bespoke:
+
+- `examples/token-stream.js` — interleaved word-fill across a split panel with particle emit
+- `examples/orchestration-graph.js` — SVG hex-graph, particles flowing from satellites to center
+- `examples/terminal-log.js` — streaming colored log lines + a "human realization" reveal arc
+- `examples/whoami.js` — terminal prompt cycling through identity strings
+- `examples/closing-card.js` — QR + dedication + underline + presenter names
+
+These show you the bar. Don't copy them — take the *technique* (the interleaved queue, the SVG particle pattern, the streaming type) and apply it to your own content.
+
+## 4. The toolbox (Layer-2 components — reference)
+
+Components have spare defaults on purpose. Adding animation is opt-in. Treat this whole section as a *reference* — scan when you need an anchor, ignore otherwise.
 
 ### Stage.KineticText — multi-line staggered reveal (workhorse, ~50% of slides)
 ```js
@@ -635,7 +721,7 @@ Stage.register(Stage.Marquee({
 }));
 ```
 
-## 3. The toolbox (Layer-1 primitives)
+## 5. The toolbox (Layer-1 primitives)
 
 Available globally as `Stage.<name>`. Use them in any slide's `init()` to build bespoke motion.
 
@@ -649,19 +735,7 @@ Available globally as `Stage.<name>`. Use them in any slide's `init()` to build 
 | `sessionElapsedClock` | `({start}) → {el, stop}` | Live MM:SS clock element. |
 | `assignStageKeys` | `(root)` | Auto-assigns `data-stage-key` for edit-mode pins (engine calls this). |
 
-## 4. The cookbook
-
-When you need motion that the components don't cover, **read these first** — they're the ceiling, not the floor. All in `examples/`:
-
-- `examples/token-stream.js` — interleaved word-fill across a split panel, particle emit.
-- `examples/orchestration-graph.js` — SVG hex-graph with particles flowing from satellites to center.
-- `examples/terminal-log.js` — streaming colored log lines with a human realization reveal.
-- `examples/whoami.js` — terminal prompt cycling through identity strings.
-- `examples/closing-card.js` — QR + dedication + underline.
-
-Don't copy them verbatim. Take the technique (the interleaved queue, the SVG particle pattern, the streaming type) and apply it to your own content.
-
-## 5. The step model
+## 6. The step model
 
 A slide may declare `steps: N`. The engine:
 
@@ -688,7 +762,7 @@ Stage.register({
 
 For trivial cases use `Stage.revealByDataStep`. For anything richer (glow transitions, particle emit, typewriter on each step) write `onStep` yourself — that's the point.
 
-## 6. The transition library
+## 7. The transition library
 
 In `stagecraft.config.js`, the `transition` on each slide controls how it enters:
 
@@ -715,7 +789,7 @@ Built-in (14):
 
 Themes override visuals. Unknown → falls back to `fade`.
 
-## 7. Edit mode (you-might-not-see-it, but: it exists)
+## 8. Edit mode (you-might-not-see-it, but: it exists)
 
 When the human runs `npx stagecraft serve`, they get a browser-based editor that writes back to source. They might leave notes in slides:
 
@@ -732,19 +806,6 @@ When they say "process my notes":
 4. **Delete the `@note:` lines** (absence ⇔ resolved)
 
 Notes don't get a "resolved" state. Deleting them is how you mark them done.
-
-## 8. When to register a custom slide vs. use a component
-
-Use a component when:
-- It's truly a list of bullets / a comparison / a section divider — boring is fine for these.
-- The visual you want is achievable with one component + minor styling.
-
-Write a custom slide (just `Stage.register({section, title, render, init, ...})`) when:
-- The animation is core to the message (token-stream, orchestration graph, terminal log).
-- You're combining motion patterns no component covers.
-- The slide is the centerpiece of a section — it deserves the attention.
-
-The split should be roughly: ~40% workhorse components (KineticText, SectionCard, Quote, BigNumber), ~30% structural (ImageText, Bento, Compare, Pillars, Timeline), ~15% chart/diagram for data-heavy moments (BarChart, Matrix2x2, Pyramid, Funnel, Venn, ProcessFlow, Cycle), ~15% bespoke. If the bespoke share goes below 10%, the deck has gone flat.
 
 ## 9. The full component catalog at a glance
 

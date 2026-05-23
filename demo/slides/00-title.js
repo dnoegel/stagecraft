@@ -7,8 +7,8 @@ Stage.register(Stage.KineticText({
   lines: [
     { text: 'Stagecraft.',                         color: 'fg' },
     { text: 'Cinematic slides',                    color: 'dim' },
-    { text: 'in a single HTML file.',              color: 'accent', pause: 500 }
+    { text: 'with no build step.',                 color: 'accent', pause: 500 }
   ]
 }), {
-  notes: 'Open with the title slide. Pause briefly on each line so the audience reads them as you say them. The accent line lands the thesis: bring back the cinema, in a single static file.'
+  notes: 'Open with the title slide. Pause briefly on each line so the audience reads them as you say them. The accent line lands the thesis: bring back the cinema, no toolchain required.'
 });

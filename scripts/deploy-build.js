@@ -51,7 +51,7 @@ fs.writeFileSync(path.join(OUT, 'index.html'), `<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Stagecraft — Cinematic, agent-authored presentations</title>
-  <meta name="description" content="Cinematic, agent-authored presentations in a single HTML file. 50 components, 15 transitions, 5 themes. MIT.">
+  <meta name="description" content="Cinematic, agent-authored presentations. No build step. 50 components, 15 transitions, 5 themes. MIT.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

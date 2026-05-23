@@ -5,7 +5,7 @@
 
 ## 1. What Stagecraft is
 
-A small JavaScript library for building **cinematic, agent-authored presentations** in a single HTML file. Not a template-filler — a drawing board with strong anchors.
+A small JavaScript library for building **cinematic, agent-authored presentations** with no build step. Not a template-filler — a drawing board with strong anchors.
 
 The thesis: when an LLM writes your slides, the friction is not "I don't know HTML". The friction is that generic component libraries produce generic-looking decks. Stagecraft optimizes for the opposite axis — make it cheap to produce **bespoke, animated slides**, and make the agent's first instinct be "what would make this slide feel alive" instead of "which component matches this content".
 
