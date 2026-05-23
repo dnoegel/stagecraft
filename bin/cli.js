@@ -21,18 +21,29 @@ function run(script) {
 }
 
 switch (cmd) {
-  case 'init':  run('init.js'); break;
-  case 'serve': run('serve.js'); break;
+  case 'init':   run('init.js'); break;
+  case 'serve':  run('serve.js'); break;
+  case 'export':
+    if (rest[0] !== 'pdf') {
+      console.error('Only `export pdf` is supported.');
+      process.exit(1);
+    }
+    rest.shift();
+    run('export.js');
+    break;
   case '--help':
   case '-h':
   case undefined:
     console.log(`Stagecraft — cinematic, agent-authored presentations.
 
 Usage:
-  stagecraft init             scaffold a new project in the current dir
-  stagecraft serve [--port N] [--root DIR]  start dev server with edit mode
+  stagecraft init                                       scaffold a new project
+  stagecraft serve [--port N] [--root DIR]              dev server (edit mode)
+  stagecraft export pdf [--out deck.pdf] [--root DIR]   render deck to PDF
+                                                        (needs playwright + pdf-lib)
 
-Without the dev server, open index.html in a browser to present.`);
+Without the dev server, open index.html in a browser to present.
+Press P during a presentation to open the presenter view in a second window.`);
     break;
   default:
     console.error(`Unknown command: ${cmd}`);

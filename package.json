@@ -22,7 +22,10 @@
     "init": "node bin/init.js",
     "demo": "node bin/serve.js --root demo",
     "verify": "node scripts/verify.js",
-    "build": "node scripts/bundle.js"
+    "build": "node scripts/bundle.js",
+    "test:visual": "node tests/visual/run.js",
+    "test:visual:update": "node tests/visual/run.js --update-baseline",
+    "export": "node bin/export.js"
   },
   "dependencies": {
     "@babel/generator": "^7.24.0",

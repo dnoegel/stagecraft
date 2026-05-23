@@ -87,6 +87,17 @@
       attachTransitionConnectors(ov);
       attachStoryboardToolbar(ov);
       attachAddSlideTile(ov);
+    },
+
+    // Called by engine after a slide renders + init. Fetches the file's
+    // @note[stage-key=...] pin comments and renders small markers.
+    onSlideRendered(slide, idx, el) {
+      const file = Stage._manifestSlides?.[idx]?.src;
+      if (!file) return;
+      apiPost('/api/notes/element', { file }).then(r => {
+        if (!r.ok || !r.pins?.length) return;
+        renderPinMarkers(el, r.pins);
+      }).catch(() => { /* offline, no pins */ });
     }
   };
 
@@ -318,6 +329,28 @@
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); save(); }
       else if (e.key === 'Escape') { close(); }
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pin markers — render small yellow dots on elements that have @note pins
+  // ---------------------------------------------------------------------------
+  function renderPinMarkers(slideEl, pins) {
+    // Clear any prior markers from a previous render
+    slideEl.querySelectorAll('.pin-marker').forEach(n => n.remove());
+    pins.forEach(({ stageKey, text }) => {
+      const target = slideEl.querySelector(`[data-stage-key="${escapeAttr(stageKey)}"]`);
+      if (!target) return;
+      const marker = document.createElement('div');
+      marker.className = 'pin-marker edit-affordance';
+      marker.title = text;
+      marker.textContent = '●';
+      target.style.position = target.style.position || 'relative';
+      target.appendChild(marker);
+    });
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/"/g, '\\"');
   }
 
   // ---------------------------------------------------------------------------
@@ -1014,6 +1047,27 @@ The user has been working in the browser-based edit mode and left these notes fo
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         margin-bottom: 0.5rem;
+      }
+
+      /* Pin marker on an annotated element in present mode */
+      .pin-marker {
+        position: absolute;
+        top: -8px; right: -8px;
+        width: 16px; height: 16px;
+        background: var(--amber, #FFB454);
+        color: #000;
+        font-size: 10px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 50%;
+        z-index: 50;
+        cursor: help;
+        animation: pin-pulse 2.4s ease-in-out infinite;
+        box-shadow: 0 0 8px rgba(255, 180, 84, 0.6);
+      }
+      @keyframes pin-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.18); }
       }
 
       /* Connector line + icon between adjacent storyboard tiles */

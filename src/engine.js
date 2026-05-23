@@ -387,6 +387,10 @@
           try { slide.onStep(el, 0); } catch (e) { console.error('onStep error', e); }
         }
       } catch (e) { console.error('init error', e); }
+      // Let edit-mode decorate the freshly rendered slide (pin markers, etc.)
+      if (editMode && Stage._editUI?.onSlideRendered) {
+        try { Stage._editUI.onSlideRendered(slide, idx, el); } catch (e) { /* ignore */ }
+      }
     }, 80);
 
     if (welcome && !welcome.classList.contains('hidden')) {

@@ -15,12 +15,28 @@
   const Stage = root.Stage = root.Stage || {};
 
   // ---------------------------------------------------------------------------
+  // prefersReducedMotion()
+  // Whether the OS user has requested reduced motion. JS animations
+  // (typewriter, count-up, particle emit, stagger, etc.) should consult
+  // this and shortcut to the final state.
+  // ---------------------------------------------------------------------------
+  Stage.prefersReducedMotion = function () {
+    return typeof matchMedia !== 'undefined' &&
+      matchMedia('(prefers-reduced-motion: reduce)').matches;
+  };
+
+  // ---------------------------------------------------------------------------
   // staggerIn(nodes, step, initial)
   // Fade-in nodes one after another by adding `.in` class. Pairs with
   // `.stagger > * { opacity: 0; transform: translateY(12px); transition: ... }`
   // and `.stagger > *.in { opacity: 1; transform: translateY(0); }` in theme CSS.
+  // Reduced motion: snap all in at once.
   // ---------------------------------------------------------------------------
   Stage.staggerIn = function (nodes, step = 200, initial = 100) {
+    if (Stage.prefersReducedMotion()) {
+      nodes.forEach(n => n.classList.add('in'));
+      return () => {};
+    }
     const timers = [];
     nodes.forEach((n, i) => {
       timers.push(setTimeout(() => n.classList.add('in'), initial + i * step));
@@ -33,6 +49,10 @@
   // SVG particle traveling between two points with smooth-step easing.
   // ---------------------------------------------------------------------------
   Stage.emitParticle = function (parent, x1, y1, x2, y2, duration = 800) {
+    if (Stage.prefersReducedMotion()) {
+      // Skip the particle entirely in reduced-motion mode.
+      return () => {};
+    }
     const NS = 'http://www.w3.org/2000/svg';
     const c = document.createElementNS(NS, 'circle');
     c.setAttribute('class', 'particle');
@@ -63,6 +83,11 @@
   // opts: { speed: ms per char, jitter: ms random extra, onDone: fn }
   // ---------------------------------------------------------------------------
   Stage.typewriter = function (el, text, opts = {}) {
+    if (Stage.prefersReducedMotion()) {
+      el.textContent = text;
+      opts.onDone?.();
+      return () => {};
+    }
     const speed = opts.speed ?? 50;
     const jitter = opts.jitter ?? 30;
     el.textContent = '';
@@ -535,6 +560,10 @@
           try { slide.onStep(el, 0); } catch (e) { console.error('onStep error', e); }
         }
       } catch (e) { console.error('init error', e); }
+      // Let edit-mode decorate the freshly rendered slide (pin markers, etc.)
+      if (editMode && Stage._editUI?.onSlideRendered) {
+        try { Stage._editUI.onSlideRendered(slide, idx, el); } catch (e) { /* ignore */ }
+      }
     }, 80);
 
     if (welcome && !welcome.classList.contains('hidden')) {
@@ -6384,6 +6413,17 @@
       attachTransitionConnectors(ov);
       attachStoryboardToolbar(ov);
       attachAddSlideTile(ov);
+    },
+
+    // Called by engine after a slide renders + init. Fetches the file's
+    // @note[stage-key=...] pin comments and renders small markers.
+    onSlideRendered(slide, idx, el) {
+      const file = Stage._manifestSlides?.[idx]?.src;
+      if (!file) return;
+      apiPost('/api/notes/element', { file }).then(r => {
+        if (!r.ok || !r.pins?.length) return;
+        renderPinMarkers(el, r.pins);
+      }).catch(() => { /* offline, no pins */ });
     }
   };
 
@@ -6615,6 +6655,28 @@
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); save(); }
       else if (e.key === 'Escape') { close(); }
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pin markers — render small yellow dots on elements that have @note pins
+  // ---------------------------------------------------------------------------
+  function renderPinMarkers(slideEl, pins) {
+    // Clear any prior markers from a previous render
+    slideEl.querySelectorAll('.pin-marker').forEach(n => n.remove());
+    pins.forEach(({ stageKey, text }) => {
+      const target = slideEl.querySelector(`[data-stage-key="${escapeAttr(stageKey)}"]`);
+      if (!target) return;
+      const marker = document.createElement('div');
+      marker.className = 'pin-marker edit-affordance';
+      marker.title = text;
+      marker.textContent = '●';
+      target.style.position = target.style.position || 'relative';
+      target.appendChild(marker);
+    });
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/"/g, '\\"');
   }
 
   // ---------------------------------------------------------------------------
@@ -7311,6 +7373,27 @@ The user has been working in the browser-based edit mode and left these notes fo
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         margin-bottom: 0.5rem;
+      }
+
+      /* Pin marker on an annotated element in present mode */
+      .pin-marker {
+        position: absolute;
+        top: -8px; right: -8px;
+        width: 16px; height: 16px;
+        background: var(--amber, #FFB454);
+        color: #000;
+        font-size: 10px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 50%;
+        z-index: 50;
+        cursor: help;
+        animation: pin-pulse 2.4s ease-in-out infinite;
+        box-shadow: 0 0 8px rgba(255, 180, 84, 0.6);
+      }
+      @keyframes pin-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.18); }
       }
 
       /* Connector line + icon between adjacent storyboard tiles */

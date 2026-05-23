@@ -13,12 +13,28 @@
   const Stage = root.Stage = root.Stage || {};
 
   // ---------------------------------------------------------------------------
+  // prefersReducedMotion()
+  // Whether the OS user has requested reduced motion. JS animations
+  // (typewriter, count-up, particle emit, stagger, etc.) should consult
+  // this and shortcut to the final state.
+  // ---------------------------------------------------------------------------
+  Stage.prefersReducedMotion = function () {
+    return typeof matchMedia !== 'undefined' &&
+      matchMedia('(prefers-reduced-motion: reduce)').matches;
+  };
+
+  // ---------------------------------------------------------------------------
   // staggerIn(nodes, step, initial)
   // Fade-in nodes one after another by adding `.in` class. Pairs with
   // `.stagger > * { opacity: 0; transform: translateY(12px); transition: ... }`
   // and `.stagger > *.in { opacity: 1; transform: translateY(0); }` in theme CSS.
+  // Reduced motion: snap all in at once.
   // ---------------------------------------------------------------------------
   Stage.staggerIn = function (nodes, step = 200, initial = 100) {
+    if (Stage.prefersReducedMotion()) {
+      nodes.forEach(n => n.classList.add('in'));
+      return () => {};
+    }
     const timers = [];
     nodes.forEach((n, i) => {
       timers.push(setTimeout(() => n.classList.add('in'), initial + i * step));
@@ -31,6 +47,10 @@
   // SVG particle traveling between two points with smooth-step easing.
   // ---------------------------------------------------------------------------
   Stage.emitParticle = function (parent, x1, y1, x2, y2, duration = 800) {
+    if (Stage.prefersReducedMotion()) {
+      // Skip the particle entirely in reduced-motion mode.
+      return () => {};
+    }
     const NS = 'http://www.w3.org/2000/svg';
     const c = document.createElementNS(NS, 'circle');
     c.setAttribute('class', 'particle');
@@ -61,6 +81,11 @@
   // opts: { speed: ms per char, jitter: ms random extra, onDone: fn }
   // ---------------------------------------------------------------------------
   Stage.typewriter = function (el, text, opts = {}) {
+    if (Stage.prefersReducedMotion()) {
+      el.textContent = text;
+      opts.onDone?.();
+      return () => {};
+    }
     const speed = opts.speed ?? 50;
     const jitter = opts.jitter ?? 30;
     el.textContent = '';
