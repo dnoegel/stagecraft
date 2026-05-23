@@ -1,0 +1,70 @@
+@import url('../phosphor/components-chart.css');
+
+/* =============================================================================
+ * Neon — chart components
+ * Bars and progress fills glow magenta. Process flow arrows pulse cyan.
+ * Quadrant active states use stronger magenta inset glow.
+ * Bars stay readable: explicit dark track + bright fill.
+ * ===========================================================================*/
+
+/* ---------- Matrix2x2 ---------- */
+:root[data-theme="neon"] .matrix2x2 .quadrant.active {
+  box-shadow:
+    inset 0 0 0 1px var(--q-color, var(--accent)),
+    inset 0 0 40px -10px color-mix(in srgb, var(--q-color, var(--accent)) 50%, transparent);
+}
+:root[data-theme="neon"] .matrix2x2 .quadrant.active .q-label {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--q-color, var(--accent)) 55%, transparent);
+}
+
+/* ---------- BarChart ---------- */
+:root[data-theme="neon"] .barchart .bar-track {
+  background: color-mix(in srgb, var(--accent) 6%, var(--dim-2));
+}
+:root[data-theme="neon"] .barchart .bar-fill {
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--bar-color) 70%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--bar-color) 30%, transparent);
+}
+:root[data-theme="neon"] .barchart .bar-value {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--bar-color) 50%, transparent);
+}
+
+/* ---------- Progress ---------- */
+:root[data-theme="neon"] .progress-track {
+  background: color-mix(in srgb, var(--accent) 6%, var(--dim-2));
+}
+:root[data-theme="neon"] .progress-fill {
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--prog-color) 75%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--prog-color) 30%, transparent);
+}
+:root[data-theme="neon"] .progress-value {
+  text-shadow: 0 0 8px color-mix(in srgb, var(--prog-color) 50%, transparent);
+}
+
+/* ---------- ProcessFlow ---------- */
+:root[data-theme="neon"] .processflow .pf-step.accent {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0 28px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .processflow .pf-step.blue {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--blue) 40%, transparent),
+    0 0 28px -10px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+:root[data-theme="neon"] .processflow .pf-icon {
+  text-shadow: 0 0 14px color-mix(in srgb, var(--pf-color) 60%, transparent);
+}
+:root[data-theme="neon"] .processflow .pf-arrow {
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* ---------- Venn ---------- */
+:root[data-theme="neon"] .venn .v-circle {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, currentColor 45%, transparent));
+}
+:root[data-theme="neon"] .venn .v-label.set .name {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--vl-color, var(--accent)) 55%, transparent);
+}

@@ -10,6 +10,7 @@
   "files": [
     "src",
     "themes",
+    "dist",
     "examples",
     "bin",
     "starter",
@@ -20,7 +21,8 @@
     "serve": "node bin/serve.js",
     "init": "node bin/init.js",
     "demo": "node bin/serve.js --root demo",
-    "verify": "node scripts/verify.js"
+    "verify": "node scripts/verify.js",
+    "build": "node scripts/bundle.js"
   },
   "dependencies": {
     "@babel/generator": "^7.24.0",

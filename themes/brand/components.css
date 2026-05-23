@@ -1,1 +1,46 @@
+/* Stagecraft — Brand theme: Layer-2 component overrides.
+ *
+ * We import the phosphor root component file for the small set of
+ * "core" components (KineticText, SectionCard, ActivityList, Compare,
+ * Counter, ShiftArrow) — they're already restrained enough — and then
+ * layer per-family Brand overrides on top. Each per-family file imports
+ * its phosphor counterpart, so the cascade is:
+ *
+ *   phosphor base -> phosphor family -> brand family override
+ */
+
 @import url('../phosphor/components.css');
+
+/* Family overrides */
+@import url('./components-layout.css');
+@import url('./components-diagram.css');
+@import url('./components-chart.css');
+@import url('./components-data.css');
+@import url('./components-business.css');
+@import url('./components-content.css');
+
+/* -------------------------------------------------------------------------
+ * Brand polish on the "core 6" that live in phosphor/components.css
+ * ----------------------------------------------------------------------- */
+
+/* SectionCard — tighter dot accents, weightier title */
+:root[data-theme="brand"] .sec-title { font-weight: 600; }
+:root[data-theme="brand"] .sec-num   { letter-spacing: 0.25em; }
+
+/* ActivityList */
+:root[data-theme="brand"] .activity .num  { letter-spacing: 0.18em; }
+:root[data-theme="brand"] .activity .name { font-weight: 600; }
+
+/* Counter — accent number gets blue (clean, no glow because --accent-glow=transparent) */
+:root[data-theme="brand"] .counter-num { font-weight: 600; }
+
+/* ShiftArrow */
+:root[data-theme="brand"] .shift-from,
+:root[data-theme="brand"] .shift-to { font-weight: 500; }
+
+/* Compare — corporate caret style on the new column */
+:root[data-theme="brand"] .compare-h { letter-spacing: 0.18em; }
+:root[data-theme="brand"] .compare-h.new::before { color: var(--accent); }
+
+/* KineticText — keep the soft fade, just slightly heavier accent weight */
+:root[data-theme="brand"] .kinetic .line.accent { font-weight: 500; }

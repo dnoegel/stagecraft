@@ -1,0 +1,115 @@
+/* Stagecraft — Brand theme: diagram component overrides.
+ * Pillars · Timeline · Pyramid · Cycle · Funnel */
+
+@import url('../phosphor/components-diagram.css');
+
+/* Brand-local diag vars — replace the phosphor scoped ones. */
+:root[data-theme="brand"] {
+  --diag-card-bg: var(--bg-elevated);
+  --diag-card-border: var(--dim-2);
+}
+
+/* ===========================================================================
+ * Pillars — tighter spacing, no pulse-on-hover glow drift
+ * ===========================================================================*/
+:root[data-theme="brand"] .pillars-wrap { gap: clamp(1rem, 2vw, 1.8rem); }
+:root[data-theme="brand"] .pillar {
+  padding: clamp(0.8rem, 1.4vw, 1.2rem) clamp(0.6rem, 1vw, 0.9rem);
+  gap: clamp(0.5rem, 1vw, 0.8rem);
+}
+:root[data-theme="brand"] .pillar-icon {
+  color: var(--accent);
+  font-size: 2.4rem;
+  /* Drop the pulse animation completely — boardroom mode. */
+}
+:root[data-theme="brand"] .pillar:hover .pillar-icon {
+  animation: none;
+}
+:root[data-theme="brand"] .pillar-heading {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+}
+:root[data-theme="brand"] .pillars-intro {
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+}
+
+/* ===========================================================================
+ * Timeline — clean line, no soft halo on active dot
+ * ===========================================================================*/
+:root[data-theme="brand"] .tl-event.active .tl-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;       /* drop the 4px halo ring */
+}
+:root[data-theme="brand"] .tl-event.tc-accent.active .tl-dot,
+:root[data-theme="brand"] .tl-event.tc-blue.active .tl-dot,
+:root[data-theme="brand"] .tl-event.tc-amber.active .tl-dot,
+:root[data-theme="brand"] .tl-event.tc-red.active .tl-dot {
+  box-shadow: none;
+}
+:root[data-theme="brand"] .tl-heading {
+  font-weight: 600;
+}
+
+/* ===========================================================================
+ * Pyramid — squared layers, no clip-path trapezoid (schlicht)
+ * ===========================================================================*/
+:root[data-theme="brand"] .pyr-shape {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+  clip-path: none;
+  padding: clamp(1rem, 1.8vw, 1.4rem) clamp(1.4rem, 2.5vw, 2rem);
+}
+:root[data-theme="brand"] .pyramid--down .pyr-shape { clip-path: none; }
+:root[data-theme="brand"] .pyr-label { font-weight: 600; }
+:root[data-theme="brand"] .pyr-layer.pyc-accent .pyr-shape {
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent);
+}
+:root[data-theme="brand"] .pyr-layer.pyc-blue   .pyr-shape { background: var(--bg-elevated); border-left: 2px solid var(--blue); }
+:root[data-theme="brand"] .pyr-layer.pyc-amber  .pyr-shape { background: var(--bg-elevated); border-left: 2px solid var(--amber); }
+:root[data-theme="brand"] .pyr-layer.pyc-red    .pyr-shape { background: var(--bg-elevated); border-left: 2px solid var(--red); }
+
+/* ===========================================================================
+ * Cycle — grey ring, blue arcs/arrows kept clean
+ * ===========================================================================*/
+:root[data-theme="brand"] .cyc-ring {
+  stroke: var(--dim-2);
+  stroke-dasharray: none;
+  opacity: 1;
+}
+:root[data-theme="brand"] .cyc-arc {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+:root[data-theme="brand"] .cyc-arrow {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+:root[data-theme="brand"] .cyc-item {
+  background: var(--bg-elevated);
+  border-radius: 0;
+}
+:root[data-theme="brand"] .cyc-label { font-weight: 600; }
+
+/* ===========================================================================
+ * Funnel — flat plates with subtle accent left border
+ * ===========================================================================*/
+:root[data-theme="brand"] .fn-shape {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--dim-2);
+  border-bottom: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .fn-label { font-weight: 600; letter-spacing: 0.06em; }
+:root[data-theme="brand"] .fn-value { font-weight: 600; }
+:root[data-theme="brand"] .fn-stage.fnc-accent .fn-shape {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+}
+:root[data-theme="brand"] .fn-stage.fnc-blue   .fn-shape { background: var(--bg-elevated); border-color: var(--blue); }
+:root[data-theme="brand"] .fn-stage.fnc-amber  .fn-shape { background: var(--bg-elevated); border-color: var(--amber); }
+:root[data-theme="brand"] .fn-stage.fnc-red    .fn-shape { background: var(--bg-elevated); border-color: var(--red); }

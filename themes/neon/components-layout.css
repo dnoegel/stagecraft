@@ -1,0 +1,87 @@
+@import url('../phosphor/components-layout.css');
+
+/* =============================================================================
+ * Neon — layout components
+ * Magenta accents glow. Cards get magenta-tinted borders against dark bg.
+ * Body text stays glow-free for readability.
+ * ===========================================================================*/
+
+:root[data-theme="neon"] {
+  --neon-card-border: color-mix(in srgb, var(--accent) 30%, var(--dim-2));
+  --neon-card-border-blue: color-mix(in srgb, var(--blue) 30%, var(--dim-2));
+}
+
+/* ---------- ImageText ---------- */
+:root[data-theme="neon"] .it-img-frame {
+  box-shadow:
+    inset 0 0 0 1px var(--neon-card-border),
+    0 0 0 1px var(--neon-card-border),
+    0 30px 60px -20px rgba(0,0,0,0.8),
+    0 0 80px -10px var(--accent-glow);
+}
+
+/* ---------- FullImage ---------- */
+:root[data-theme="neon"] .fi-headline {
+  text-shadow:
+    0 2px 30px rgba(0,0,0,0.8),
+    0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ---------- Quote ---------- */
+:root[data-theme="neon"] .q-mark {
+  text-shadow:
+    0 0 28px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+:root[data-theme="neon"] .q-text { /* body text stays clean */ }
+
+/* ---------- BigNumber ---------- */
+:root[data-theme="neon"] .bn-num {
+  text-shadow:
+    0 0 24px var(--accent-glow),
+    0 0 70px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ---------- Stats ---------- */
+:root[data-theme="neon"] .stat {
+  border-color: var(--neon-card-border);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 4%, transparent), transparent 60%),
+    var(--bg-elevated);
+}
+:root[data-theme="neon"] .stat--accent::before {
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+:root[data-theme="neon"] .stat--blue { border-color: var(--neon-card-border-blue); }
+:root[data-theme="neon"] .stat--blue::before {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--blue) 60%, transparent);
+}
+:root[data-theme="neon"] .stat--accent .stat-num {
+  text-shadow: 0 0 28px var(--accent-glow);
+}
+:root[data-theme="neon"] .stat--blue .stat-num {
+  text-shadow: 0 0 22px color-mix(in srgb, var(--blue) 60%, transparent);
+}
+
+/* ---------- Bento ---------- */
+:root[data-theme="neon"] .bento-cell {
+  border-color: var(--neon-card-border);
+}
+:root[data-theme="neon"] .bento-cell--accent {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent),
+    0 0 40px -8px var(--accent-glow);
+}
+:root[data-theme="neon"] .bento-cell--accent .bento-heading {
+  text-shadow: 0 0 16px var(--accent-glow);
+}
+:root[data-theme="neon"] .bento-cell--blue {
+  border-color: var(--blue);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--blue) 45%, transparent),
+    0 0 36px -8px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+:root[data-theme="neon"] .bento-cell--blue .bento-heading {
+  text-shadow: 0 0 14px color-mix(in srgb, var(--blue) 55%, transparent);
+}

@@ -1,0 +1,89 @@
+/* Stagecraft — Paper theme: diagram component overrides. */
+@import url('../phosphor/components-diagram.css');
+
+/* Local card vars for paper look */
+:root[data-theme="paper"] {
+  --diag-card-bg: #FFFFFF;
+  --diag-card-border: var(--dim-2);
+}
+
+/* ===========================================================================
+ * Pillars
+ * ===========================================================================*/
+:root[data-theme="paper"] .pillar:hover .pillar-icon {
+  /* drop drop-shadow glow */
+  animation: none;
+}
+:root[data-theme="paper"] .pillar-icon {
+  color: var(--accent);
+}
+:root[data-theme="paper"] .pillars-intro {
+  font-family: var(--mono); /* serif emphasis */
+}
+
+/* ===========================================================================
+ * Timeline
+ * ===========================================================================*/
+:root[data-theme="paper"] .tl-dot {
+  background: #FFFFFF;
+  border: 1px solid var(--dim);
+}
+:root[data-theme="paper"] .tl-event.active .tl-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+:root[data-theme="paper"] .tl-icon {
+  color: #FFFFFF;
+}
+:root[data-theme="paper"] .tl-event:not(.active) .tl-icon { color: var(--dim); }
+
+/* ===========================================================================
+ * Pyramid
+ * ===========================================================================*/
+:root[data-theme="paper"] .pyr-shape {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .pyr-layer.pyc-accent .pyr-shape {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+:root[data-theme="paper"] .pyr-layer.pyc-blue   .pyr-shape { background: rgba(31, 79, 135, 0.08); border-color: var(--blue); }
+:root[data-theme="paper"] .pyr-layer.pyc-amber  .pyr-shape { background: rgba(181, 127, 44, 0.10); border-color: var(--amber); }
+:root[data-theme="paper"] .pyr-layer.pyc-red    .pyr-shape { background: rgba(155, 44, 44, 0.08); border-color: var(--red); }
+
+/* ===========================================================================
+ * Cycle
+ * ===========================================================================*/
+:root[data-theme="paper"] .cyc-ring {
+  stroke: var(--dim-2);
+  opacity: 0.8;
+}
+:root[data-theme="paper"] .cyc-arc {
+  stroke: var(--accent);
+  opacity: 0;
+}
+:root[data-theme="paper"] .cyc-arc.in { opacity: 0.8; }
+:root[data-theme="paper"] .cyc-item {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cyc-item.cyc-accent { border-color: var(--accent); }
+:root[data-theme="paper"] .cyc-item.cyc-blue   { border-color: var(--blue); }
+:root[data-theme="paper"] .cyc-item.cyc-amber  { border-color: var(--amber); }
+:root[data-theme="paper"] .cyc-item.cyc-red    { border-color: var(--red); }
+
+/* ===========================================================================
+ * Funnel
+ * ===========================================================================*/
+:root[data-theme="paper"] .fn-shape {
+  background: #FFFFFF;
+  border-top: 1px solid var(--dim-2);
+  border-bottom: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .fn-stage.fnc-accent .fn-shape { background: var(--accent-soft); border-color: var(--accent); }
+:root[data-theme="paper"] .fn-stage.fnc-blue   .fn-shape { background: rgba(31, 79, 135, 0.08); border-color: var(--blue); }
+:root[data-theme="paper"] .fn-stage.fnc-amber  .fn-shape { background: rgba(181, 127, 44, 0.10); border-color: var(--amber); }
+:root[data-theme="paper"] .fn-stage.fnc-red    .fn-shape { background: rgba(155, 44, 44, 0.08); border-color: var(--red); }
+:root[data-theme="paper"] .fn-stage.fnc-dim    .fn-shape { background: rgba(0,0,0,0.02); border-color: var(--dim-2); }

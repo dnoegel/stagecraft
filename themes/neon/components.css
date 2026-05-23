@@ -1,12 +1,87 @@
+/* Pull in phosphor's core component CSS (KineticText, SectionCard, etc.) */
+/* Note: phosphor's components.css also @imports the 6 family files, but the
+   neon family overrides below come AFTER, so they win the cascade. */
 @import url('../phosphor/components.css');
 
-/* Neon glow on key elements */
+/* Neon — Layer-2 component overrides (per-family).
+   Each file @imports its phosphor counterpart, but browsers dedupe identical
+   @import URLs, so families are not loaded twice. */
+@import url('./components-layout.css');
+@import url('./components-diagram.css');
+@import url('./components-chart.css');
+@import url('./components-data.css');
+@import url('./components-business.css');
+@import url('./components-content.css');
+
+/* -----------------------------------------------------------------------------
+ * Neon glow on core (KineticText / SectionCard / Counter / ShiftArrow / Compare)
+ * Body text stays glow-free; only accent lines, numbers, and bullets light up.
+ * --------------------------------------------------------------------------- */
+
+/* KineticText */
 :root[data-theme="neon"] .kinetic .line.accent {
+  text-shadow:
+    0 0 14px var(--accent-glow),
+    0 0 36px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .kinetic .line.blue {
+  text-shadow:
+    0 0 14px color-mix(in srgb, var(--blue) 65%, transparent),
+    0 0 32px color-mix(in srgb, var(--blue) 28%, transparent);
+}
+:root[data-theme="neon"] .kinetic .line.amber {
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--amber) 50%, transparent);
+}
+
+/* SectionCard */
+:root[data-theme="neon"] .sec-title .accent {
+  text-shadow:
+    0 0 22px var(--accent-glow),
+    0 0 55px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .sec-line {
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Counter */
+:root[data-theme="neon"] .counter-num.accent {
+  text-shadow:
+    0 0 28px var(--accent-glow),
+    0 0 70px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .counter-num.blue {
+  text-shadow:
+    0 0 26px color-mix(in srgb, var(--blue) 65%, transparent),
+    0 0 60px color-mix(in srgb, var(--blue) 28%, transparent);
+}
+:root[data-theme="neon"] .counter-label.accent .dot {
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .counter-label.blue .dot {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--blue) 70%, transparent);
+}
+
+/* ShiftArrow */
+:root[data-theme="neon"] .shift-to {
+  text-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 50px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .shift-arrow {
+  text-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* Compare */
+:root[data-theme="neon"] .compare-h.new::before {
   text-shadow: 0 0 12px var(--accent-glow);
 }
-:root[data-theme="neon"] .sec-title .accent {
-  text-shadow: 0 0 16px var(--accent-glow);
+:root[data-theme="neon"] .compare-list.accent li::before {
+  text-shadow: 0 0 10px var(--accent-glow);
 }
-:root[data-theme="neon"] .counter-num.accent {
-  text-shadow: 0 0 24px var(--accent-glow);
+
+/* ActivityList — accent words within names */
+:root[data-theme="neon"] .activity .name .accent {
+  text-shadow: 0 0 14px var(--accent-glow);
 }

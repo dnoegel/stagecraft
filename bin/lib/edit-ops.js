@@ -289,3 +289,117 @@ export async function setManifestTransition(root, idx, transition) {
     else target.properties.push(t.objectProperty(t.identifier('transition'), valueNode));
   });
 }
+
+// ---------------------------------------------------------------------------
+// Theme — update the top-level `theme:` prop on Stage.deck({...})
+// ---------------------------------------------------------------------------
+export async function setManifestTheme(root, theme) {
+  const { path: p, src } = await readManifest(root);
+  const ast = parseFile(src);
+  let updated = false;
+  traverse(ast, {
+    CallExpression(pathNode) {
+      const callee = pathNode.node.callee;
+      if (!t.isMemberExpression(callee)) return;
+      if (!t.isIdentifier(callee.object, { name: 'Stage' })) return;
+      if (!t.isIdentifier(callee.property, { name: 'deck' })) return;
+      const arg = pathNode.node.arguments[0];
+      if (!arg || !t.isObjectExpression(arg)) return;
+      const themeProp = arg.properties.find(pr =>
+        t.isObjectProperty(pr) && t.isIdentifier(pr.key, { name: 'theme' })
+      );
+      const valueNode = t.stringLiteral(String(theme));
+      if (themeProp) themeProp.value = valueNode;
+      else arg.properties.unshift(t.objectProperty(t.identifier('theme'), valueNode));
+      updated = true;
+    }
+  });
+  if (!updated) throw new Error('no Stage.deck({...}) call found');
+  await fs.writeFile(p, regenerate(ast, src), 'utf8');
+}
+
+// ---------------------------------------------------------------------------
+// CRUD: add / remove a slide entry in the manifest
+// ---------------------------------------------------------------------------
+export async function addSlideToManifest(root, atIdx, srcPath, transition) {
+  const { path: p, src } = await readManifest(root);
+  await rewriteManifest(p, src, arr => {
+    const props = [t.objectProperty(t.identifier('src'), t.stringLiteral(String(srcPath)))];
+    if (transition) {
+      props.push(t.objectProperty(t.identifier('transition'), t.stringLiteral(String(transition))));
+    }
+    const newEntry = t.objectExpression(props);
+    const insertAt = typeof atIdx === 'number'
+      ? Math.max(0, Math.min(arr.elements.length, atIdx))
+      : arr.elements.length;
+    arr.elements.splice(insertAt, 0, newEntry);
+  });
+}
+
+export async function removeSlideFromManifest(root, idx) {
+  const { path: p, src } = await readManifest(root);
+  await rewriteManifest(p, src, arr => {
+    if (idx < 0 || idx >= arr.elements.length) {
+      throw new Error('slide index out of range: ' + idx);
+    }
+    arr.elements.splice(idx, 1);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Speaker notes — update the second arg of Stage.register(slide, { notes: ... })
+// Creates the meta arg if missing.
+// ---------------------------------------------------------------------------
+export async function writeSpeakerNotes(root, file, notes) {
+  const p = resolveFile(root, file);
+  const src = await fs.readFile(p, 'utf8');
+  const ast = parseFile(src);
+  let updated = false;
+
+  traverse(ast, {
+    CallExpression(pathNode) {
+      if (updated) return;
+      const callee = pathNode.node.callee;
+      if (!t.isMemberExpression(callee)) return;
+      if (!t.isIdentifier(callee.object, { name: 'Stage' })) return;
+      if (!t.isIdentifier(callee.property, { name: 'register' })) return;
+
+      let meta = pathNode.node.arguments[1];
+      const value = t.stringLiteral(String(notes));
+      if (!meta) {
+        meta = t.objectExpression([t.objectProperty(t.identifier('notes'), value)]);
+        pathNode.node.arguments.push(meta);
+      } else if (t.isObjectExpression(meta)) {
+        const existing = meta.properties.find(pr =>
+          t.isObjectProperty(pr) && t.isIdentifier(pr.key, { name: 'notes' })
+        );
+        if (existing) existing.value = value;
+        else meta.properties.push(t.objectProperty(t.identifier('notes'), value));
+      } else {
+        // The 2nd arg is something we don't understand — refuse to mutate.
+        throw new Error('Stage.register 2nd arg is not an object literal');
+      }
+      updated = true;
+    }
+  });
+
+  if (!updated) throw new Error('no Stage.register(...) call found in ' + file);
+  await fs.writeFile(p, regenerate(ast, src), 'utf8');
+}
+
+// ---------------------------------------------------------------------------
+// Element-pin notes — scan a slide file for `@note[stage-key="..."]:` comments
+// and return them as { stageKey, text } objects. Used by present-mode to
+// render pin markers on the slide.
+// ---------------------------------------------------------------------------
+export async function readElementNotes(root, file) {
+  const p = resolveFile(root, file);
+  const src = await fs.readFile(p, 'utf8');
+  const re = /^\s*\/\/\s*@note\[stage-key="([^"]+)"\]:\s*(.*)$/gm;
+  const out = [];
+  let m;
+  while ((m = re.exec(src)) !== null) {
+    out.push({ stageKey: m[1], text: m[2].trim() });
+  }
+  return out;
+}

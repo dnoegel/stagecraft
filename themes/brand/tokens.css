@@ -6,8 +6,11 @@
   --dim: #7D8590;
   --dim-2: #21262D;
   --accent: #189EFF;          /* Shopware-ish blue */
-  --accent-soft: rgba(24, 158, 255, 0.12);
-  --accent-glow: rgba(24, 158, 255, 0.4);
+  --accent-soft: rgba(24, 158, 255, 0.10);
+  /* Brand is glow-free. Keeping the var defined as transparent neutralizes
+     every box-shadow / text-shadow that the phosphor base relies on
+     without us having to rewrite every selector. */
+  --accent-glow: transparent;
   --blue: #189EFF;
   --amber: #DBAB0A;
   --red: #F85149;

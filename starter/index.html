@@ -9,10 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/tokens.css">
-  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/base.css">
-  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/components.css">
-  <link rel="stylesheet" href="node_modules/stagecraft/themes/phosphor/transitions.css">
+  <link rel="stylesheet" href="node_modules/stagecraft/dist/themes/phosphor.bundle.css">
 </head>
 <body>
 
@@ -34,67 +31,8 @@
     <div class="ui-hint" id="uiHint">→ next · ← prev · S storyboard · F fullscreen · R replay</div>
   </div>
 
-  <!-- Engine + helpers + components -->
-  <script src="node_modules/stagecraft/src/helpers.js"></script>
-  <script src="node_modules/stagecraft/src/engine.js"></script>
-  <script src="node_modules/stagecraft/src/transitions.js"></script>
-  <script src="node_modules/stagecraft/src/components/kinetic-text.js"></script>
-  <script src="node_modules/stagecraft/src/components/section-card.js"></script>
-  <script src="node_modules/stagecraft/src/components/activity-list.js"></script>
-  <script src="node_modules/stagecraft/src/components/compare.js"></script>
-  <script src="node_modules/stagecraft/src/components/counter.js"></script>
-  <script src="node_modules/stagecraft/src/components/shift-arrow.js"></script>
-  <!-- Layout family -->
-  <script src="node_modules/stagecraft/src/components/image-text.js"></script>
-  <script src="node_modules/stagecraft/src/components/full-image.js"></script>
-  <script src="node_modules/stagecraft/src/components/quote.js"></script>
-  <script src="node_modules/stagecraft/src/components/big-number.js"></script>
-  <script src="node_modules/stagecraft/src/components/stats.js"></script>
-  <script src="node_modules/stagecraft/src/components/bento.js"></script>
-  <!-- Diagram family -->
-  <script src="node_modules/stagecraft/src/components/pillars.js"></script>
-  <script src="node_modules/stagecraft/src/components/timeline.js"></script>
-  <script src="node_modules/stagecraft/src/components/pyramid.js"></script>
-  <script src="node_modules/stagecraft/src/components/cycle.js"></script>
-  <script src="node_modules/stagecraft/src/components/funnel.js"></script>
-  <!-- Chart family -->
-  <script src="node_modules/stagecraft/src/components/matrix2x2.js"></script>
-  <script src="node_modules/stagecraft/src/components/bar-chart.js"></script>
-  <script src="node_modules/stagecraft/src/components/progress.js"></script>
-  <script src="node_modules/stagecraft/src/components/process-flow.js"></script>
-  <script src="node_modules/stagecraft/src/components/venn.js"></script>
-  <!-- Data-viz family -->
-  <script src="node_modules/stagecraft/src/components/kpi.js"></script>
-  <script src="node_modules/stagecraft/src/components/donut-chart.js"></script>
-  <script src="node_modules/stagecraft/src/components/line-chart.js"></script>
-  <script src="node_modules/stagecraft/src/components/gauge.js"></script>
-  <script src="node_modules/stagecraft/src/components/spark-line.js"></script>
-  <script src="node_modules/stagecraft/src/components/heatmap.js"></script>
-  <script src="node_modules/stagecraft/src/components/roadmap.js"></script>
-  <script src="node_modules/stagecraft/src/components/swot.js"></script>
-  <script src="node_modules/stagecraft/src/components/code-block.js"></script>
-  <script src="node_modules/stagecraft/src/components/code-diff.js"></script>
-  <!-- Business family -->
-  <script src="node_modules/stagecraft/src/components/pricing.js"></script>
-  <script src="node_modules/stagecraft/src/components/testimonial.js"></script>
-  <script src="node_modules/stagecraft/src/components/team-grid.js"></script>
-  <script src="node_modules/stagecraft/src/components/agenda.js"></script>
-  <script src="node_modules/stagecraft/src/components/checklist.js"></script>
-  <script src="node_modules/stagecraft/src/components/steps.js"></script>
-  <script src="node_modules/stagecraft/src/components/cta.js"></script>
-  <script src="node_modules/stagecraft/src/components/callout.js"></script>
-  <script src="node_modules/stagecraft/src/components/tip.js"></script>
-  <script src="node_modules/stagecraft/src/components/before-after.js"></script>
-  <!-- Content family -->
-  <script src="node_modules/stagecraft/src/components/statement.js"></script>
-  <script src="node_modules/stagecraft/src/components/qanda.js"></script>
-  <script src="node_modules/stagecraft/src/components/manifesto.js"></script>
-  <script src="node_modules/stagecraft/src/components/punchline.js"></script>
-  <script src="node_modules/stagecraft/src/components/definition.js"></script>
-  <script src="node_modules/stagecraft/src/components/image-grid.js"></script>
-  <script src="node_modules/stagecraft/src/components/spotlight.js"></script>
-  <script src="node_modules/stagecraft/src/components/marquee.js"></script>
-  <script src="node_modules/stagecraft/src/edit-mode.js"></script>
+  <!-- Stagecraft runtime: engine + helpers + transitions + all components + edit-mode -->
+  <script src="node_modules/stagecraft/dist/stagecraft.bundle.js"></script>
 
   <!-- Deck manifest: order + transitions -->
   <script src="stagecraft.config.js"></script>

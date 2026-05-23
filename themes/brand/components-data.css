@@ -1,0 +1,162 @@
+/* Stagecraft — Brand theme: data-viz component overrides.
+ * KPI · DonutChart · LineChart · Gauge · SparkLine · Heatmap ·
+ * Roadmap · SWOT · CodeBlock · CodeDiff
+ *
+ * CodeBlock & CodeDiff intentionally keep --mono. Everything else
+ * gets the Inter body font and loses every kind of glow.
+ */
+
+@import url('../phosphor/components-data.css');
+
+/* ===========================================================================
+ * KPI — flat card, no halo on .in, no text-shadow on the number
+ * ===========================================================================*/
+:root[data-theme="brand"] .kpi.in {
+  border-color: var(--dim-2);
+  box-shadow: none;
+}
+:root[data-theme="brand"] .kpi {
+  border-left: 2px solid var(--accent);
+}
+:root[data-theme="brand"] .kpi-num {
+  font-weight: 600;
+  /* text-shadow already neutralized via --accent-glow */
+}
+:root[data-theme="brand"] .kpi-label,
+:root[data-theme="brand"] .kpi-head {
+  letter-spacing: 0.12em;
+}
+
+/* ===========================================================================
+ * DonutChart — flat legend dots, no arc drop shadow
+ * ===========================================================================*/
+:root[data-theme="brand"] .donut-arc {
+  filter: none;
+}
+:root[data-theme="brand"] .donut-dot {
+  box-shadow: none;
+}
+:root[data-theme="brand"] .donut-legend-row {
+  font-family: var(--body);
+}
+
+/* ===========================================================================
+ * LineChart — no line glow, axis labels in Inter
+ * ===========================================================================*/
+:root[data-theme="brand"] .lc-line {
+  filter: none;
+  stroke-width: 2;
+}
+:root[data-theme="brand"] .lc-grid {
+  stroke: var(--dim-2);
+  stroke-dasharray: none;     /* solid faint grid for a corporate look */
+  opacity: 1;
+}
+:root[data-theme="brand"] .lc-y-label,
+:root[data-theme="brand"] .lc-x-label {
+  font-family: var(--body);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+:root[data-theme="brand"] .lc-dot-leg {
+  box-shadow: none;
+}
+
+/* ===========================================================================
+ * Gauge — flat fill, no drop shadow, numbers in Inter
+ * ===========================================================================*/
+:root[data-theme="brand"] .g-fill {
+  filter: none;
+}
+:root[data-theme="brand"] .g-num {
+  font-weight: 600;
+  text-shadow: none;
+}
+
+/* ===========================================================================
+ * SparkLine — same: flat, no line glow
+ * ===========================================================================*/
+:root[data-theme="brand"] .sparkline {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .sl-num {
+  font-weight: 600;
+  text-shadow: none;
+}
+:root[data-theme="brand"] .sl-line {
+  filter: none;
+}
+
+/* ===========================================================================
+ * Heatmap — grid stays the same; labels in Inter
+ * ===========================================================================*/
+:root[data-theme="brand"] .hm-x-label,
+:root[data-theme="brand"] .hm-y-label {
+  font-family: var(--body);
+  letter-spacing: 0.04em;
+}
+
+/* ===========================================================================
+ * Roadmap — flat bars, drop the inset 3px stripe glow
+ * ===========================================================================*/
+:root[data-theme="brand"] .rm-bar {
+  box-shadow: inset 3px 0 0 var(--rm-bar-color);
+}
+:root[data-theme="brand"] .rm-month {
+  font-family: var(--body);
+  letter-spacing: 0.08em;
+}
+
+/* ===========================================================================
+ * SWOT — flat quadrants, no inset glow
+ * ===========================================================================*/
+:root[data-theme="brand"] .swot-cell.in {
+  background: color-mix(in srgb, var(--swot-color) 4%, var(--bg));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--swot-color) 35%, var(--dim-2));
+}
+:root[data-theme="brand"] .swot-letter {
+  font-weight: 700;
+  text-shadow: none;
+}
+:root[data-theme="brand"] .swot-title {
+  letter-spacing: 0.12em;
+}
+
+/* ===========================================================================
+ * CodeBlock — code stays mono (intentional). Just clean up highlight glow.
+ * ===========================================================================*/
+:root[data-theme="brand"] .codeblock {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .cb-head {
+  font-family: var(--body);
+}
+:root[data-theme="brand"] .cb-file {
+  font-family: var(--body);
+}
+:root[data-theme="brand"] .cb-lang {
+  font-family: var(--body);
+  letter-spacing: 0.12em;
+}
+:root[data-theme="brand"] .cb-line--highlight {
+  background: var(--accent-soft);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* ===========================================================================
+ * CodeDiff — same: mono in the diff body, Inter in chrome
+ * ===========================================================================*/
+:root[data-theme="brand"] .codediff {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .cd-head,
+:root[data-theme="brand"] .cd-file,
+:root[data-theme="brand"] .cd-lang,
+:root[data-theme="brand"] .cd-stats {
+  font-family: var(--body);
+}
+:root[data-theme="brand"] .cd-lang { letter-spacing: 0.12em; }
+/* Keep red/green semantic colors — they're load-bearing for diffs. */

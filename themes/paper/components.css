@@ -1,5 +1,60 @@
-@import url('../phosphor/components.css');
+/* Stagecraft — Paper theme: Layer-2 component styles.
+ * Imports phosphor base layer + paper-specific family sub-files. */
 
-/* Paper-specific overrides */
+@import url('../phosphor/components.css');
+@import url('./components-layout.css');
+@import url('./components-diagram.css');
+@import url('./components-chart.css');
+@import url('./components-data.css');
+@import url('./components-business.css');
+@import url('./components-content.css');
+
+/* --- Generic paper softening of phosphor-base components --- */
+
+/* Pre-label dot: no pulse animation, calm static accent block */
 :root[data-theme="paper"] .pre-label .dot { animation: none; }
+
+/* Storyboard dots: no glow */
 :root[data-theme="paper"] .ui-dots .dot.active { box-shadow: none; }
+
+/* Caret: no blink, no glow */
+:root[data-theme="paper"] .caret { animation: none; background: var(--accent); box-shadow: none; }
+
+/* Storyboard overview header — light backdrop */
+:root[data-theme="paper"] .overview-header {
+  background: rgba(250, 250, 247, 0.92);
+  border-bottom: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .tile {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .tile.current {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+:root[data-theme="paper"] .tile-num {
+  background: rgba(255, 255, 255, 0.85);
+  font-family: var(--display);
+}
+:root[data-theme="paper"] .tile-label {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 40%, rgba(255, 255, 255, 0));
+  color: var(--fg);
+  font-family: var(--display);
+}
+
+/* Edit-mode ring — subtle navy */
+:root[data-theme="paper"] body.edit-mode #stage::after {
+  box-shadow: inset 0 0 30px var(--accent-soft);
+}
+
+/* UI chrome family — Inter, no monospace */
+:root[data-theme="paper"] .ui { font-family: var(--display); }
+
+/* ShiftArrow — strikethrough darker since light bg */
+:root[data-theme="paper"] .shift-from { text-decoration-color: var(--dim); }
+
+/* Compare divider gradient: works on light bg already */
+:root[data-theme="paper"] .compare-divider {
+  background: linear-gradient(to bottom, transparent, var(--dim-2) 20%, var(--dim-2) 80%, transparent);
+}

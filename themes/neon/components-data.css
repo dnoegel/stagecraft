@@ -1,0 +1,160 @@
+@import url('../phosphor/components-data.css');
+
+/* =============================================================================
+ * Neon — data-viz components
+ * SVG paths get drop-shadow glow. KPI/SparkLine cards get magenta border tint.
+ * Heatmap intensifies its glow via box-shadow on lit cells.
+ * CodeBlock/CodeDiff keep mono font; file headers get faint magenta glow.
+ * Roadmap bars glow along the lane color.
+ * ===========================================================================*/
+
+:root[data-theme="neon"] {
+  --neon-data-border: color-mix(in srgb, var(--accent) 30%, var(--dim-2));
+}
+
+/* ---------- KPI ---------- */
+:root[data-theme="neon"] .kpi {
+  border-color: var(--neon-data-border);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--data-color) 5%, transparent), transparent 55%),
+    var(--bg-elevated);
+}
+:root[data-theme="neon"] .kpi.in {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--data-color) 35%, transparent),
+    0 0 60px color-mix(in srgb, var(--data-color) 22%, transparent);
+}
+:root[data-theme="neon"] .kpi-num {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--data-color) 60%, transparent),
+    0 0 50px color-mix(in srgb, var(--data-color) 30%, transparent);
+}
+:root[data-theme="neon"] .kpi-icon {
+  text-shadow: 0 0 14px color-mix(in srgb, var(--data-color) 60%, transparent);
+}
+
+/* ---------- DonutChart ---------- */
+:root[data-theme="neon"] .donut-arc {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, currentColor 70%, transparent));
+}
+:root[data-theme="neon"] .donut-dot {
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--dc-color, var(--accent)) 85%, transparent);
+}
+
+/* ---------- LineChart ---------- */
+:root[data-theme="neon"] .lc-line {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, currentColor 70%, transparent));
+}
+:root[data-theme="neon"] .lc-area {
+  filter: drop-shadow(0 0 12px color-mix(in srgb, currentColor 35%, transparent));
+}
+:root[data-theme="neon"] .lc-dot {
+  filter: drop-shadow(0 0 6px color-mix(in srgb, currentColor 80%, transparent));
+}
+:root[data-theme="neon"] .lc-dot-leg {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--lc-color, var(--accent)) 85%, transparent);
+}
+
+/* ---------- Gauge ---------- */
+:root[data-theme="neon"] .g-fill {
+  filter:
+    drop-shadow(0 0 14px color-mix(in srgb, var(--data-color) 75%, transparent))
+    drop-shadow(0 0 28px color-mix(in srgb, var(--data-color) 30%, transparent));
+}
+:root[data-theme="neon"] .g-num {
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--data-color) 60%, transparent),
+    0 0 42px color-mix(in srgb, var(--data-color) 30%, transparent);
+}
+
+/* ---------- SparkLine ---------- */
+:root[data-theme="neon"] .sparkline {
+  border-color: var(--neon-data-border);
+}
+:root[data-theme="neon"] .sl-num {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--data-color) 60%, transparent),
+    0 0 44px color-mix(in srgb, var(--data-color) 28%, transparent);
+}
+:root[data-theme="neon"] .sl-line {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, currentColor 75%, transparent));
+}
+:root[data-theme="neon"] .sl-area {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, currentColor 35%, transparent));
+}
+:root[data-theme="neon"] .sl-tip {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, currentColor 90%, transparent));
+}
+
+/* ---------- Heatmap ---------- */
+:root[data-theme="neon"] .hm-cell {
+  box-shadow:
+    0 0 calc(var(--hm-intensity) * 14px)
+    color-mix(in srgb, var(--hm-base) calc(var(--hm-intensity) * 75%), transparent);
+}
+
+/* ---------- Roadmap ---------- */
+:root[data-theme="neon"] .rm-bar {
+  box-shadow:
+    inset 3px 0 0 var(--rm-bar-color),
+    0 0 24px color-mix(in srgb, var(--rm-bar-color) 35%, transparent);
+}
+:root[data-theme="neon"] .rm-lane-label {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--rm-color) 40%, transparent);
+}
+
+/* ---------- SWOT ---------- */
+:root[data-theme="neon"] .swot-cell.in {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--swot-color) 60%, var(--dim-2)),
+    inset 0 0 50px -10px color-mix(in srgb, var(--swot-color) 30%, transparent);
+}
+:root[data-theme="neon"] .swot-letter {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--swot-color) 70%, transparent),
+    0 0 44px color-mix(in srgb, var(--swot-color) 30%, transparent);
+}
+
+/* ---------- CodeBlock ---------- */
+:root[data-theme="neon"] .codeblock {
+  border-color: var(--neon-data-border);
+  box-shadow: 0 0 40px -16px var(--accent-glow);
+}
+:root[data-theme="neon"] .cb-head {
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--accent) 22%, var(--dim-2));
+}
+:root[data-theme="neon"] .cb-file {
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+:root[data-theme="neon"] .cb-lang {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .cb-line--highlight {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent), inset 0 0 22px -8px var(--accent-glow);
+}
+:root[data-theme="neon"] .cb-line--highlight .cb-line-num {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ---------- CodeDiff ---------- */
+:root[data-theme="neon"] .codediff {
+  border-color: var(--neon-data-border);
+  box-shadow: 0 0 40px -16px var(--accent-glow);
+}
+:root[data-theme="neon"] .cd-head {
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--accent) 22%, var(--dim-2));
+}
+:root[data-theme="neon"] .cd-file {
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+:root[data-theme="neon"] .cd-lang {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .cd-line--add {
+  box-shadow: inset 2px 0 0 var(--accent), inset 0 0 22px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .cd-line--add .cd-marker {
+  text-shadow: 0 0 8px var(--accent-glow);
+}

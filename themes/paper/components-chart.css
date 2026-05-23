@@ -1,0 +1,74 @@
+/* Stagecraft — Paper theme: chart/relationship component overrides. */
+@import url('../phosphor/components-chart.css');
+
+/* ============================================================
+ * Matrix2x2
+ * ============================================================ */
+:root[data-theme="paper"] .matrix2x2 .grid {
+  background: var(--dim-2);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .matrix2x2 .quadrant {
+  background: #FFFFFF;
+  filter: saturate(0.7);
+}
+:root[data-theme="paper"] .matrix2x2 .quadrant.active {
+  background: color-mix(in srgb, var(--q-color, var(--accent)) 8%, #FFFFFF);
+  box-shadow: inset 0 0 0 1px var(--q-color, var(--accent));
+}
+
+/* ============================================================
+ * BarChart
+ * ============================================================ */
+:root[data-theme="paper"] .barchart .bar-track {
+  background: var(--dim-2);
+}
+:root[data-theme="paper"] .barchart .bar-fill {
+  /* drop glow */
+  box-shadow: none;
+}
+
+/* ============================================================
+ * Progress
+ * ============================================================ */
+:root[data-theme="paper"] .progress-track {
+  background: var(--dim-2);
+}
+:root[data-theme="paper"] .progress-fill {
+  box-shadow: none;
+}
+
+/* ============================================================
+ * ProcessFlow
+ * ============================================================ */
+:root[data-theme="paper"] .processflow {
+  --pf-card-bg: #FFFFFF;
+  --pf-card-border: var(--dim-2);
+}
+:root[data-theme="paper"] .processflow .pf-step {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .processflow .pf-arrow.pulse {
+  /* dampen pulse: no glow shadow */
+  animation: pf-pulse-paper 900ms ease-out;
+}
+@keyframes pf-pulse-paper {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================
+ * Venn — fills already use --accent / --blue etc.; just brighten labels
+ * ============================================================ */
+:root[data-theme="paper"] .venn .v-circle {
+  fill-opacity: 0.14;
+  stroke-width: 1.5;
+}
+:root[data-theme="paper"] .venn .v-label.set .name {
+  background: #FFFFFF;
+}
+:root[data-theme="paper"] .venn .v-label.overlap > span {
+  background: rgba(255, 255, 255, 0.85);
+}

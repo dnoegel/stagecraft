@@ -1,0 +1,112 @@
+@import url('../phosphor/components-content.css');
+
+/* =============================================================================
+ * Neon — content / typography components
+ * Single accent lines glow; full body paragraphs stay clean.
+ * Spotlight is the centerpiece — heavy multi-layer magenta halo.
+ * Marquee's italic accent row glows.
+ * ===========================================================================*/
+
+:root[data-theme="neon"] {
+  --neon-content-border: color-mix(in srgb, var(--accent) 28%, var(--dim-2));
+}
+
+/* ---------- Statement ---------- */
+:root[data-theme="neon"] .statement .st-em {
+  text-shadow:
+    0 0 24px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .statement .st-em--blue {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--blue) 70%, transparent),
+    0 0 50px color-mix(in srgb, var(--blue) 30%, transparent);
+}
+:root[data-theme="neon"] .statement .st-em--amber {
+  text-shadow:
+    0 0 20px color-mix(in srgb, var(--amber) 55%, transparent),
+    0 0 44px color-mix(in srgb, var(--amber) 25%, transparent);
+}
+
+/* ---------- QandA ---------- */
+:root[data-theme="neon"] .qa-q {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--amber) 35%, transparent);
+}
+:root[data-theme="neon"] .qa-a {
+  text-shadow:
+    0 0 36px var(--accent-glow),
+    0 0 80px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- Manifesto ---------- */
+:root[data-theme="neon"] .mf-num {
+  text-shadow:
+    0 0 18px var(--accent-glow),
+    0 0 40px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .mf-text .mf-em {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .mf-item.in {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--dim-2));
+}
+
+/* ---------- Punchline ---------- */
+:root[data-theme="neon"] .pl-payoff {
+  text-shadow:
+    0 0 40px var(--accent-glow),
+    0 0 90px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ---------- Definition ---------- */
+:root[data-theme="neon"] .df-head {
+  border-bottom-color: color-mix(in srgb, var(--accent) 22%, var(--dim-2));
+}
+:root[data-theme="neon"] .df-def::before {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .df-mark {
+  text-shadow: 0 0 10px var(--accent-glow);
+  box-shadow: 0 0 16px -4px var(--accent-glow);
+}
+
+/* ---------- ImageGrid ---------- */
+:root[data-theme="neon"] .ig-frame {
+  border-color: var(--neon-content-border);
+}
+:root[data-theme="neon"] .ig-frame::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.5),
+    0 0 50px -20px var(--accent-glow),
+    0 20px 50px -20px rgba(0,0,0,0.8);
+}
+
+/* ---------- Spotlight ---------- */
+:root[data-theme="neon"] .sp-focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent-soft),
+    0 0 80px -8px var(--accent-glow),
+    0 0 160px -40px var(--accent-glow),
+    0 30px 80px -30px rgba(0,0,0,0.8);
+}
+:root[data-theme="neon"] .sp-icon {
+  text-shadow:
+    0 0 30px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+:root[data-theme="neon"] .sp-heading {
+  text-shadow:
+    0 0 24px var(--accent-glow),
+    0 0 50px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- Marquee ---------- */
+:root[data-theme="neon"] .mq-track {
+  border-block-color: color-mix(in srgb, var(--accent) 25%, var(--dim-2));
+}
+:root[data-theme="neon"] .mq-track--b .mq-item {
+  text-shadow:
+    0 0 28px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 30%, transparent);
+}

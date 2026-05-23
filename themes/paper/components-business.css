@@ -1,0 +1,196 @@
+/* Stagecraft — Paper theme: business / marketing component overrides. */
+@import url('../phosphor/components-business.css');
+
+/* ---------------------------------------------------------------------------
+ * Pricing
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .pricing-tier {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .pricing-tier--featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+:root[data-theme="paper"] .pricing-badge {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: none;
+}
+:root[data-theme="paper"] .pricing-tier--featured .pricing-price {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Testimonial
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .testimonial-photo-wrap {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+  box-shadow: 0 8px 24px -12px rgba(31, 79, 135, 0.25);
+}
+:root[data-theme="paper"] .testimonial-mark {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--mono); /* serif quote mark */
+}
+:root[data-theme="paper"] .testimonial-quote {
+  font-family: var(--mono); /* serif italic for editorial body */
+}
+
+/* ---------------------------------------------------------------------------
+ * TeamGrid
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .team-card {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .team-photo-wrap {
+  background: #F4F4EF;
+  border: 1px solid var(--dim-2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Agenda
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .agenda-dot {
+  background: #FFFFFF;
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Checklist
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .checklist-item {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .checklist-item.is-done {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--dim-2));
+}
+:root[data-theme="paper"] .checklist-item.is-done .checklist-box {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Steps
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .step-card {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .step-numeral {
+  text-shadow: none;
+  font-family: var(--mono); /* serif numeral for editorial feel */
+}
+
+/* ---------------------------------------------------------------------------
+ * CTA
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .cta {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cta--accent {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 55%),
+    #FFFFFF;
+}
+:root[data-theme="paper"] .cta-button {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+:root[data-theme="paper"] .cta--accent .cta-button {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Callout
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .callout {
+  background: #FFFFFF;
+  border-left: 4px solid var(--dim-2);
+}
+:root[data-theme="paper"] .callout--info {
+  background: linear-gradient(90deg, rgba(31, 79, 135, 0.06), transparent 40%), #FFFFFF;
+  border-left-color: var(--blue);
+}
+:root[data-theme="paper"] .callout--tip {
+  background: linear-gradient(90deg, var(--accent-soft), transparent 45%), #FFFFFF;
+  border-left-color: var(--accent);
+}
+:root[data-theme="paper"] .callout--warning {
+  background: linear-gradient(90deg, rgba(181, 127, 44, 0.08), transparent 40%), #FFFFFF;
+  border-left-color: var(--amber);
+}
+:root[data-theme="paper"] .callout--danger {
+  background: linear-gradient(90deg, rgba(155, 44, 44, 0.07), transparent 40%), #FFFFFF;
+  border-left-color: var(--red);
+}
+:root[data-theme="paper"] .callout--success {
+  background: linear-gradient(90deg, var(--accent-soft), transparent 50%), #FFFFFF;
+  border-left-color: var(--accent);
+}
+:root[data-theme="paper"] .callout--success .callout-icon {
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Tip
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .tip {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .tip--info    { border-color: rgba(31, 79, 135, 0.4); }
+:root[data-theme="paper"] .tip--tip     { border-color: rgba(31, 79, 135, 0.4); }
+:root[data-theme="paper"] .tip--warning { border-color: rgba(181, 127, 44, 0.45); }
+:root[data-theme="paper"] .tip--danger  { border-color: rgba(155, 44, 44, 0.45); }
+:root[data-theme="paper"] .tip--success {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, var(--accent-soft), transparent 60%), #FFFFFF;
+}
+:root[data-theme="paper"] .tip--success .tip-icon {
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * BeforeAfter
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .ba-col {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .ba-col.ba-after {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--dim-2));
+}
+:root[data-theme="paper"] .ba-arrow {
+  text-shadow: none;
+}
+
+:root[data-theme="paper"] .before-after--image {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .ba-tag {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--dim-2);
+  color: var(--fg);
+}
+:root[data-theme="paper"] .ba-tag--accent {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+:root[data-theme="paper"] .before-after--image .ba-divider {
+  background: var(--accent);
+  box-shadow: none;
+}

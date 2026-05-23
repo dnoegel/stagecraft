@@ -5,6 +5,6 @@
   "fonts": [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&display=swap"
   ],
-  "stylesheets": ["tokens.css", "base.css", "components.css", "transitions.css"],
+  "stylesheets": ["tokens.css", "base.css", "components.css", "components-layout.css", "components-diagram.css", "components-chart.css", "components-data.css", "components-business.css", "components-content.css", "transitions.css"],
   "effects": null
 }

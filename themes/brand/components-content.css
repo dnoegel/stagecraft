@@ -1,0 +1,126 @@
+/* Stagecraft — Brand theme: content / typography component overrides.
+ * Statement · QandA · Manifesto · Punchline · Definition ·
+ * ImageGrid · Spotlight · Marquee */
+
+@import url('../phosphor/components-content.css');
+
+/* ===========================================================================
+ * Statement — no per-word blur on emphasis; no text-shadow halo
+ * ===========================================================================*/
+:root[data-theme="brand"] .statement-text {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+:root[data-theme="brand"] .statement .st-em,
+:root[data-theme="brand"] .statement .st-em--amber,
+:root[data-theme="brand"] .statement .st-em--blue {
+  text-shadow: none;
+}
+
+/* ===========================================================================
+ * QandA — drop the big amber glow on the answer
+ * ===========================================================================*/
+:root[data-theme="brand"] .qa-q {
+  font-style: normal;
+  color: var(--dim);
+  font-weight: 400;
+}
+:root[data-theme="brand"] .qa-q::before { color: var(--dim-2); }
+:root[data-theme="brand"] .qa-a {
+  color: var(--accent);
+  text-shadow: none;
+  font-weight: 600;
+}
+:root[data-theme="brand"] .qa-attr { letter-spacing: 0.12em; }
+
+/* ===========================================================================
+ * Manifesto — restrained numerals, no text-shadow
+ * ===========================================================================*/
+:root[data-theme="brand"] .mf-num {
+  color: var(--accent);
+  text-shadow: none;
+  font-weight: 500;
+}
+:root[data-theme="brand"] .mf-text { font-weight: 500; }
+:root[data-theme="brand"] .mf-text .mf-em { font-weight: 600; }
+:root[data-theme="brand"] .mf-intro { letter-spacing: 0.12em; }
+
+/* ===========================================================================
+ * Punchline — payoff stays accent but without blur/scale showmanship
+ * ===========================================================================*/
+:root[data-theme="brand"] .pl-payoff {
+  text-shadow: none;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  /* keep entrance fade-up, drop the blur-in */
+  filter: none;
+  transform: translateY(16px);
+}
+:root[data-theme="brand"] .pl-payoff.in {
+  filter: none;
+  transform: translateY(0);
+}
+
+/* ===========================================================================
+ * Definition — dictionary entry stays restrained
+ * ===========================================================================*/
+:root[data-theme="brand"] .df-term {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+:root[data-theme="brand"] .df-mark {
+  background: var(--accent-soft);
+}
+
+/* ===========================================================================
+ * ImageGrid — kill the rotation cascade (too whimsical for boardroom)
+ * ===========================================================================*/
+:root[data-theme="brand"] .image-grid.ig--cascade .ig-cell,
+:root[data-theme="brand"] .image-grid.ig--cascade .ig-cell:nth-child(even) {
+  transform: translateY(20px);     /* plain vertical entry, no rotate */
+}
+:root[data-theme="brand"] .image-grid.ig--cascade .ig-cell.in {
+  transform: translateY(0);
+}
+:root[data-theme="brand"] .ig-frame::after {
+  box-shadow: inset 0 0 0 1px var(--dim-2);
+}
+:root[data-theme="brand"] .ig-cell:hover .ig-img {
+  transform: none;          /* no zoom-on-hover */
+  filter: saturate(0.95) contrast(1.02);
+}
+
+/* ===========================================================================
+ * Spotlight — kill the layered halo; use a single clean accent border
+ * ===========================================================================*/
+:root[data-theme="brand"] .sp-focus {
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+:root[data-theme="brand"] .sp-icon {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="brand"] .sp-heading {
+  color: var(--accent);
+  font-weight: 600;
+}
+:root[data-theme="brand"] .sp-ctx-item { letter-spacing: 0.1em; }
+
+/* ===========================================================================
+ * Marquee — restrained ticker, no italic glow row
+ * ===========================================================================*/
+:root[data-theme="brand"] .mq-item {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--fg);
+}
+:root[data-theme="brand"] .mq-track--b .mq-item {
+  color: var(--accent);
+  text-shadow: none;
+  font-style: normal;
+  font-weight: 600;
+}
+:root[data-theme="brand"] .mq-sep { color: var(--dim-2); }

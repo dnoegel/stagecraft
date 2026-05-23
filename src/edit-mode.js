@@ -43,22 +43,50 @@
     decorateTile(tile, slide, idx) {
       attachDragHandles(tile, idx);
 
+      // Action cluster (top-right) — note · speaker notes · delete
+      const cluster = document.createElement('div');
+      cluster.className = 'tile-edit-ui tile-actions';
+
       const noteBtn = document.createElement('button');
-      noteBtn.className = 'tile-edit-ui tile-note-btn';
+      noteBtn.className = 'tile-action';
       noteBtn.textContent = '💬';
-      noteBtn.title = 'Add slide-level note';
+      noteBtn.title = 'Feedback note for the agent';
       noteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         openSlideNoteDialog(idx, slide);
       });
-      tile.appendChild(noteBtn);
+      cluster.appendChild(noteBtn);
+
+      const speakerBtn = document.createElement('button');
+      speakerBtn.className = 'tile-action';
+      speakerBtn.textContent = '🎙';
+      speakerBtn.title = 'Speaker notes (shown in presenter view)';
+      speakerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openSpeakerNotesDialog(idx, slide);
+      });
+      cluster.appendChild(speakerBtn);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'tile-action tile-action-danger';
+      deleteBtn.textContent = '×';
+      deleteBtn.title = 'Delete this slide';
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        confirmDeleteSlide(idx, slide);
+      });
+      cluster.appendChild(deleteBtn);
+
+      tile.appendChild(cluster);
     },
 
     // Called after storyboard is fully built AND scaleTiles ran — add the
-    // inter-tile transition connectors (which need geometry).
+    // inter-tile transition connectors + storyboard header toolbar.
     afterOverviewBuilt(ov) {
       attachDropZones(ov);
       attachTransitionConnectors(ov);
+      attachStoryboardToolbar(ov);
+      attachAddSlideTile(ov);
     }
   };
 
@@ -304,6 +332,207 @@
     tile.addEventListener('dragend', () => {
       tile.classList.remove('dragging');
       EditUI.markDragEnded();
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Storyboard toolbar — theme picker, process-notes, add-slide
+  // ---------------------------------------------------------------------------
+  const THEMES = ['phosphor', 'paper', 'neon', 'brand'];
+
+  function attachStoryboardToolbar(ov) {
+    if (ov.querySelector('.sb-toolbar')) return;
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'phosphor';
+    const toolbar = document.createElement('div');
+    toolbar.className = 'sb-toolbar tile-edit-ui';
+    toolbar.innerHTML = `
+      <div class="sb-toolbar-group">
+        <label class="sb-toolbar-label">Theme</label>
+        <div class="sb-theme-picker">
+          ${THEMES.map(t => `<button class="sb-theme-btn${t === currentTheme ? ' is-current' : ''}" data-theme="${t}">${t}</button>`).join('')}
+        </div>
+      </div>
+      <div class="sb-toolbar-spacer"></div>
+      <button class="sb-toolbar-btn" id="sbProcessNotes" title="Copy a ready-made agent prompt for processing notes">
+        <span class="sb-toolbar-icon">📋</span> Process notes
+      </button>
+    `;
+    ov.appendChild(toolbar);
+
+    toolbar.querySelectorAll('.sb-theme-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const theme = btn.dataset.theme;
+        switchTheme(theme);
+      });
+    });
+    toolbar.querySelector('#sbProcessNotes').addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyProcessNotesPrompt();
+    });
+  }
+
+  function switchTheme(theme) {
+    // Update DOM immediately for instant feedback.
+    document.documentElement.setAttribute('data-theme', theme);
+    // Persist via server. The full reload also re-fetches the manifest with the new theme.
+    apiPost('/api/manifest/theme', { theme }).then(r => {
+      if (r.ok) toast(`Theme → ${theme}`, 'ok');
+      else toast('Theme switch failed: ' + r.error, 'error');
+    });
+    // Update active button
+    document.querySelectorAll('.sb-theme-btn').forEach(b =>
+      b.classList.toggle('is-current', b.dataset.theme === theme)
+    );
+  }
+
+  function copyProcessNotesPrompt() {
+    const prompt = `Process all notes in this Stagecraft deck.
+
+1. Run: \`grep -rn '@note' slides/\`
+2. For each match:
+   - Read the note + the surrounding slide code.
+   - Apply the requested change to the slide.
+   - DELETE the @note: line(s) from the source file.
+3. Absence of @note: comments means everything has been addressed.
+
+The user has been working in the browser-based edit mode and left these notes for you. Inline text edits and reorderings have already been applied to disk via the dev server — no action needed for those.`;
+    navigator.clipboard.writeText(prompt).then(
+      () => toast('Prompt copied to clipboard', 'ok'),
+      () => toast('Clipboard access denied', 'error')
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Add-slide tile — appears as the last tile in the storyboard grid
+  // ---------------------------------------------------------------------------
+  function attachAddSlideTile(ov) {
+    const grid = ov.querySelector('.overview-grid');
+    if (!grid) return;
+    if (grid.querySelector('.tile-add')) return;
+    const tile = document.createElement('div');
+    tile.className = 'tile tile-add tile-edit-ui';
+    tile.innerHTML = `<div class="tile-add-glyph">+</div><div class="tile-add-label">add slide</div>`;
+    tile.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openAddSlideDialog();
+    });
+    grid.appendChild(tile);
+
+    // Match dimensions of the other tiles
+    const sibling = grid.querySelector('.tile:not(.tile-add)');
+    if (sibling) {
+      tile.style.height = sibling.offsetHeight + 'px';
+    }
+  }
+
+  function openAddSlideDialog() {
+    document.querySelectorAll('.add-slide-dialog').forEach(n => n.remove());
+    const dlg = document.createElement('div');
+    dlg.className = 'add-slide-dialog edit-affordance';
+    dlg.innerHTML = `
+      <div class="asd-title">Add a new slide</div>
+      <label class="asd-row">
+        <span class="asd-label">File path</span>
+        <input class="asd-input" id="asdFile" value="slides/new-slide.js" />
+      </label>
+      <label class="asd-row">
+        <span class="asd-label">Template</span>
+        <select class="asd-input" id="asdTemplate">
+          <option value="kinetic-text">KineticText (default)</option>
+          <option value="section-card">SectionCard</option>
+          <option value="blank">Blank custom</option>
+        </select>
+      </label>
+      <label class="asd-row">
+        <span class="asd-label">Transition</span>
+        <select class="asd-input" id="asdTransition">
+          <option value="">(default: fade)</option>
+          ${Object.keys(TRANSITION_ICONS).map(t => `<option value="${t}">${t}</option>`).join('')}
+        </select>
+      </label>
+      <div class="asd-actions">
+        <button class="asd-cancel">Cancel</button>
+        <button class="asd-create">Create slide</button>
+      </div>
+    `;
+    document.body.appendChild(dlg);
+
+    const fileInput = dlg.querySelector('#asdFile');
+    const templateInput = dlg.querySelector('#asdTemplate');
+    const transitionInput = dlg.querySelector('#asdTransition');
+    fileInput.focus();
+    fileInput.select();
+
+    function close() { dlg.remove(); }
+    dlg.querySelector('.asd-cancel').addEventListener('click', close);
+    dlg.querySelector('.asd-create').addEventListener('click', () => {
+      const file = fileInput.value.trim();
+      if (!file) { toast('File path required', 'warn'); return; }
+      apiPost('/api/manifest/add-slide', {
+        file, template: templateInput.value,
+        transition: transitionInput.value || null,
+        atIdx: Stage.slides.length
+      }).then(r => {
+        if (r.ok) {
+          toast(`Slide created: ${file}`, 'ok');
+          close();
+        } else {
+          toast('Create failed: ' + r.error, 'error');
+        }
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Delete slide confirmation
+  // ---------------------------------------------------------------------------
+  function confirmDeleteSlide(idx, slide) {
+    const file = slideFileForIdx(idx);
+    const title = slide?.title || `slide ${idx}`;
+    if (!confirm(`Delete "${title}"?\n\nFile: ${file}\n\nThis removes the slide from the manifest. The file itself stays on disk.`)) return;
+    apiPost('/api/manifest/remove-slide', { idx, file, deleteFile: false }).then(r => {
+      if (r.ok) toast(`Removed ${title}`, 'ok');
+      else toast('Delete failed: ' + r.error, 'error');
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Speaker notes — open editor for slide.notes
+  // ---------------------------------------------------------------------------
+  function openSpeakerNotesDialog(idx, slide) {
+    const file = slideFileForIdx(idx);
+    if (!file) { toast('Cannot determine slide file', 'error'); return; }
+    document.querySelectorAll('.note-overlay').forEach(n => n.remove());
+    const ov = document.createElement('div');
+    ov.className = 'note-overlay edit-affordance';
+    ov.innerHTML = `
+      <div class="note-title">Speaker notes for ${slide?.title || `slide ${idx}`}</div>
+      <div class="note-hint">Shown in the presenter view (the laptop window). Not visible to the audience.</div>
+      <textarea class="note-text" placeholder="What you want to say. Bullet points, pauses, callouts..."></textarea>
+      <div class="note-actions">
+        <button class="note-cancel">Cancel</button>
+        <button class="note-save">Save (⌘↵)</button>
+      </div>
+    `;
+    document.body.appendChild(ov);
+    const ta = ov.querySelector('textarea');
+    if (slide?.notes) ta.value = slide.notes;
+    ta.focus();
+
+    function close() { ov.remove(); }
+    function save() {
+      const notes = ta.value;
+      apiPost('/api/edit/notes', { file, notes }).then(r => {
+        if (r.ok) { toast('Speaker notes saved', 'ok'); close(); }
+        else { toast('Save failed: ' + r.error, 'error'); }
+      });
+    }
+    ov.querySelector('.note-cancel').addEventListener('click', close);
+    ov.querySelector('.note-save').addEventListener('click', save);
+    ta.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); save(); }
+      else if (e.key === 'Escape') close();
     });
   }
 
@@ -596,19 +825,196 @@
         color: var(--accent, #00FF9C);
       }
 
-      .tile-note-btn {
+      .tile-actions {
         position: absolute;
         top: 0.5rem; right: 0.5rem;
         z-index: 6;
-        background: rgba(10, 10, 10, 0.7);
+        display: flex;
+        gap: 0.25rem;
+      }
+      .tile-action {
+        background: rgba(10, 10, 10, 0.78);
         border: 1px solid var(--dim-2, #2a2a2a);
         color: var(--fg, #e6e6e6);
-        width: 28px; height: 28px;
+        width: 26px; height: 26px;
         padding: 0;
         cursor: pointer;
-        font-size: 0.85rem;
+        font-size: 0.78rem;
+        line-height: 1;
+        backdrop-filter: blur(4px);
       }
-      .tile-note-btn:hover { border-color: var(--accent, #00FF9C); }
+      .tile-action:hover {
+        border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
+      }
+      .tile-action-danger:hover {
+        border-color: var(--red, #FF5C5C);
+        color: var(--red, #FF5C5C);
+      }
+
+      /* Storyboard toolbar — theme picker + process notes */
+      .sb-toolbar {
+        position: fixed;
+        top: 4rem; left: 50%;
+        transform: translateX(-50%);
+        z-index: 320;
+        background: rgba(10, 10, 10, 0.92);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--dim-2, #2a2a2a);
+        padding: 0.5rem 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-family: var(--mono, monospace);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+      }
+      .sb-toolbar-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .sb-toolbar-label {
+        color: var(--dim, #666);
+        text-transform: uppercase;
+      }
+      .sb-theme-picker {
+        display: flex;
+        gap: 0.2rem;
+      }
+      .sb-theme-btn {
+        background: transparent;
+        border: 1px solid var(--dim-2, #2a2a2a);
+        color: var(--fg, #e6e6e6);
+        font-family: inherit;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+      }
+      .sb-theme-btn:hover { border-color: var(--accent, #00FF9C); }
+      .sb-theme-btn.is-current {
+        border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
+        background: rgba(0, 255, 156, 0.06);
+      }
+      .sb-toolbar-spacer { width: 1px; height: 1.4rem; background: var(--dim-2, #2a2a2a); }
+      .sb-toolbar-btn {
+        background: transparent;
+        border: 1px solid var(--dim-2, #2a2a2a);
+        color: var(--fg, #e6e6e6);
+        font-family: inherit;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.7rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .sb-toolbar-btn:hover {
+        border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
+      }
+      .sb-toolbar-icon { font-size: 0.95rem; }
+
+      /* Add-slide tile */
+      .tile-add {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-style: dashed;
+        background: transparent;
+      }
+      .tile-add:hover {
+        border-color: var(--accent, #00FF9C);
+        background: rgba(0, 255, 156, 0.04);
+      }
+      .tile-add-glyph {
+        font-size: 3rem;
+        color: var(--dim, #666);
+        font-weight: 300;
+      }
+      .tile-add:hover .tile-add-glyph { color: var(--accent, #00FF9C); }
+      .tile-add-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--dim, #666);
+        font-family: var(--mono, monospace);
+      }
+
+      /* Add-slide dialog */
+      .add-slide-dialog {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--bg-elevated, #121212);
+        border: 1px solid var(--accent, #00FF9C);
+        padding: 1.4rem;
+        z-index: 9300;
+        min-width: 460px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      }
+      .add-slide-dialog .asd-title {
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--dim, #666);
+        margin-bottom: 1rem;
+      }
+      .add-slide-dialog .asd-row {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 0.7rem;
+        align-items: center;
+        margin-bottom: 0.7rem;
+      }
+      .add-slide-dialog .asd-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--dim, #666);
+      }
+      .add-slide-dialog .asd-input {
+        background: var(--bg, #0a0a0a);
+        color: var(--fg, #e6e6e6);
+        border: 1px solid var(--dim-2, #2a2a2a);
+        padding: 0.5rem 0.6rem;
+        font-family: var(--mono, monospace);
+        font-size: 0.9rem;
+      }
+      .add-slide-dialog .asd-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
+      .add-slide-dialog button {
+        background: transparent;
+        color: var(--fg, #e6e6e6);
+        border: 1px solid var(--dim-2, #2a2a2a);
+        padding: 0.4rem 0.9rem;
+        font-family: inherit;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+      }
+      .add-slide-dialog .asd-create {
+        border-color: var(--accent, #00FF9C);
+        color: var(--accent, #00FF9C);
+      }
+
+      .note-overlay .note-hint {
+        color: var(--dim, #666);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+      }
 
       /* Connector line + icon between adjacent storyboard tiles */
       .tx-connector-line {

@@ -24,7 +24,13 @@ import { WebSocketServer } from 'ws';
 import chokidar from 'chokidar';
 import mime from 'mime-types';
 
-import { writeSlideNote, writeElementNote, writeInlineEdit, reorderManifest, setManifestTransition } from './lib/edit-ops.js';
+import {
+  writeSlideNote, writeElementNote, writeInlineEdit,
+  reorderManifest, setManifestTransition, setManifestTheme,
+  addSlideToManifest, removeSlideFromManifest,
+  writeSpeakerNotes, readElementNotes
+} from './lib/edit-ops.js';
+import fsp from 'node:fs/promises';
 
 // --- args ---
 const args = process.argv.slice(2);
@@ -143,6 +149,55 @@ function isLoopback(addr) {
   return addr === '127.0.0.1' || addr === '::1' || addr === '::ffff:127.0.0.1';
 }
 
+// Create a new slide file from a small template. Used by /api/manifest/add-slide.
+async function createSlideFile(root, filePath, template) {
+  const full = path.resolve(root, filePath);
+  if (!full.startsWith(root)) throw new Error('refused: file outside project');
+  await fsp.mkdir(path.dirname(full), { recursive: true });
+  let body;
+  switch (template || 'kinetic-text') {
+    case 'section-card':
+      body = `'use strict';
+
+Stage.register(Stage.SectionCard({
+  section: 1,
+  number: '00',
+  title: 'New section',
+  tag: 'edit this in the storyboard'
+}));
+`;
+      break;
+    case 'blank':
+      body = `'use strict';
+
+Stage.register({
+  section: 1,
+  title: 'New slide',
+  render(el) {
+    el.innerHTML = '<div class="hero">Edit me</div>';
+  }
+});
+`;
+      break;
+    case 'kinetic-text':
+    default:
+      body = `'use strict';
+
+Stage.register(Stage.KineticText({
+  section: 1,
+  title: 'New slide',
+  pace: 700,
+  lines: [
+    { text: 'A new slide.',       color: 'fg' },
+    { text: 'Ready to be edited.', color: 'accent', pause: 300 }
+  ]
+}));
+`;
+      break;
+  }
+  await fsp.writeFile(full, body, 'utf8');
+}
+
 // --- API handlers ---
 async function handleApi(req, res, parsed) {
   const body = await readBody(req);
@@ -167,6 +222,31 @@ async function handleApi(req, res, parsed) {
       case '/api/manifest/transition':
         await setManifestTransition(ROOT, data.idx, data.transition);
         return sendJson(res, 200, { ok: true });
+      case '/api/manifest/theme':
+        await setManifestTheme(ROOT, data.theme);
+        return sendJson(res, 200, { ok: true });
+      case '/api/manifest/add-slide':
+        // Create the slide file from a template, then prepend to manifest
+        await createSlideFile(ROOT, data.file, data.template);
+        await addSlideToManifest(ROOT, data.atIdx, data.file, data.transition);
+        return sendJson(res, 200, { ok: true });
+      case '/api/manifest/remove-slide':
+        // Remove from manifest. Optionally delete the file.
+        await removeSlideFromManifest(ROOT, data.idx);
+        if (data.deleteFile && data.file) {
+          try {
+            const full = path.resolve(ROOT, data.file);
+            if (full.startsWith(ROOT)) await fsp.unlink(full);
+          } catch (e) { /* ignore */ }
+        }
+        return sendJson(res, 200, { ok: true });
+      case '/api/edit/notes':
+        await writeSpeakerNotes(ROOT, data.file, data.notes);
+        return sendJson(res, 200, { ok: true });
+      case '/api/notes/element':
+        // GET-style via POST — read pin notes for a slide file
+        const pins = await readElementNotes(ROOT, data.file);
+        return sendJson(res, 200, { ok: true, pins });
       default:
         return sendJson(res, 404, { error: 'unknown endpoint' });
     }

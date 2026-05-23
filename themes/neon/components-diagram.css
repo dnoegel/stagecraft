@@ -1,0 +1,109 @@
+@import url('../phosphor/components-diagram.css');
+
+/* =============================================================================
+ * Neon — diagram components
+ * Pillar icons glow. Cycle arc/arrows glow cyan-or-magenta. Funnel & Pyramid
+ * accent stages get inner magenta wash + glow border.
+ * ===========================================================================*/
+
+:root[data-theme="neon"] {
+  --diag-card-bg: color-mix(in srgb, var(--accent) 3%, transparent);
+  --diag-card-border: color-mix(in srgb, var(--accent) 25%, var(--dim-2));
+}
+
+/* ---------- Pillars ---------- */
+:root[data-theme="neon"] .pillar-icon {
+  filter: drop-shadow(0 0 12px var(--accent-glow));
+}
+:root[data-theme="neon"] .pillar.pc-blue .pillar-icon {
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--blue) 60%, transparent));
+}
+:root[data-theme="neon"] .pillar.pc-amber .pillar-icon {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--amber) 50%, transparent));
+}
+:root[data-theme="neon"] .pillar.pc-red .pillar-icon {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--red) 55%, transparent));
+}
+
+/* ---------- Timeline ---------- */
+:root[data-theme="neon"] .tl-event.active .tl-dot {
+  box-shadow:
+    0 0 0 4px var(--accent-soft),
+    0 0 18px var(--accent-glow);
+}
+:root[data-theme="neon"] .tl-event.tc-blue.active .tl-dot {
+  box-shadow:
+    0 0 0 4px rgba(0, 224, 255, 0.20),
+    0 0 18px color-mix(in srgb, var(--blue) 70%, transparent);
+}
+:root[data-theme="neon"] .tl-event.tc-amber.active .tl-dot {
+  box-shadow:
+    0 0 0 4px rgba(255, 233, 74, 0.18),
+    0 0 14px color-mix(in srgb, var(--amber) 55%, transparent);
+}
+
+/* ---------- Pyramid ---------- */
+:root[data-theme="neon"] .pyr-layer.pyc-accent .pyr-shape {
+  box-shadow:
+    inset 0 0 0 1px var(--accent),
+    0 0 30px -8px var(--accent-glow);
+}
+:root[data-theme="neon"] .pyr-layer.pyc-accent .pyr-label {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .pyr-layer.pyc-blue .pyr-shape {
+  box-shadow:
+    inset 0 0 0 1px var(--blue),
+    0 0 26px -8px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+:root[data-theme="neon"] .pyr-layer.pyc-blue .pyr-label {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+
+/* ---------- Cycle ---------- */
+:root[data-theme="neon"] .cyc-arc {
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+:root[data-theme="neon"] .cyc-arrow {
+  /* cyan arrows give Neon its dual-tone signature */
+  stroke: var(--blue);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--blue) 70%, transparent));
+}
+:root[data-theme="neon"] .cyc-item {
+  border-color: var(--neon-card-border, color-mix(in srgb, var(--accent) 25%, var(--dim-2)));
+  background: color-mix(in srgb, var(--bg) 92%, var(--accent) 4%);
+}
+:root[data-theme="neon"] .cyc-item.cyc-accent {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px -4px var(--accent-glow);
+}
+:root[data-theme="neon"] .cyc-item.cyc-accent .cyc-icon {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .cyc-item.cyc-blue {
+  border-color: var(--blue);
+  box-shadow: 0 0 20px -4px color-mix(in srgb, var(--blue) 60%, transparent);
+}
+:root[data-theme="neon"] .cyc-item.cyc-blue .cyc-icon {
+  text-shadow: 0 0 14px color-mix(in srgb, var(--blue) 60%, transparent);
+}
+
+/* ---------- Funnel ---------- */
+:root[data-theme="neon"] .fn-stage.fnc-accent .fn-shape {
+  box-shadow:
+    inset 0 0 0 1px var(--accent),
+    0 0 30px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .fn-stage.fnc-accent .fn-value,
+:root[data-theme="neon"] .fn-stage.fnc-accent .fn-label {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .fn-stage.fnc-blue .fn-shape {
+  box-shadow:
+    inset 0 0 0 1px var(--blue),
+    0 0 28px -10px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+:root[data-theme="neon"] .fn-stage.fnc-blue .fn-value,
+:root[data-theme="neon"] .fn-stage.fnc-blue .fn-label {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--blue) 55%, transparent);
+}

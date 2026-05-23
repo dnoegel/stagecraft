@@ -1,0 +1,189 @@
+@import url('../phosphor/components-business.css');
+
+/* =============================================================================
+ * Neon — business components
+ * Featured pricing tier glows hard. Agenda rail dots radiate magenta.
+ * CTAs become electric. Callouts get glow per kind.
+ * Body text remains glow-free for readability.
+ * ===========================================================================*/
+
+:root[data-theme="neon"] {
+  --neon-biz-border: color-mix(in srgb, var(--accent) 28%, var(--dim-2));
+}
+
+/* ---------- Pricing ---------- */
+:root[data-theme="neon"] .pricing-tier {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .pricing-tier--featured {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 60px -8px var(--accent-glow),
+    0 0 120px -30px var(--accent-glow);
+}
+:root[data-theme="neon"] .pricing-tier--featured .pricing-name {
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+:root[data-theme="neon"] .pricing-tier--featured .pricing-price {
+  text-shadow:
+    0 0 26px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .pricing-badge {
+  box-shadow:
+    0 0 30px -2px var(--accent-glow),
+    0 0 60px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .pricing-check {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .pricing-tier--featured .pricing-cta {
+  box-shadow:
+    inset 0 0 0 1px var(--accent),
+    0 0 24px -6px var(--accent-glow);
+}
+
+/* ---------- Testimonial ---------- */
+:root[data-theme="neon"] .testimonial-photo-wrap {
+  border-color: var(--neon-biz-border);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent),
+    0 0 60px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .testimonial-mark {
+  text-shadow:
+    0 0 30px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ---------- TeamGrid ---------- */
+:root[data-theme="neon"] .team-card {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .team-card:hover {
+  box-shadow: 0 0 30px -8px var(--accent-glow);
+}
+:root[data-theme="neon"] .team-photo-wrap {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--dim-2));
+  box-shadow: 0 0 20px -6px var(--accent-glow);
+}
+:root[data-theme="neon"] .team-role {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ---------- Agenda ---------- */
+:root[data-theme="neon"] .agenda-time {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .agenda-dot {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 22px -2px var(--accent-glow);
+}
+:root[data-theme="neon"] .agenda-dot .material-symbols-outlined {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ---------- Checklist ---------- */
+:root[data-theme="neon"] .checklist-item {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .checklist-item.is-done {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--dim-2));
+  box-shadow: 0 0 24px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .checklist-item.is-done .checklist-box {
+  text-shadow:
+    0 0 14px var(--accent-glow),
+    0 0 28px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ---------- Steps ---------- */
+:root[data-theme="neon"] .step-card {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .step-card:hover {
+  box-shadow: 0 0 30px -8px var(--accent-glow);
+}
+:root[data-theme="neon"] .step-numeral {
+  text-shadow:
+    0 0 28px var(--accent-glow),
+    0 0 60px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- CTA ---------- */
+:root[data-theme="neon"] .cta {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .cta--accent {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 80px -16px var(--accent-glow),
+    inset 0 0 80px -40px var(--accent-glow);
+}
+:root[data-theme="neon"] .cta-button {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0 20px -4px var(--accent-glow);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .cta--accent .cta-button {
+  text-shadow: none;
+  box-shadow:
+    0 0 30px -2px var(--accent-glow),
+    0 0 60px -10px var(--accent-glow);
+}
+
+/* ---------- Callout ---------- */
+:root[data-theme="neon"] .callout--info .callout-icon {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--blue) 70%, transparent);
+}
+:root[data-theme="neon"] .callout--tip .callout-icon,
+:root[data-theme="neon"] .callout--tip .callout-heading,
+:root[data-theme="neon"] .callout--success .callout-icon,
+:root[data-theme="neon"] .callout--success .callout-heading {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .callout--warning .callout-icon {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--amber) 60%, transparent);
+}
+:root[data-theme="neon"] .callout--danger .callout-icon {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--red) 65%, transparent);
+}
+
+/* ---------- Tip ---------- */
+:root[data-theme="neon"] .tip {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .tip--tip .tip-icon,
+:root[data-theme="neon"] .tip--success .tip-icon {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+:root[data-theme="neon"] .tip--info .tip-icon {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--blue) 70%, transparent);
+}
+
+/* ---------- BeforeAfter ---------- */
+:root[data-theme="neon"] .ba-col {
+  border-color: var(--neon-biz-border);
+}
+:root[data-theme="neon"] .ba-col.ba-after {
+  border-color: var(--accent);
+  box-shadow: 0 0 36px -10px var(--accent-glow);
+}
+:root[data-theme="neon"] .ba-col-tag--accent {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+:root[data-theme="neon"] .ba-arrow {
+  text-shadow:
+    0 0 22px var(--accent-glow),
+    0 0 44px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-theme="neon"] .ba-tag--accent {
+  box-shadow: 0 0 24px -4px var(--accent-glow);
+}
+:root[data-theme="neon"] .before-after--image .ba-divider {
+  box-shadow:
+    0 0 18px var(--accent-glow),
+    0 0 40px color-mix(in srgb, var(--accent) 40%, transparent);
+}

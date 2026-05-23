@@ -17,10 +17,17 @@
   // ---------------------------------------------------------------------------
   Stage.slides = Stage.slides || [];
 
-  Stage.register = function (slide) {
+  // Stage.register(slide [, meta])
+  //   slide — { section, title, render, init?, replay?, steps?, onStep?, transition? }
+  //   meta  — optional: { notes, ... } merged onto the slide.
+  //           This is the home for fields that belong to the *deck* rather than
+  //           the *component* — most importantly `notes` (speaker notes shown
+  //           in presenter view).
+  Stage.register = function (slide, meta) {
     if (!slide || typeof slide.render !== 'function') {
       throw new Error('Stage.register: slide must have a render(el) function');
     }
+    if (meta && typeof meta === 'object') Object.assign(slide, meta);
     Stage.slides.push(slide);
   };
 
@@ -89,17 +96,32 @@
   let hintTimer = null;
   let editMode = false;
   let ws = null;
+  let presenterMode = false;            // this window is rendering the presenter view
+  let bc = null;                        // BroadcastChannel for window sync
+  let suppressBroadcast = false;        // re-entrancy guard for sync
+  let presenterEls = null;              // { currentPane, nextPane, notesPane, timer, clock }
+  let talkStartTime = null;             // for the elapsed timer
 
   function initRuntime() {
     if (Stage._inited) return;
     Stage._inited = true;
 
-    buildChrome();
+    // Are we the presenter window? Detected at init from ?mode=presenter.
+    const params = new URLSearchParams(location.search);
+    presenterMode = params.get('mode') === 'presenter';
+    if (presenterMode) {
+      document.body.classList.add('presenter-mode');
+      buildPresenterChrome();
+    } else {
+      buildChrome();
+    }
+
     bindKeyboard();
     bindMouse();
     bindHash();
     bindResize();
     tryConnectEditServer();
+    setupBroadcastChannel();
 
     const initial = parseHash();
     if (initial !== null) {
@@ -164,6 +186,152 @@
   }
 
   // ---------------------------------------------------------------------------
+  // Presenter view chrome
+  // ---------------------------------------------------------------------------
+  function buildPresenterChrome() {
+    // Remove any normal-mode chrome the HTML happens to have inlined.
+    document.querySelectorAll('.welcome, .ui').forEach(n => n.remove());
+    const existingStage = document.getElementById('stage');
+    if (existingStage) existingStage.remove();
+
+    document.title = 'Stagecraft Presenter';
+    document.body.innerHTML = `
+      <div class="presenter-shell">
+        <div class="presenter-top">
+          <div class="presenter-pane presenter-current" id="presenterCurrent">
+            <div class="presenter-pane-label">NOW · slide <span id="presenterCurrentIdx">00</span></div>
+            <div class="presenter-pane-stage" id="presenterCurrentStage"></div>
+          </div>
+          <div class="presenter-pane presenter-next" id="presenterNext">
+            <div class="presenter-pane-label">NEXT</div>
+            <div class="presenter-pane-stage" id="presenterNextStage"></div>
+          </div>
+        </div>
+        <div class="presenter-meta">
+          <div class="presenter-timer" id="presenterTimer">00:00</div>
+          <div class="presenter-clock" id="presenterClock">--:--</div>
+          <button class="presenter-timer-reset" id="presenterTimerReset" title="Reset elapsed timer">↻ reset</button>
+        </div>
+        <div class="presenter-notes" id="presenterNotes">
+          <div class="presenter-notes-label">SPEAKER NOTES</div>
+          <div class="presenter-notes-body" id="presenterNotesBody"></div>
+        </div>
+      </div>
+    `;
+
+    presenterEls = {
+      currentStage: document.getElementById('presenterCurrentStage'),
+      currentIdx:   document.getElementById('presenterCurrentIdx'),
+      nextStage:    document.getElementById('presenterNextStage'),
+      notesBody:    document.getElementById('presenterNotesBody'),
+      timer:        document.getElementById('presenterTimer'),
+      clock:        document.getElementById('presenterClock')
+    };
+
+    // Engine's "stage" reference now points to the current-slide container.
+    // The pane-stage is the inner scaler; we render slides into a wrapper
+    // inside the pane that lets us position child .slide elements normally.
+    stage = presenterEls.currentStage;
+    stage.classList.add('presenter-stage');
+
+    startTalkTimer();
+    document.getElementById('presenterTimerReset')?.addEventListener('click', () => {
+      talkStartTime = Date.now();
+      updatePresenterMeta();
+    });
+
+    document.body.classList.add('armed');
+  }
+
+  function startTalkTimer() {
+    talkStartTime = Date.now();
+    updatePresenterMeta();
+    setInterval(updatePresenterMeta, 1000);
+  }
+
+  function updatePresenterMeta() {
+    if (!presenterEls) return;
+    const elapsed = Date.now() - (talkStartTime || Date.now());
+    const total = Math.floor(elapsed / 1000);
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    presenterEls.timer.textContent = h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+    const now = new Date();
+    presenterEls.clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  }
+
+  function renderPresenterNext(idx) {
+    if (!presenterEls) return;
+    presenterEls.nextStage.innerHTML = '';
+    const nextIdx = idx + 1;
+    if (nextIdx >= Stage.slides.length) {
+      presenterEls.nextStage.innerHTML = '<div class="presenter-end">— end of deck —</div>';
+      return;
+    }
+    const next = Stage.slides[nextIdx];
+    const el = document.createElement('div');
+    el.className = 'slide current';
+    try { next.render(el); } catch (e) { console.warn('next render', e); }
+    presenterEls.nextStage.appendChild(el);
+  }
+
+  function renderPresenterNotes(slide) {
+    if (!presenterEls) return;
+    const notes = (slide && slide.notes) || '';
+    presenterEls.notesBody.textContent = notes || '(no notes for this slide)';
+    presenterEls.notesBody.classList.toggle('empty', !notes);
+  }
+
+  // ---------------------------------------------------------------------------
+  // BroadcastChannel — sync nav events across presenter + presentation windows
+  // ---------------------------------------------------------------------------
+  function setupBroadcastChannel() {
+    if (typeof BroadcastChannel === 'undefined') return;
+    bc = new BroadcastChannel('stagecraft:nav');
+    bc.addEventListener('message', (e) => {
+      const msg = e.data;
+      if (!msg || typeof msg !== 'object') return;
+      suppressBroadcast = true;
+      try {
+        switch (msg.type) {
+          case 'go':       go(msg.idx); break;
+          case 'step':     applyRemoteStep(msg.step); break;
+          case 'replay':   replay(); break;
+          case 'overview': msg.open ? openOverview() : closeOverview(); break;
+        }
+      } finally {
+        suppressBroadcast = false;
+      }
+    });
+  }
+
+  function broadcast(msg) {
+    if (!bc) return;
+    if (suppressBroadcast) return;
+    try { bc.postMessage(msg); } catch (e) { /* ignore */ }
+  }
+
+  function applyRemoteStep(step) {
+    const slide = Stage.slides[current];
+    if (!slide || !slide.steps) return;
+    currentStep = Math.max(0, Math.min(slide.steps - 1, step));
+    const el = stage.querySelector('.slide.current');
+    if (el && slide.onStep) {
+      try { slide.onStep(el, currentStep); } catch (e) { /* ignore */ }
+    }
+  }
+
+  function openPresenterWindow() {
+    const url = new URL(location.href);
+    url.searchParams.set('mode', 'presenter');
+    // Preserve hash so presenter opens on the current slide
+    window.open(url.toString(), 'stagecraft-presenter',
+      'width=1200,height=800,toolbar=no,menubar=no,location=no');
+  }
+
+  // ---------------------------------------------------------------------------
   // Slide navigation
   // ---------------------------------------------------------------------------
   function go(idx) {
@@ -199,6 +367,17 @@
     currentStep = 0;
     updateChrome(slide);
     syncHash(idx);
+
+    // Presenter view extras
+    if (presenterMode && presenterEls) {
+      if (presenterEls.currentIdx) presenterEls.currentIdx.textContent = String(idx).padStart(2, '0');
+      renderPresenterNext(idx);
+      renderPresenterNotes(slide);
+    }
+
+    // Broadcast nav to the other window (if any), unless this go() was
+    // itself triggered by a remote message.
+    broadcast({ type: 'go', idx });
 
     setTimeout(() => {
       if (current !== idx) return;
@@ -240,6 +419,7 @@
       if (el && slide.onStep) {
         try { slide.onStep(el, currentStep); } catch (e) { console.error('onStep error', e); }
       }
+      broadcast({ type: 'step', step: currentStep });
       return;
     }
     if (current < Stage.slides.length - 1) go(current + 1);
@@ -253,6 +433,7 @@
       if (el && slide.onStep) {
         try { slide.onStep(el, currentStep); } catch (e) { console.error('onStep error', e); }
       }
+      broadcast({ type: 'step', step: currentStep });
       return;
     }
     if (current > 0) go(current - 1);
@@ -276,6 +457,7 @@
         if (slide.steps && slide.onStep) slide.onStep(el, 0);
       } catch (e) { console.error('replay error', e); }
     }
+    broadcast({ type: 'replay' });
   }
 
   function toggleFullscreen() {
@@ -447,6 +629,9 @@
           e.preventDefault(); replay(); break;
         case 's': case 'S':
           e.preventDefault(); toggleOverview(); break;
+        case 'p': case 'P':
+          if (presenterMode) break;
+          e.preventDefault(); openPresenterWindow(); break;
         case '?': case 'h': case 'H':
           showHint(); break;
         default:

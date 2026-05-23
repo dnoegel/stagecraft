@@ -1,0 +1,173 @@
+/* Stagecraft — Brand theme: business component overrides.
+ * Pricing · Testimonial · TeamGrid · Agenda · Checklist · Steps ·
+ * CTA · Callout · Tip · BeforeAfter */
+
+@import url('../phosphor/components-business.css');
+
+/* ===========================================================================
+ * Pricing — featured tier keeps the accent border but loses the halo
+ * ===========================================================================*/
+:root[data-theme="brand"] .pricing-tier {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .pricing-tier--featured {
+  border: 1px solid var(--accent);
+  box-shadow: none;
+  /* keep the slight scale lift — it's structural, not flashy */
+}
+:root[data-theme="brand"] .pricing-badge {
+  box-shadow: none;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+:root[data-theme="brand"] .pricing-name { letter-spacing: 0.1em; }
+:root[data-theme="brand"] .pricing-price { font-weight: 600; }
+:root[data-theme="brand"] .pricing-tier--featured .pricing-price {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ===========================================================================
+ * Testimonial — round photo with thin border, no glow ring
+ * ===========================================================================*/
+:root[data-theme="brand"] .testimonial-photo-wrap {
+  box-shadow: none;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .testimonial-mark {
+  color: var(--accent);
+  text-shadow: none;
+  font-weight: 300;
+}
+:root[data-theme="brand"] .testimonial-quote {
+  font-style: normal;       /* schlicht */
+  font-weight: 500;
+}
+:root[data-theme="brand"] .testimonial-author { font-weight: 600; }
+
+/* ===========================================================================
+ * TeamGrid — flat cards
+ * ===========================================================================*/
+:root[data-theme="brand"] .team-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .team-name { font-weight: 600; }
+:root[data-theme="brand"] .team-role { letter-spacing: 0.1em; }
+
+/* ===========================================================================
+ * Agenda — strip the dot glow ring
+ * ===========================================================================*/
+:root[data-theme="brand"] .agenda-dot {
+  box-shadow: none;
+  border: 1px solid var(--accent);
+  background: var(--bg-elevated);
+}
+:root[data-theme="brand"] .agenda-label { font-weight: 600; }
+:root[data-theme="brand"] .agenda-duration { letter-spacing: 0.1em; }
+
+/* ===========================================================================
+ * Checklist — flat checkbox accent, no glow
+ * ===========================================================================*/
+:root[data-theme="brand"] .checklist-item {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .checklist-item.is-done {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--dim-2));
+}
+:root[data-theme="brand"] .checklist-item.is-done .checklist-box {
+  text-shadow: none;
+}
+:root[data-theme="brand"] .checklist-text { font-weight: 500; }
+
+/* ===========================================================================
+ * Steps — flat numerals
+ * ===========================================================================*/
+:root[data-theme="brand"] .step-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .step-numeral {
+  color: var(--accent);
+  text-shadow: none;
+  font-weight: 600;
+}
+:root[data-theme="brand"] .step-label { font-weight: 600; }
+
+/* ===========================================================================
+ * CTA — accent card without the soft gradient and halo
+ * ===========================================================================*/
+:root[data-theme="brand"] .cta {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .cta--accent {
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+  box-shadow: none;
+}
+:root[data-theme="brand"] .cta-headline { font-weight: 600; }
+:root[data-theme="brand"] .cta-button {
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+:root[data-theme="brand"] .cta--accent .cta-button {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: none;
+}
+
+/* ===========================================================================
+ * Callout & Tip — keep semantic accent borders, drop colored gradients
+ * ===========================================================================*/
+:root[data-theme="brand"] .callout {
+  background: var(--bg-elevated);
+}
+:root[data-theme="brand"] .callout--info,
+:root[data-theme="brand"] .callout--tip,
+:root[data-theme="brand"] .callout--warning,
+:root[data-theme="brand"] .callout--danger,
+:root[data-theme="brand"] .callout--success {
+  /* Override the linear-gradient backgrounds — too colorful for boardroom. */
+  background: var(--bg-elevated);
+}
+:root[data-theme="brand"] .callout--success .callout-icon {
+  text-shadow: none;
+}
+:root[data-theme="brand"] .callout-heading { font-weight: 600; }
+
+:root[data-theme="brand"] .tip {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .tip--success {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+}
+:root[data-theme="brand"] .tip--success .tip-icon { text-shadow: none; }
+
+/* ===========================================================================
+ * BeforeAfter — clean dividers, no accent glow on arrow / divider
+ * ===========================================================================*/
+:root[data-theme="brand"] .ba-col {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .ba-col.ba-after {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--dim-2));
+}
+:root[data-theme="brand"] .ba-arrow {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="brand"] .ba-tag--accent {
+  box-shadow: none;
+}
+:root[data-theme="brand"] .before-after--image .ba-divider {
+  background: var(--accent);
+  box-shadow: none;
+  transform: none;          /* drop the skew — boardroom flat */
+}

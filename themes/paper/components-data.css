@@ -1,0 +1,168 @@
+/* Stagecraft — Paper theme: data-visualization component overrides. */
+@import url('../phosphor/components-data.css');
+
+/* ============================================================
+ * KPI — white card, thin border, no glow
+ * ============================================================ */
+:root[data-theme="paper"] .kpi {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .kpi.in {
+  border-color: color-mix(in srgb, var(--data-color) 50%, var(--dim-2));
+  box-shadow: none;
+}
+:root[data-theme="paper"] .kpi-num {
+  text-shadow: none;
+}
+
+/* ============================================================
+ * DonutChart
+ * ============================================================ */
+:root[data-theme="paper"] .donut-arc {
+  filter: none;
+}
+:root[data-theme="paper"] .donut-dot {
+  box-shadow: none;
+}
+
+/* ============================================================
+ * LineChart
+ * ============================================================ */
+:root[data-theme="paper"] .lc-grid {
+  stroke: var(--dim-2);
+  opacity: 0.9;
+}
+:root[data-theme="paper"] .lc-y-label,
+:root[data-theme="paper"] .lc-x-label {
+  font-family: var(--display);
+}
+:root[data-theme="paper"] .lc-line {
+  filter: none;
+}
+:root[data-theme="paper"] .lc-dot-leg {
+  box-shadow: none;
+}
+
+/* ============================================================
+ * Gauge
+ * ============================================================ */
+:root[data-theme="paper"] .g-fill {
+  filter: none;
+}
+:root[data-theme="paper"] .g-tick {
+  stroke: var(--dim);
+  opacity: 0.6;
+}
+:root[data-theme="paper"] .g-num {
+  text-shadow: none;
+}
+
+/* ============================================================
+ * SparkLine — white card
+ * ============================================================ */
+:root[data-theme="paper"] .sparkline {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .sl-num {
+  text-shadow: none;
+}
+:root[data-theme="paper"] .sl-line {
+  filter: none;
+}
+
+/* ============================================================
+ * Heatmap — accent shades on light bg
+ * ============================================================ */
+:root[data-theme="paper"] .hm-cell {
+  /* base track is dim-2; intensity layers --hm-base over it */
+  background: color-mix(in srgb, var(--hm-base) calc(var(--hm-intensity) * 90%), #ECECE8);
+  border: 1px solid color-mix(in srgb, var(--hm-base) calc(var(--hm-intensity) * 35%), var(--dim-2));
+}
+:root[data-theme="paper"] .hm-scale-step {
+  background: color-mix(in srgb, var(--hm-base) calc(var(--hm-intensity) * 90%), #ECECE8);
+  border: 1px solid color-mix(in srgb, var(--hm-base) calc(var(--hm-intensity) * 35%), var(--dim-2));
+}
+
+/* ============================================================
+ * Roadmap
+ * ============================================================ */
+:root[data-theme="paper"] .rm-lane-track {
+  background:
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc((100% / var(--rm-cols, 12)) - 1px),
+      var(--dim-2) calc((100% / var(--rm-cols, 12)) - 1px),
+      var(--dim-2) calc(100% / var(--rm-cols, 12))
+    ),
+    #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .rm-bar {
+  background: color-mix(in srgb, var(--rm-bar-color) 14%, #FFFFFF);
+  border: 1px solid color-mix(in srgb, var(--rm-bar-color) 65%, var(--dim-2));
+  /* no glow shadow */
+  box-shadow: inset 3px 0 0 var(--rm-bar-color);
+}
+
+/* ============================================================
+ * SWOT — light fills, no glow letters
+ * ============================================================ */
+:root[data-theme="paper"] .swot {
+  background: var(--dim-2);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .swot-cell {
+  background: #FFFFFF;
+}
+:root[data-theme="paper"] .swot-cell.in {
+  background: color-mix(in srgb, var(--swot-color) 6%, #FFFFFF);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--swot-color) 50%, var(--dim-2));
+}
+:root[data-theme="paper"] .swot-letter {
+  text-shadow: none;
+  font-family: var(--mono); /* serif for swot letter accent */
+}
+
+/* ============================================================
+ * CodeBlock — terminal look on light background.
+ * CodeBlock stays monospaced because it's code.
+ * ============================================================ */
+:root[data-theme="paper"] .codeblock {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cb-head {
+  background: #F4F4EF;
+  border-bottom: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cb-line--highlight {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* ============================================================
+ * CodeDiff — same, monospaced
+ * ============================================================ */
+:root[data-theme="paper"] .codediff {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cd-head {
+  background: #F4F4EF;
+  border-bottom: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .cd-line--add {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+:root[data-theme="paper"] .cd-line--add .cd-text {
+  color: color-mix(in srgb, var(--accent) 35%, var(--fg));
+}
+:root[data-theme="paper"] .cd-line--remove {
+  background: color-mix(in srgb, var(--red) 8%, transparent);
+}
+:root[data-theme="paper"] .cd-line--remove .cd-text {
+  color: color-mix(in srgb, var(--red) 35%, var(--fg));
+}

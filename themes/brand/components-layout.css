@@ -1,0 +1,112 @@
+/* Stagecraft — Brand theme: layout component overrides.
+ *
+ * Strategy: inherit the phosphor structural CSS, then strip glow / heavy
+ * shadows / colored borders and lean on Inter + subtle dim-2 separators.
+ * Brand is the boardroom theme — no theatrics. */
+
+@import url('../phosphor/components-layout.css');
+
+/* ===========================================================================
+ * ImageText
+ * ===========================================================================*/
+:root[data-theme="brand"] .it-img-frame {
+  /* Phosphor stacks a glow + drop-shadow. Brand: thin clean frame only. */
+  box-shadow: inset 0 0 0 1px var(--dim-2);
+}
+:root[data-theme="brand"] .it-img {
+  filter: saturate(0.95) contrast(1.02);
+}
+:root[data-theme="brand"] .it-heading {
+  font-weight: 600;
+}
+:root[data-theme="brand"] .it-caption {
+  letter-spacing: 0.12em;
+}
+
+/* ===========================================================================
+ * FullImage
+ * ===========================================================================*/
+:root[data-theme="brand"] .fi-headline {
+  font-weight: 600;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ===========================================================================
+ * Quote
+ * ===========================================================================*/
+:root[data-theme="brand"] .q-mark {
+  /* Restrained accent — text-shadow already nulled via --accent-glow. */
+  color: var(--accent);
+  font-weight: 300;
+}
+:root[data-theme="brand"] .q-text {
+  font-style: normal;     /* schlicht */
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+:root[data-theme="brand"] .q-author { font-weight: 600; }
+
+/* ===========================================================================
+ * BigNumber
+ * ===========================================================================*/
+:root[data-theme="brand"] .bn-num {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  /* text-shadow already neutralized */
+}
+:root[data-theme="brand"] .bn-unit {
+  color: var(--accent);
+  opacity: 0.7;
+}
+:root[data-theme="brand"] .bn-label {
+  font-weight: 400;
+  color: var(--fg);
+}
+:root[data-theme="brand"] .bn-caption {
+  letter-spacing: 0.12em;
+}
+
+/* ===========================================================================
+ * Stats
+ * ===========================================================================*/
+:root[data-theme="brand"] .stat {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+  /* Phosphor uses a top accent bar (::before). We keep it but neuter the glow. */
+}
+:root[data-theme="brand"] .stat::before { display: none; }
+:root[data-theme="brand"] .stat--accent { border-left: 2px solid var(--accent); }
+:root[data-theme="brand"] .stat--amber  { border-left: 2px solid var(--amber); }
+:root[data-theme="brand"] .stat--blue   { border-left: 2px solid var(--blue); }
+:root[data-theme="brand"] .stat--red    { border-left: 2px solid var(--red); }
+:root[data-theme="brand"] .stat-num {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+:root[data-theme="brand"] .stat--accent .stat-num { color: var(--accent); }
+:root[data-theme="brand"] .stat-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  color: var(--dim);
+}
+
+/* ===========================================================================
+ * Bento
+ * ===========================================================================*/
+:root[data-theme="brand"] .bento-cell {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .bento-cell--accent {
+  border-color: var(--accent);
+  /* box-shadow already neutralized via --accent-glow */
+}
+:root[data-theme="brand"] .bento-cell--accent .bento-heading { color: var(--accent); }
+:root[data-theme="brand"] .bento-cell--amber  { border-color: color-mix(in srgb, var(--amber) 50%, var(--dim-2)); }
+:root[data-theme="brand"] .bento-cell--blue   { border-color: color-mix(in srgb, var(--blue) 50%, var(--dim-2)); }
+:root[data-theme="brand"] .bento-heading {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}

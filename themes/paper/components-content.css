@@ -1,0 +1,108 @@
+/* Stagecraft — Paper theme: content/typography component overrides. */
+@import url('../phosphor/components-content.css');
+
+/* ---------------------------------------------------------------------------
+ * Statement — no glow on emphasized words
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .statement .st-em {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="paper"] .statement .st-em--amber { color: var(--amber); text-shadow: none; }
+:root[data-theme="paper"] .statement .st-em--blue  { color: var(--blue);  text-shadow: none; }
+
+/* ---------------------------------------------------------------------------
+ * QandA
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .qa-q {
+  color: var(--amber);
+  font-family: var(--mono); /* serif italic question */
+}
+:root[data-theme="paper"] .qa-a {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Manifesto
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .mf-num {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--mono); /* serif numeral */
+}
+:root[data-theme="paper"] .mf-item {
+  border-bottom: 1px solid var(--dim-2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Punchline
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .pl-payoff {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Definition — feels academic already; just polish
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .df-term {
+  font-family: var(--mono); /* serif headword */
+}
+:root[data-theme="paper"] .df-pos {
+  font-family: var(--mono); /* italic serif pos */
+}
+:root[data-theme="paper"] .df-def::before {
+  color: var(--accent);
+}
+:root[data-theme="paper"] .df-mark {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * ImageGrid
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .ig-frame {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .ig-frame::after {
+  /* drop the dark inner cast; keep just a hint of paper drop shadow */
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 12px 26px -16px rgba(31, 79, 135, 0.2);
+}
+:root[data-theme="paper"] .ig-img {
+  filter: saturate(0.85) contrast(1.02);
+}
+
+/* ---------------------------------------------------------------------------
+ * Spotlight — drop the heavy shadow stack
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .sp-focus {
+  background: #FFFFFF;
+  border: 1px solid var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent-soft),
+    0 16px 40px -22px rgba(31, 79, 135, 0.25);
+}
+:root[data-theme="paper"] .sp-icon {
+  color: var(--accent);
+  text-shadow: none;
+}
+:root[data-theme="paper"] .sp-heading {
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Marquee — calmer accent row, no green glow
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .marquee {
+  mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 94%, transparent 100%);
+}
+:root[data-theme="paper"] .mq-track--b .mq-item {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--mono); /* serif italic emphasis row */
+}

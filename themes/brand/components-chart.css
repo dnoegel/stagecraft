@@ -1,0 +1,65 @@
+/* Stagecraft — Brand theme: chart component overrides.
+ * Matrix2x2 · BarChart · Progress · ProcessFlow · Venn */
+
+@import url('../phosphor/components-chart.css');
+
+/* ===========================================================================
+ * Matrix2x2 — desaturated dim quadrants, active quadrant gets clean accent
+ * ===========================================================================*/
+:root[data-theme="brand"] .matrix2x2 .quadrant.active {
+  background: color-mix(in srgb, var(--q-color, var(--accent)) 6%, var(--bg));
+  box-shadow: inset 0 0 0 1px var(--q-color, var(--accent));
+}
+:root[data-theme="brand"] .matrix2x2 .q-label { font-weight: 600; }
+
+/* ===========================================================================
+ * BarChart — flat fills, no drop shadow on bars
+ * ===========================================================================*/
+:root[data-theme="brand"] .barchart .bar-fill {
+  box-shadow: none;
+}
+:root[data-theme="brand"] .barchart .bar-label,
+:root[data-theme="brand"] .barchart .bar-value {
+  font-family: var(--body);
+  font-weight: 500;
+}
+
+/* ===========================================================================
+ * Progress — same: flat track + flat fill
+ * ===========================================================================*/
+:root[data-theme="brand"] .progress-fill {
+  box-shadow: none;
+}
+:root[data-theme="brand"] .progress-track {
+  border-radius: 0;     /* squarer, more corporate */
+}
+:root[data-theme="brand"] .progress-label,
+:root[data-theme="brand"] .progress-value {
+  font-family: var(--body);
+  font-weight: 500;
+}
+
+/* ===========================================================================
+ * ProcessFlow — kill the arrow text-shadow pulse glow
+ * ===========================================================================*/
+:root[data-theme="brand"] .processflow .pf-step {
+  background: var(--bg-elevated);
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="brand"] .processflow .pf-step.accent { border-color: var(--accent); }
+:root[data-theme="brand"] .processflow .pf-step.amber  { border-color: color-mix(in srgb, var(--amber) 50%, var(--dim-2)); }
+:root[data-theme="brand"] .processflow .pf-step.blue   { border-color: color-mix(in srgb, var(--blue) 50%, var(--dim-2)); }
+:root[data-theme="brand"] .processflow .pf-step.red    { border-color: color-mix(in srgb, var(--red) 50%, var(--dim-2)); }
+:root[data-theme="brand"] .processflow .pf-label { font-weight: 600; }
+:root[data-theme="brand"] .processflow .pf-arrow.pulse {
+  animation: none;        /* no flashy pulse */
+}
+
+/* ===========================================================================
+ * Venn — keep SVG geometry, tone fill opacity down slightly
+ * ===========================================================================*/
+:root[data-theme="brand"] .venn .v-circle {
+  fill-opacity: 0.14;
+  stroke-width: 1.5;
+}
+:root[data-theme="brand"] .venn .v-label.set { font-weight: 600; }

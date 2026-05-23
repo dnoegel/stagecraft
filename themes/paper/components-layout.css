@@ -1,0 +1,105 @@
+/* Stagecraft — Paper theme: layout component overrides. */
+@import url('../phosphor/components-layout.css');
+
+/* ---------------------------------------------------------------------------
+ * ImageText
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .it-figure {
+  background: #FFFFFF;
+}
+:root[data-theme="paper"] .it-img {
+  /* warmer print-like rendering */
+  filter: saturate(0.85) contrast(1.02);
+}
+:root[data-theme="paper"] .it-img-frame {
+  /* drop the green accent glow + heavy dark dropshadow; use thin grey rule */
+  box-shadow:
+    inset 0 0 0 1px var(--dim-2),
+    0 0 0 1px var(--dim-2),
+    0 12px 28px -16px rgba(31, 79, 135, 0.18);
+}
+
+/* ---------------------------------------------------------------------------
+ * FullImage — scrims need to come from light not dark
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .fi-scrim--center       { background: radial-gradient(ellipse at center, rgba(250,250,247,0.55) 0%, rgba(250,250,247,0.05) 70%); }
+:root[data-theme="paper"] .fi-scrim--top          { background: linear-gradient(180deg, rgba(250,250,247,0.85), transparent 55%); }
+:root[data-theme="paper"] .fi-scrim--bottom-left  { background: linear-gradient(45deg, rgba(250,250,247,0.92), transparent 65%); }
+:root[data-theme="paper"] .fi-scrim--bottom-right { background: linear-gradient(315deg, rgba(250,250,247,0.92), transparent 65%); }
+
+:root[data-theme="paper"] .fi-headline {
+  color: var(--fg);
+  text-shadow: 0 1px 14px rgba(255,255,255,0.55);
+}
+:root[data-theme="paper"] .fi-body {
+  color: var(--fg);
+}
+
+/* ---------------------------------------------------------------------------
+ * Quote
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .q-mark {
+  color: var(--accent);
+  text-shadow: none;
+  font-family: var(--mono); /* Source Serif quote marks */
+}
+:root[data-theme="paper"] .q-text {
+  font-family: var(--mono); /* serif for editorial italic */
+}
+
+/* ---------------------------------------------------------------------------
+ * BigNumber
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .bn-num {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Stats
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .stat {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .stat::before {
+  height: 2px;
+}
+:root[data-theme="paper"] .stat--accent::before {
+  background: var(--accent);
+  box-shadow: none;
+}
+:root[data-theme="paper"] .stat--accent .stat-num {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Bento
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .bento-cell {
+  background: #FFFFFF;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="paper"] .bento-cell--accent {
+  border-color: var(--accent);
+  box-shadow: none;
+  background: var(--accent-soft);
+}
+:root[data-theme="paper"] .bento-cell--accent .bento-heading { color: var(--accent); }
+:root[data-theme="paper"] .bento-cell--amber {
+  border-color: rgba(181, 127, 44, 0.45);
+  background: rgba(181, 127, 44, 0.06);
+}
+:root[data-theme="paper"] .bento-cell--blue {
+  border-color: rgba(31, 79, 135, 0.4);
+  background: rgba(31, 79, 135, 0.05);
+}
+:root[data-theme="paper"] .bento-cell--image .bento-heading {
+  color: #FFFFFF;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.55);
+}
+:root[data-theme="paper"] .bento-cell--image .bento-body {
+  color: #FFFFFF;
+  opacity: 0.9;
+}
