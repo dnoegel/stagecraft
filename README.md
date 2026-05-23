@@ -1,6 +1,6 @@
 # Stagecraft
 
-Cinematic, agent-authored presentations. **Reveal.js reimagined for the LLM era.**
+**Cinematic, agent-authored presentations in a single HTML file.**
 
 ▶ **[Live demo](https://dnoegel.github.io/stagecraft/)** — the deck about Stagecraft, built with Stagecraft. Auto-deployed from `main` via GitHub Pages.
 

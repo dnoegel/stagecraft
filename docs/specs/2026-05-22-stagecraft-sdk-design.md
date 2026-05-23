@@ -5,7 +5,7 @@
 
 ## 1. What Stagecraft is
 
-A small JavaScript library for building **cinematic, agent-authored presentations** in a single HTML file. Think *reveal.js reimagined for the LLM era*: not a template-filler, but a drawing board with strong anchors.
+A small JavaScript library for building **cinematic, agent-authored presentations** in a single HTML file. Not a template-filler — a drawing board with strong anchors.
 
 The thesis: when an LLM writes your slides, the friction is not "I don't know HTML". The friction is that generic component libraries produce generic-looking decks. Stagecraft optimizes for the opposite axis — make it cheap to produce **bespoke, animated slides**, and make the agent's first instinct be "what would make this slide feel alive" instead of "which component matches this content".
 
@@ -23,7 +23,7 @@ The thesis: when an LLM writes your slides, the friction is not "I don't know HT
 
 ### Optional but central: Edit Mode
 
-A small companion dev server (`npx stagecraft serve`) turns the browser into an interactive editor — drag slides in the storyboard, leave notes the agent later finds and acts on, change transitions with live preview. The presentation runtime is identical with or without the server; a deck committed to git is always presentation-ready. See Section 7 for the full design. This is what makes Stagecraft fundamentally different from reveal.js: a tight human↔agent collaboration loop, not just a templating library.
+A small companion dev server (`npx stagecraft serve`) turns the browser into an interactive editor — drag slides in the storyboard, leave notes the agent later finds and acts on, change transitions with live preview. The presentation runtime is identical with or without the server; a deck committed to git is always presentation-ready. See Section 7 for the full design. The tight human↔agent collaboration loop is the distinguishing feature: a deck is something an agent and a human iterate on together, not just a templated artifact.
 
 ## 2. Philosophy: Drawing Board, not Component Cage
 
@@ -430,7 +430,7 @@ The dev server binds to `127.0.0.1` only, refuses non-loopback connections, and 
 8. → loop
 ```
 
-This loop is the central reason for Stagecraft's existence. Reveal.js has decktape and Slidev has Vue HMR, but neither has a dedicated annotation channel for an agent to consume. The combination of (manifest-as-data) + (notes-as-comments) + (inline-edit-as-prop-mutation) + (live reload) + (agent in the loop) is the unique value proposition.
+This loop is the central reason for Stagecraft's existence. The combination of (manifest-as-data) + (notes-as-comments) + (inline-edit-as-prop-mutation) + (live reload) + (agent in the loop) is the value proposition: a deck is not a templated artifact but a living document an agent and a human iterate on together.
 
 ## 8. AGENT.md — the manifesto
 

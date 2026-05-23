@@ -1,7 +1,7 @@
 {
   "name": "stagecraft",
   "version": "0.1.0",
-  "description": "Cinematic, agent-authored presentations. Reveal.js reimagined for the LLM era.",
+  "description": "Cinematic, agent-authored presentations in a single HTML file.",
   "type": "module",
   "main": "src/engine.js",
   "bin": {
