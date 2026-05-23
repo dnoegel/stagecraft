@@ -267,7 +267,8 @@
   let currentStep = 0;
   let activeCleanup = null;
   let hintTimer = null;
-  let editMode = false;
+  let editMode = false;          // user-toggleable: are edit affordances visible?
+  let serverAvailable = false;   // is the dev server actually reachable?
   let ws = null;
   let presenterMode = false;            // this window is rendering the presenter view
   let bc = null;                        // BroadcastChannel for window sync
@@ -494,6 +495,36 @@
     if (el && slide.onStep) {
       try { slide.onStep(el, currentStep); } catch (e) { /* ignore */ }
     }
+  }
+
+  // Toggle edit-mode affordances on/off without disconnecting the server.
+  // Lets the user present cleanly even with the dev server running.
+  function toggleEditMode() {
+    if (!serverAvailable) {
+      // No server — nothing to toggle. Show a brief hint.
+      showHint();
+      return;
+    }
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    // Re-fire decoration on the current slide (so pin markers + hover affordances
+    // appear / disappear without a full reload).
+    const el = stage && stage.querySelector('.slide.current');
+    const slide = Stage.slides[current];
+    if (slide && el) {
+      if (editMode) {
+        if (Stage._editUI?.onSlideRendered) {
+          try { Stage._editUI.onSlideRendered(slide, current, el); } catch (e) {}
+        }
+      } else {
+        // Strip any present-mode pin markers + lingering hover outlines.
+        el.querySelectorAll('.pin-marker').forEach(n => n.remove());
+        document.querySelectorAll('.hover-outline, .note-overlay, .transition-picker, .add-slide-dialog').forEach(n => n.remove());
+        // Close storyboard too — it's an edit-mode-flavored view.
+        if (overviewActive) closeOverview();
+      }
+    }
+    console.log('[stagecraft] edit mode', editMode ? 'ON' : 'OFF');
   }
 
   function openPresenterWindow() {
@@ -809,6 +840,8 @@
         case 'p': case 'P':
           if (presenterMode) break;
           e.preventDefault(); openPresenterWindow(); break;
+        case 'e': case 'E':
+          e.preventDefault(); toggleEditMode(); break;
         case '?': case 'h': case 'H':
           showHint(); break;
         default:
@@ -897,6 +930,10 @@
     try {
       ws = new WebSocket(`ws://${location.hostname || 'localhost'}:${location.port || 3000}/stagecraft`);
       ws.addEventListener('open', () => {
+        serverAvailable = true;
+        // Default to edit-mode-on when the server is reachable. The user can
+        // toggle this off with `E` to present cleanly while the server stays
+        // running.
         editMode = true;
         document.body.classList.add('edit-mode');
         console.log('[stagecraft] edit mode ON — connected to dev server');
@@ -905,7 +942,8 @@
       ws.addEventListener('message', handleServerMessage);
       ws.addEventListener('error', () => { /* silent */ });
       ws.addEventListener('close', () => {
-        if (editMode) {
+        if (serverAvailable) {
+          serverAvailable = false;
           editMode = false;
           document.body.classList.remove('edit-mode');
           console.log('[stagecraft] edit mode OFF — server disconnected');

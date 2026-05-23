@@ -9,16 +9,35 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
 
+  <!--
+    All 4 themes loaded. Each is scoped via :root[data-theme="X"], so only the
+    rules for the currently-active theme actually apply. This makes the live
+    theme picker in edit mode work without a page reload.
+    For production, the starter loads only one theme bundle.
+  -->
+  <!-- Phosphor (baseline; phosphor/components.css @imports its 6 family sub-files) -->
   <link rel="stylesheet" href="../themes/phosphor/tokens.css">
   <link rel="stylesheet" href="../themes/phosphor/base.css">
   <link rel="stylesheet" href="../themes/phosphor/components.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-layout.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-diagram.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-chart.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-content.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-data.css">
-  <link rel="stylesheet" href="../themes/phosphor/components-business.css">
   <link rel="stylesheet" href="../themes/phosphor/transitions.css">
+
+  <!-- Paper -->
+  <link rel="stylesheet" href="../themes/paper/tokens.css">
+  <link rel="stylesheet" href="../themes/paper/base.css">
+  <link rel="stylesheet" href="../themes/paper/components.css">
+  <link rel="stylesheet" href="../themes/paper/transitions.css">
+
+  <!-- Neon -->
+  <link rel="stylesheet" href="../themes/neon/tokens.css">
+  <link rel="stylesheet" href="../themes/neon/base.css">
+  <link rel="stylesheet" href="../themes/neon/components.css">
+  <link rel="stylesheet" href="../themes/neon/transitions.css">
+
+  <!-- Brand -->
+  <link rel="stylesheet" href="../themes/brand/tokens.css">
+  <link rel="stylesheet" href="../themes/brand/base.css">
+  <link rel="stylesheet" href="../themes/brand/components.css">
+  <link rel="stylesheet" href="../themes/brand/transitions.css">
 </head>
 <body>
 
@@ -37,7 +56,7 @@
       <span id="curSec">00</span><span class="slash">/</span><span class="total">00</span>
     </div>
     <div class="ui-dots" id="uiDots"></div>
-    <div class="ui-hint" id="uiHint">→ next · ← prev · S storyboard · F fullscreen · R replay</div>
+    <div class="ui-hint" id="uiHint">→ next · ← prev · S storyboard · F fullscreen · R replay · P presenter · E edit toggle</div>
   </div>
 
   <script src="../src/helpers.js"></script>

@@ -1,5 +1,6 @@
 'use strict';
 
+// @note: test
 Stage.register(Stage.KineticText({
   section: 1,
   title: '01 · Welcome',
