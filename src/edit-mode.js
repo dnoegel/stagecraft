@@ -802,7 +802,9 @@ The user has been working in the browser-based edit mode and left these notes fo
         background: rgba(0, 255, 156, 0.06);
         cursor: text;
       }
-      [data-stage-edit]:hover {
+      /* Scope to body.edit-mode so the hover affordance disappears when
+         edit-mode is toggled off via 'E' (server may still be running). */
+      body.edit-mode [data-stage-edit]:hover {
         text-decoration: underline dotted var(--accent, #00FF9C);
         text-underline-offset: 4px;
         cursor: text;

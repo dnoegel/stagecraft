@@ -8,7 +8,7 @@
  * via SectionCard with the same `dissolve` transition for visual rhythm.
  */
 Stage.deck({
-  theme: "shopware",
+  theme: "phosphor",
   slides: [/* 01 · Intro */
   {
     src: 'slides/00-title.js',
