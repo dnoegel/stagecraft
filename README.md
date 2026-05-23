@@ -2,7 +2,7 @@
 
 **Cinematic, agent-authored presentations in a single HTML file.**
 
-▶ **[Live demo](https://dnoegel.github.io/stagecraft/)** — the deck about Stagecraft, built with Stagecraft. Auto-deployed from `main` via GitHub Pages.
+▶ **[Live demo](https://noegel.io/stagecraft/)** — the deck about Stagecraft, built with Stagecraft. Auto-deployed from `main` via GitHub Pages.
 
 A small JavaScript library for building animated slide decks that live in a single HTML file. Designed so an LLM can generate a deck that doesn't look like an LLM generated it.
 
