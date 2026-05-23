@@ -1,12 +1,21 @@
 {
   "name": "stagecraft",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cinematic, agent-authored presentations in a single HTML file.",
   "type": "module",
   "main": "src/engine.js",
   "bin": {
     "stagecraft": "bin/cli.js"
   },
+  "homepage": "https://noegel.io/stagecraft/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnoegel/stagecraft.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dnoegel/stagecraft/issues"
+  },
+  "author": "Daniel Nögel",
   "files": [
     "src",
     "themes",
@@ -15,7 +24,9 @@
     "bin",
     "starter",
     "AGENT.md",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "serve": "node bin/serve.js",
@@ -25,7 +36,8 @@
     "build": "node scripts/bundle.js",
     "test:visual": "node tests/visual/run.js",
     "test:visual:update": "node tests/visual/run.js --update-baseline",
-    "export": "node bin/export.js"
+    "export": "node bin/export.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@babel/generator": "^7.24.0",
@@ -36,6 +48,17 @@
     "mime-types": "^2.1.35",
     "ws": "^8.16.0"
   },
-  "keywords": ["slides", "presentation", "reveal", "agent", "llm"],
-  "license": "MIT"
+  "keywords": [
+    "slides",
+    "presentation",
+    "agent",
+    "llm",
+    "stagecraft",
+    "deck",
+    "keynote"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
 }
