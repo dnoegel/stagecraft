@@ -790,7 +790,7 @@ The user has been working in the browser-based edit mode and left these notes fo
       .hover-outline {
         position: fixed;
         border: 1px dashed var(--accent, #00FF9C);
-        background: rgba(0, 255, 156, 0.05);
+        background: var(--accent-soft, rgba(0, 255, 156, 0.05));
         pointer-events: none;
         z-index: 9000;
         transition: all 80ms ease-out;
@@ -799,7 +799,7 @@ The user has been working in the browser-based edit mode and left these notes fo
       .inline-editing {
         outline: 2px solid var(--accent, #00FF9C);
         outline-offset: 2px;
-        background: rgba(0, 255, 156, 0.06);
+        background: var(--accent-soft, rgba(0, 255, 156, 0.06));
         cursor: text;
       }
       /* Scope to body.edit-mode so the hover affordance disappears when
@@ -868,7 +868,7 @@ The user has been working in the browser-based edit mode and left these notes fo
         gap: 0.25rem;
       }
       .tile-action {
-        background: rgba(10, 10, 10, 0.78);
+        background: var(--bg-elevated, rgba(10, 10, 10, 0.78));
         border: 1px solid var(--dim-2, #2a2a2a);
         color: var(--fg, #e6e6e6);
         width: 26px; height: 26px;
@@ -893,7 +893,7 @@ The user has been working in the browser-based edit mode and left these notes fo
         top: 4rem; left: 50%;
         transform: translateX(-50%);
         z-index: 320;
-        background: rgba(10, 10, 10, 0.92);
+        background: var(--bg-elevated, rgba(10, 10, 10, 0.92));
         backdrop-filter: blur(8px);
         border: 1px solid var(--dim-2, #2a2a2a);
         padding: 0.5rem 0.7rem;
@@ -932,7 +932,7 @@ The user has been working in the browser-based edit mode and left these notes fo
       .sb-theme-btn.is-current {
         border-color: var(--accent, #00FF9C);
         color: var(--accent, #00FF9C);
-        background: rgba(0, 255, 156, 0.06);
+        background: var(--accent-soft, rgba(0, 255, 156, 0.06));
       }
       .sb-toolbar-spacer { width: 1px; height: 1.4rem; background: var(--dim-2, #2a2a2a); }
       .sb-toolbar-btn {
@@ -967,7 +967,7 @@ The user has been working in the browser-based edit mode and left these notes fo
       }
       .tile-add:hover {
         border-color: var(--accent, #00FF9C);
-        background: rgba(0, 255, 156, 0.04);
+        background: var(--accent-soft, rgba(0, 255, 156, 0.04));
       }
       .tile-add-glyph {
         font-size: 3rem;
@@ -1101,7 +1101,7 @@ The user has been working in the browser-based edit mode and left these notes fo
         box-shadow: 0 0 14px var(--accent-glow, rgba(0,255,156,0.45));
       }
       .tx-connector-icon.row-break {
-        background: rgba(10, 10, 10, 0.92);
+        background: var(--bg-elevated, rgba(10, 10, 10, 0.92));
         backdrop-filter: blur(4px);
       }
       .tx-connector-glyph { font-size: 0.95rem; line-height: 1; }
@@ -1118,7 +1118,7 @@ The user has been working in the browser-based edit mode and left these notes fo
         opacity: 0;
         transition: opacity 180ms;
         pointer-events: none;
-        background: rgba(10, 10, 10, 0.95);
+        background: var(--bg-elevated, rgba(10, 10, 10, 0.95));
         padding: 0.2rem 0.5rem;
       }
       .tx-connector-icon:hover .tx-connector-label { opacity: 1; }
