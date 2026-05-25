@@ -28,6 +28,12 @@
       throw new Error('Stage.register: slide must have a render(el) function');
     }
     if (meta && typeof meta === 'object') Object.assign(slide, meta);
+    // Tag with the script's source URL so the deck loader can put slides back
+    // into manifest order after parallel loading. `document.currentScript` is
+    // set during the synchronous top-level execution of each slide script.
+    if (typeof document !== 'undefined' && document.currentScript && document.currentScript.src) {
+      slide._src = document.currentScript.src;
+    }
     Stage.slides.push(slide);
   };
 
@@ -42,6 +48,32 @@
     Stage.transitions[name] = config;
   };
 
+  // ---------------------------------------------------------------------------
+  // Stage.ensureThemeCss(name) — lazy-load a theme's bundled CSS if missing.
+  // Used by the storyboard theme picker so production decks can ship with
+  // ONE active theme's CSS initially and pull others in on demand.
+  //
+  // Path convention matches the deploy layout (`dist/themes/<name>.bundle.css`,
+  // relative to the deck's index.html). Override via Stage.themeCssPath if
+  // your layout differs.
+  // ---------------------------------------------------------------------------
+  Stage.themeCssPath = (name) => `dist/themes/${name}.bundle.css`;
+
+  Stage.ensureThemeCss = function (name) {
+    if (typeof document === 'undefined') return Promise.resolve();
+    const existing = document.querySelector(`link[data-stagecraft-theme="${name}"]`);
+    if (existing) return Promise.resolve();
+    return new Promise((resolve) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = Stage.themeCssPath(name);
+      link.dataset.stagecraftTheme = name;
+      link.onload = () => resolve();
+      link.onerror = () => resolve();   // soft-fail; theme just won't apply
+      document.head.appendChild(link);
+    });
+  };
+
   function applyTransition(el, name, phase /* 'enter' | 'exit' */) {
     const t = Stage.transitions[name] || Stage.transitions.fade;
     if (!t) return;
@@ -51,35 +83,55 @@
 
   // ---------------------------------------------------------------------------
   // Deck loader — Stage.deck({ theme, slides: [{src, transition?}, ...] })
-  // Sets the theme, fetches each slide script in order, starts the runtime.
+  // Sets the theme, fetches every slide script in PARALLEL, then reorders
+  // Stage.slides into manifest order using each slide's `_src` tag (set by
+  // Stage.register via document.currentScript.src).
   // ---------------------------------------------------------------------------
   Stage.deck = function (config) {
     Stage._config = config;
     if (config.theme) document.documentElement.setAttribute('data-theme', config.theme);
-    // Slides list with transitions; engine reads .transition on enter.
     Stage._manifestSlides = config.slides || [];
 
     const sources = (config.slides || []).map(s => s.src);
-    loadScripts(sources).then(() => {
-      // After all slide scripts loaded, each has called Stage.register().
-      // Pair manifest transitions with registered slides by order.
+    Promise.all(sources.map(loadScript)).then(() => {
+      reorderSlidesByManifest();
       Stage.slides.forEach((slide, i) => {
         const m = Stage._manifestSlides[i];
         if (m) slide.transition = m.transition || slide.transition || 'fade';
       });
       initRuntime();
+    }).catch(err => {
+      console.error('[stagecraft] failed to load slides:', err);
+      initRuntime();        // start anyway so at least the chrome appears
     });
   };
 
-  function loadScripts(srcs) {
-    return srcs.reduce((p, src) => p.then(() => loadScript(src)), Promise.resolve());
+  // Sort Stage.slides to match the manifest's order, using each slide's _src
+  // tag. Slides without _src (e.g. inline scripts) keep their load-order
+  // position at the end.
+  function reorderSlidesByManifest() {
+    if (!Stage._manifestSlides || !Stage._manifestSlides.length) return;
+    const remaining = Stage.slides.slice();
+    const ordered = [];
+    for (const m of Stage._manifestSlides) {
+      const absSrc = new URL(m.src, location.href).href;
+      const idx = remaining.findIndex(s => s._src === absSrc);
+      if (idx >= 0) ordered.push(remaining.splice(idx, 1)[0]);
+    }
+    // Append any leftover slides (registered without a script src, or extras)
+    ordered.push(...remaining);
+    Stage.slides.splice(0, Stage.slides.length, ...ordered);
   }
 
+  // Inject a <script> tag and resolve when it has loaded.
+  // `async = true` (default for dynamic scripts, but set explicitly for clarity)
+  // means executions are NOT serialised — each script runs as soon as it finishes
+  // downloading. Stage.register tags slides with their src so we can sort after.
   function loadScript(src) {
     return new Promise((resolve, reject) => {
       const s = document.createElement('script');
       s.src = src;
-      s.async = false;
+      s.async = true;
       s.onload = () => resolve();
       s.onerror = () => reject(new Error('Failed to load ' + src));
       document.head.appendChild(s);

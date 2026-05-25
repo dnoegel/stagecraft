@@ -151,12 +151,9 @@ function demoIndexHtml(demo, hasThemeCss) {
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
 
-  <!-- All Stagecraft themes loaded (scoped via :root[data-theme="X"]) -->
-  <link rel="stylesheet" href="dist/themes/phosphor.bundle.css">
-  <link rel="stylesheet" href="dist/themes/paper.bundle.css">
-  <link rel="stylesheet" href="dist/themes/neon.bundle.css">
-  <link rel="stylesheet" href="dist/themes/brand.bundle.css">
-  <link rel="stylesheet" href="dist/themes/shopware.bundle.css">
+  <!-- Only the active theme is loaded initially. Other themes lazy-load via
+       Stage.ensureThemeCss(name) when the picker switches. Saves ~600 KB initial. -->
+  <link rel="stylesheet" href="dist/themes/${demo.theme}.bundle.css" data-stagecraft-theme="${demo.theme}">
 ${hasThemeCss ? '  <!-- Demo-specific overrides -->\n  <link rel="stylesheet" href="theme.css">\n' : ''}
   <style>
     .gallery-back {

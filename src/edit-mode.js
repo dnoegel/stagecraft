@@ -406,9 +406,13 @@
   }
 
   function switchTheme(theme) {
-    // Update DOM immediately for instant feedback.
-    document.documentElement.setAttribute('data-theme', theme);
-    // Persist via server. The full reload also re-fetches the manifest with the new theme.
+    // Make sure the target theme's CSS is loaded before flipping data-theme,
+    // so we don't flash unstyled content. In dev (with all themes loaded
+    // upfront) this resolves instantly.
+    Stage.ensureThemeCss(theme).then(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+    });
+    // Persist via server.
     apiPost('/api/manifest/theme', { theme }).then(r => {
       if (r.ok) toast(`Theme → ${theme}`, 'ok');
       else toast('Theme switch failed: ' + r.error, 'error');
