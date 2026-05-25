@@ -57,13 +57,12 @@
   content: none;
 }
 
-/* Make sure stage content sits above the star-field. */
-:root[data-theme="phosphor"] #stage,
-:root[data-theme="phosphor"] .ui,
-:root[data-theme="phosphor"] .welcome {
-  position: relative;
-  z-index: 1;
-}
+/* Make sure stage content sits above the star-field. KEEP base positioning
+ * (#stage and .welcome are position:fixed / inset:0 in the base — overriding
+ * to position:relative breaks the fullscreen centering). Only lift z-index. */
+:root[data-theme="phosphor"] #stage     { z-index: 1; }
+:root[data-theme="phosphor"] .ui        { z-index: 100; }
+:root[data-theme="phosphor"] .welcome   { z-index: 200; }
 
 /* ----------------------------------------------------------------------------
  * Slow, deliberate transitions — every cut should feel intentional.

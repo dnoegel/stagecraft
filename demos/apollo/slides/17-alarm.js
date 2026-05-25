@@ -69,7 +69,7 @@ Stage.register({
     el.innerHTML = `
       <div class="alarm-terminal">
         <div class="alarm-head">
-          <span>AGC &middot; PROGRAM ALARM &middot; 102:38:22 MET</span>
+          <span>AGC TRANSMISSION LOG &middot; Mission Elapsed Time (hh:mm:ss since liftoff)</span>
           <span class="blink">&middot; LIVE</span>
         </div>
         <div class="alarm-body"></div>
