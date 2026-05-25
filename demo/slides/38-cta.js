@@ -5,7 +5,7 @@ Stage.register(Stage.CTA({
   title: '08 · Now go build something',
   headline: 'Now go build something.',
   body: 'npm install stagecraft   ·   npx stagecraft init   ·   open index.html',
-  action: { label: 'github.com/<you>/stagecraft', hint: '→' },
+  action: { label: 'github.com/dnoegel/stagecraft', hint: '→' },
   accent: true
 }), {
   notes: 'Final CTA. Reads as encouragement, not a sales pitch.'
