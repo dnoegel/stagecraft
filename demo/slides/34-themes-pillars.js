@@ -2,15 +2,14 @@
 
 Stage.register(Stage.Pillars({
   section: 7,
-  title: '07 · Five themes',
+  title: '07 · Themes',
   pillars: [
     { icon: 'wb_iridescent',  heading: 'Phosphor', body: 'cinematic dark · green', color: 'accent' },
     { icon: 'menu_book',      heading: 'Paper',    body: 'academic light · navy' },
     { icon: 'bolt',           heading: 'Neon',     body: 'cyberpunk · magenta + cyan', color: 'amber' },
-    { icon: 'business',       heading: 'Brand',    body: 'corporate · blue' },
-    { icon: 'storefront',     heading: 'Shopware', body: 'official · Meteor tokens', color: 'accent' }
+    { icon: 'business',       heading: 'Brand',    body: 'corporate · blue' }
   ],
   reveal: 'staggered'
 }), {
-  notes: 'Switch between them live from the storyboard toolbar in edit mode. The Shopware theme uses Shopwares official Meteor design tokens — Inter, brand-blue #0870ff, and the full semantic palette.'
+  notes: 'Switch between them live from the storyboard toolbar in edit mode. Tokens, base, components, transitions per theme — pick the vibe that fits your talk.'
 });
