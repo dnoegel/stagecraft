@@ -1,0 +1,475 @@
+/* ============================================================================
+ * Apollo 11 theme override — repaints phosphor in mission-control amber on
+ * pure black, with a quiet star-field in the deep background.
+ *
+ *   - Background: #000 — pure space
+ *   - Foreground: #F0EEE3 — warm Apollo-era paper / spacesuit cream
+ *   - Dim:        #8B8676 — warm grey for chrome / muted copy
+ *   - Accent:     #FFB454 — mission-control phosphor amber
+ *   - Blue:       #5BC0EB — Earth blue, used sparingly on data
+ *   - Display:    Space Grotesk — geometric, spacey, generous tracking
+ *   - Mono/Body:  JetBrains Mono — terminal feel, mission-control
+ *   - Star-field: inline SVG data URL on body::before, fixed full-bleed
+ *   - Transitions: slowed to 1200ms — every cut feels deliberate
+ * ========================================================================== */
+
+:root[data-theme="phosphor"] {
+  /* Palette */
+  --bg:           #000000;
+  --bg-elevated:  #0A0A0A;
+  --fg:           #F0EEE3;
+  --dim:          #8B8676;
+  --dim-2:        #2A2620;
+  --accent:       #FFB454;                          /* mission-control amber */
+  --accent-soft:  rgba(255, 180, 84, 0.14);
+  --accent-glow:  rgba(255, 180, 84, 0.45);
+  --blue:         #5BC0EB;                          /* Earth blue — sparing use on data */
+  --amber:        #FFB454;                          /* same as accent */
+  --red:          #FF6B5C;                          /* warm warning */
+
+  /* Typography pair */
+  --mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --display: 'Space Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --body:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ----------------------------------------------------------------------------
+ * Star field — a single fixed-position SVG painted via data URL on body::before.
+ * Sits under all content. Subtle, never the focus.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] body {
+  background: #000;
+}
+:root[data-theme="phosphor"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1200' preserveAspectRatio='xMidYMid slice'><circle cx='1771.8' cy='981.2' r='1.26' fill='%23F0EEE3' opacity='0.66'/><circle cx='1123.9' cy='865.2' r='0.90' fill='%23F0EEE3' opacity='0.23'/><circle cx='1406.0' cy='937.0' r='1.01' fill='%23F0EEE3' opacity='0.39'/><circle cx='1482.4' cy='1137.1' r='1.29' fill='%23F0EEE3' opacity='0.74'/><circle cx='365.3' cy='162.0' r='0.95' fill='%23F0EEE3' opacity='0.70'/><circle cx='326.5' cy='530.0' r='0.61' fill='%23F0EEE3' opacity='0.50'/><circle cx='1341.1' cy='48.7' r='0.85' fill='%23F0EEE3' opacity='0.65'/><circle cx='866.0' cy='880.9' r='0.42' fill='%23F0EEE3' opacity='0.74'/><circle cx='950.6' cy='211.9' r='1.18' fill='%23F0EEE3' opacity='0.31'/><circle cx='681.3' cy='915.8' r='0.58' fill='%23F0EEE3' opacity='0.22'/><circle cx='1959.4' cy='222.1' r='0.96' fill='%23F0EEE3' opacity='0.77'/><circle cx='611.9' cy='782.7' r='0.37' fill='%23F0EEE3' opacity='0.24'/><circle cx='836.4' cy='938.4' r='1.17' fill='%23F0EEE3' opacity='0.43'/><circle cx='978.6' cy='185.5' r='1.24' fill='%23F0EEE3' opacity='0.57'/><circle cx='643.4' cy='642.4' r='0.86' fill='%23F0EEE3' opacity='0.68'/><circle cx='1139.6' cy='916.6' r='1.28' fill='%23F0EEE3' opacity='0.48'/><circle cx='1257.1' cy='371.1' r='0.93' fill='%23F0EEE3' opacity='0.54'/><circle cx='378.7' cy='591.0' r='0.32' fill='%23F0EEE3' opacity='0.22'/><circle cx='924.2' cy='450.4' r='0.58' fill='%23F0EEE3' opacity='0.77'/><circle cx='128.2' cy='379.0' r='0.69' fill='%23F0EEE3' opacity='0.50'/><circle cx='1151.1' cy='228.5' r='0.40' fill='%23F0EEE3' opacity='0.48'/><circle cx='1523.7' cy='339.7' r='0.72' fill='%23F0EEE3' opacity='0.52'/><circle cx='925.2' cy='1009.0' r='1.20' fill='%23F0EEE3' opacity='0.23'/><circle cx='293.8' cy='354.8' r='0.78' fill='%23F0EEE3' opacity='0.65'/><circle cx='271.4' cy='184.6' r='0.39' fill='%23F0EEE3' opacity='0.70'/><circle cx='981.5' cy='661.3' r='1.11' fill='%23F0EEE3' opacity='0.75'/><circle cx='1140.1' cy='570.1' r='1.12' fill='%23F0EEE3' opacity='0.54'/><circle cx='500.5' cy='785.0' r='1.23' fill='%23F0EEE3' opacity='0.53'/><circle cx='1630.3' cy='135.8' r='1.09' fill='%23F0EEE3' opacity='0.63'/><circle cx='1023.6' cy='474.2' r='1.10' fill='%23F0EEE3' opacity='0.53'/><circle cx='1544.4' cy='541.0' r='0.94' fill='%23F0EEE3' opacity='0.40'/><circle cx='205.1' cy='232.5' r='0.82' fill='%23F0EEE3' opacity='0.30'/><circle cx='1277.4' cy='867.2' r='0.37' fill='%23F0EEE3' opacity='0.43'/><circle cx='736.5' cy='252.6' r='1.15' fill='%23F0EEE3' opacity='0.72'/><circle cx='39.2' cy='551.5' r='0.95' fill='%23F0EEE3' opacity='0.75'/><circle cx='1234.9' cy='149.2' r='0.60' fill='%23F0EEE3' opacity='0.65'/><circle cx='1410.0' cy='719.7' r='0.56' fill='%23F0EEE3' opacity='0.69'/><circle cx='465.8' cy='692.7' r='1.16' fill='%23F0EEE3' opacity='0.57'/><circle cx='229.4' cy='320.0' r='0.46' fill='%23F0EEE3' opacity='0.37'/><circle cx='898.4' cy='342.3' r='0.82' fill='%23F0EEE3' opacity='0.69'/><circle cx='818.4' cy='256.0' r='1.11' fill='%23F0EEE3' opacity='0.77'/><circle cx='1594.4' cy='979.7' r='0.62' fill='%23F0EEE3' opacity='0.61'/><circle cx='534.9' cy='1120.5' r='0.59' fill='%23F0EEE3' opacity='0.55'/><circle cx='430.2' cy='41.7' r='0.46' fill='%23F0EEE3' opacity='0.55'/><circle cx='663.0' cy='528.2' r='0.74' fill='%23F0EEE3' opacity='0.56'/><circle cx='1652.9' cy='254.3' r='0.55' fill='%23F0EEE3' opacity='0.64'/><circle cx='634.7' cy='849.5' r='0.89' fill='%23F0EEE3' opacity='0.30'/><circle cx='768.6' cy='965.7' r='0.49' fill='%23F0EEE3' opacity='0.62'/><circle cx='1585.8' cy='943.6' r='0.36' fill='%23F0EEE3' opacity='0.78'/><circle cx='765.0' cy='1079.6' r='1.06' fill='%23F0EEE3' opacity='0.44'/><circle cx='1244.7' cy='692.1' r='0.53' fill='%23F0EEE3' opacity='0.59'/><circle cx='1666.7' cy='388.5' r='0.69' fill='%23F0EEE3' opacity='0.77'/><circle cx='154.6' cy='331.9' r='0.64' fill='%23F0EEE3' opacity='0.75'/><circle cx='1424.4' cy='507.3' r='0.54' fill='%23F0EEE3' opacity='0.27'/><circle cx='1229.2' cy='588.9' r='1.21' fill='%23F0EEE3' opacity='0.40'/><circle cx='136.8' cy='606.4' r='1.29' fill='%23F0EEE3' opacity='0.44'/><circle cx='641.2' cy='11.4' r='1.18' fill='%23F0EEE3' opacity='0.66'/><circle cx='1606.4' cy='1144.9' r='0.58' fill='%23F0EEE3' opacity='0.67'/><circle cx='45.0' cy='303.1' r='0.68' fill='%23F0EEE3' opacity='0.50'/><circle cx='228.3' cy='4.5' r='1.12' fill='%23F0EEE3' opacity='0.37'/><circle cx='131.9' cy='456.5' r='0.46' fill='%23F0EEE3' opacity='0.79'/><circle cx='1212.3' cy='222.0' r='0.48' fill='%23F0EEE3' opacity='0.75'/><circle cx='1519.2' cy='86.4' r='1.02' fill='%23F0EEE3' opacity='0.38'/><circle cx='138.7' cy='523.6' r='0.54' fill='%23F0EEE3' opacity='0.56'/><circle cx='972.3' cy='1163.2' r='0.36' fill='%23F0EEE3' opacity='0.37'/><circle cx='1847.0' cy='1057.2' r='0.55' fill='%23F0EEE3' opacity='0.51'/><circle cx='960.5' cy='946.2' r='0.46' fill='%23F0EEE3' opacity='0.36'/><circle cx='658.2' cy='326.6' r='0.97' fill='%23F0EEE3' opacity='0.37'/><circle cx='545.3' cy='116.9' r='0.37' fill='%23F0EEE3' opacity='0.55'/><circle cx='1930.3' cy='124.4' r='0.90' fill='%23F0EEE3' opacity='0.62'/><circle cx='1603.4' cy='912.2' r='0.99' fill='%23F0EEE3' opacity='0.55'/><circle cx='947.2' cy='465.5' r='1.16' fill='%23F0EEE3' opacity='0.29'/><circle cx='381.6' cy='58.2' r='0.53' fill='%23F0EEE3' opacity='0.51'/><circle cx='1141.1' cy='120.1' r='1.09' fill='%23F0EEE3' opacity='0.70'/><circle cx='386.2' cy='502.9' r='0.57' fill='%23F0EEE3' opacity='0.75'/><circle cx='1647.8' cy='347.5' r='1.01' fill='%23F0EEE3' opacity='0.45'/><circle cx='604.8' cy='1150.1' r='0.93' fill='%23F0EEE3' opacity='0.64'/><circle cx='195.6' cy='1029.3' r='1.29' fill='%23F0EEE3' opacity='0.52'/><circle cx='1062.1' cy='592.4' r='1.00' fill='%23F0EEE3' opacity='0.24'/><circle cx='1327.8' cy='2.4' r='1.17' fill='%23F0EEE3' opacity='0.75'/><circle cx='1708.7' cy='444.5' r='0.96' fill='%23F0EEE3' opacity='0.61'/><circle cx='1957.9' cy='392.8' r='1.19' fill='%23F0EEE3' opacity='0.27'/><circle cx='643.3' cy='1076.9' r='0.49' fill='%23F0EEE3' opacity='0.24'/><circle cx='258.8' cy='748.7' r='1.27' fill='%23F0EEE3' opacity='0.80'/><circle cx='1668.5' cy='548.8' r='1.22' fill='%23F0EEE3' opacity='0.34'/><circle cx='1884.8' cy='373.6' r='0.55' fill='%23F0EEE3' opacity='0.71'/><circle cx='1179.2' cy='341.7' r='0.87' fill='%23F0EEE3' opacity='0.30'/><circle cx='1527.2' cy='660.3' r='0.77' fill='%23F0EEE3' opacity='0.26'/><circle cx='385.5' cy='1092.6' r='1.01' fill='%23F0EEE3' opacity='0.75'/><circle cx='1803.4' cy='23.6' r='0.44' fill='%23F0EEE3' opacity='0.72'/></svg>");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Silence phosphor's grain ::after — pure black-of-space deserves cleaner emptiness. */
+:root[data-theme="phosphor"] body::after {
+  content: none;
+}
+
+/* Make sure stage content sits above the star-field. */
+:root[data-theme="phosphor"] #stage,
+:root[data-theme="phosphor"] .ui,
+:root[data-theme="phosphor"] .welcome {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------------------------
+ * Slow, deliberate transitions — every cut should feel intentional.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .tx-fade-enter,
+:root[data-theme="phosphor"] .tx-dissolve-enter,
+:root[data-theme="phosphor"] .tx-wipe-enter,
+:root[data-theme="phosphor"] .tx-iris-enter,
+:root[data-theme="phosphor"] .tx-zoom-in-enter,
+:root[data-theme="phosphor"] .tx-zoom-out-enter {
+  animation-duration: 1200ms !important;
+}
+
+/* ----------------------------------------------------------------------------
+ * Welcome screen.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .welcome {
+  background: var(--bg);
+}
+:root[data-theme="phosphor"] .welcome h1 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  color: var(--fg);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  text-transform: none;
+}
+:root[data-theme="phosphor"] .welcome .by {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .welcome .key-prompt {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--dim);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .welcome .key-prompt .accent {
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------------------
+ * Chrome (.ui) — mission-control screens, amber on black, mono.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .ui {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .ui-brand .br-accent {
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+:root[data-theme="phosphor"] .ui-title {
+  color: var(--accent);
+  letter-spacing: 0.28em;
+}
+:root[data-theme="phosphor"] .ui-counter { color: var(--fg); }
+:root[data-theme="phosphor"] .ui-counter .slash,
+:root[data-theme="phosphor"] .ui-counter .total { color: var(--dim); }
+:root[data-theme="phosphor"] .ui-dots .dot { background: var(--dim-2); }
+:root[data-theme="phosphor"] .ui-dots .dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+:root[data-theme="phosphor"] .ui-dots .dot.past { background: var(--dim); }
+
+/* ----------------------------------------------------------------------------
+ * Typography for headings — Space Grotesk with generous tracking on display.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .hero,
+:root[data-theme="phosphor"] .hero-xl,
+:root[data-theme="phosphor"] .sec-title,
+:root[data-theme="phosphor"] .sec-num,
+:root[data-theme="phosphor"] .statement-text,
+:root[data-theme="phosphor"] .kinetic .line,
+:root[data-theme="phosphor"] .bn-number,
+:root[data-theme="phosphor"] .stat-num,
+:root[data-theme="phosphor"] .kpi-value,
+:root[data-theme="phosphor"] .shift-arrow .from,
+:root[data-theme="phosphor"] .shift-arrow .to,
+:root[data-theme="phosphor"] .shift-arrow .arrow,
+:root[data-theme="phosphor"] .q-text,
+:root[data-theme="phosphor"] .it-heading,
+:root[data-theme="phosphor"] .fi-headline {
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme="phosphor"] .sec-num {
+  letter-spacing: 0.18em;
+}
+:root[data-theme="phosphor"] .sec-title {
+  letter-spacing: 0.04em;
+}
+
+/* Amber glow on accent text — kinetic accent line, section accent, statement emphasis */
+:root[data-theme="phosphor"] .kinetic .line.accent,
+:root[data-theme="phosphor"] .sec-title .accent,
+:root[data-theme="phosphor"] .st-em,
+:root[data-theme="phosphor"] .st-em--accent,
+:root[data-theme="phosphor"] .mf-em,
+:root[data-theme="phosphor"] .mf-em--accent,
+:root[data-theme="phosphor"] .statement em {
+  color: var(--accent);
+  text-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* Pre-labels — small caps with accent dot. */
+:root[data-theme="phosphor"] .pre-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.32em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .pre-label .dot {
+  background: var(--accent);
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+:root[data-theme="phosphor"] .sub {
+  font-family: var(--mono);
+  color: var(--dim);
+}
+
+/* ----------------------------------------------------------------------------
+ * Stat blocks / KPIs / Counters — keep amber numbers warm.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .stat-block,
+:root[data-theme="phosphor"] .kpi-card,
+:root[data-theme="phosphor"] .pillar,
+:root[data-theme="phosphor"] .codeblock,
+:root[data-theme="phosphor"] .activity-list .item,
+:root[data-theme="phosphor"] .timeline-event {
+  border-color: var(--dim-2);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* CodeBlock styling — terminal feel for the AGC code. */
+:root[data-theme="phosphor"] .codeblock {
+  background: #050505;
+  border: 1px solid var(--dim-2);
+}
+:root[data-theme="phosphor"] .codeblock pre,
+:root[data-theme="phosphor"] .codeblock code {
+  font-family: var(--mono);
+  color: var(--fg);
+}
+
+/* Quote */
+:root[data-theme="phosphor"] .q-text {
+  font-family: var(--display);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+:root[data-theme="phosphor"] .q-author,
+:root[data-theme="phosphor"] .q-role,
+:root[data-theme="phosphor"] .q-source {
+  font-family: var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+:root[data-theme="phosphor"] .q-mark { color: var(--accent); opacity: 0.55; }
+
+/* Material icon color */
+:root[data-theme="phosphor"] .material-symbols-outlined {
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------------------
+ * Caret — soft amber blink (no harsh edges, mission-control glow).
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .caret {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: apollo-blink 900ms steps(2, end) infinite;
+}
+@keyframes apollo-blink { 50% { opacity: 0; } }
+
+/* ----------------------------------------------------------------------------
+ * Per-slide helpers (used by bespoke slides — declare here to keep them
+ * theme-scoped). The slides reference these class names.
+ * -------------------------------------------------------------------------- */
+
+/* Tiny dim photo credit, bottom-right of any slide that wants it. */
+:root[data-theme="phosphor"] .photo-credit {
+  position: absolute;
+  bottom: 4.2rem;
+  right: 2.4rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--dim);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+/* Countdown — large amber digit in the middle of the screen. */
+:root[data-theme="phosphor"] .countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+:root[data-theme="phosphor"] .countdown-label {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.4em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .countdown-digit {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(8rem, 28vw, 22rem);
+  color: var(--accent);
+  text-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-glow);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+:root[data-theme="phosphor"] .countdown-tag {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+  color: var(--fg);
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .countdown-liftoff {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(4rem, 14vw, 10rem);
+  color: var(--accent);
+  text-shadow: 0 0 40px var(--accent-glow), 0 0 100px var(--accent-glow);
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+/* Ignition / particles slide */
+:root[data-theme="phosphor"] .ignition-wrap {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+:root[data-theme="phosphor"] .ignition-svg {
+  width: min(680px, 80vw);
+  height: 100%;
+}
+
+/* Trajectory slide */
+:root[data-theme="phosphor"] .trajectory-wrap {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+:root[data-theme="phosphor"] .trajectory-svg {
+  width: 100%;
+  height: 56vh;
+  max-height: 460px;
+}
+:root[data-theme="phosphor"] .trajectory-caption {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.36em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .trajectory-caption .accent {
+  color: var(--accent);
+}
+
+/* Terminal log (1202 alarm) */
+:root[data-theme="phosphor"] .alarm-terminal {
+  width: min(900px, 92vw);
+  background: #050505;
+  border: 1px solid var(--dim-2);
+  border-radius: 4px;
+  padding: 2rem 2.4rem 2.4rem;
+  font-family: var(--mono);
+}
+:root[data-theme="phosphor"] .alarm-head {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--dim-2);
+  padding-bottom: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+}
+:root[data-theme="phosphor"] .alarm-head .blink {
+  color: var(--accent);
+  animation: apollo-blink 900ms steps(2, end) infinite;
+}
+:root[data-theme="phosphor"] .alarm-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+:root[data-theme="phosphor"] .alarm-line {
+  font-family: var(--mono);
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 380ms ease-out;
+  color: var(--fg);
+  letter-spacing: 0.04em;
+}
+:root[data-theme="phosphor"] .alarm-line .ts {
+  color: var(--dim);
+  margin-right: 1.2rem;
+}
+:root[data-theme="phosphor"] .alarm-line .src {
+  color: var(--blue);
+  margin-right: 0.8rem;
+}
+:root[data-theme="phosphor"] .alarm-line.alarm {
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+:root[data-theme="phosphor"] .alarm-line.go {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* AGC code block flourish — header line above the codeblock */
+:root[data-theme="phosphor"] .agc-header {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+  text-align: center;
+}
+:root[data-theme="phosphor"] .agc-sub {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-top: 0.7rem;
+  text-align: center;
+}
+
+/* Big amber "GO." statement */
+:root[data-theme="phosphor"] .big-go {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(8rem, 26vw, 20rem);
+  color: var(--accent);
+  text-shadow: 0 0 50px var(--accent-glow), 0 0 100px var(--accent-glow);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+:root[data-theme="phosphor"] .big-go-sub {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.36em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-top: 1.6rem;
+}
+
+/* Acknowledged: photos sometimes need a subtle vignette */
+:root[data-theme="phosphor"] .full-image .overlay {
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.65) 100%);
+}
+
+/* TeamGrid tweaks — crew card */
+:root[data-theme="phosphor"] .team-card {
+  border-color: var(--dim-2);
+  background: rgba(255, 255, 255, 0.015);
+}
+:root[data-theme="phosphor"] .team-name {
+  font-family: var(--display);
+  letter-spacing: 0.02em;
+}
+:root[data-theme="phosphor"] .team-role {
+  color: var(--accent);
+  font-family: var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+:root[data-theme="phosphor"] .team-bio {
+  font-family: var(--mono);
+  color: var(--dim);
+}

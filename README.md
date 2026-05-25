@@ -2,7 +2,14 @@
 
 **Cinematic, agent-authored presentations. No build step.**
 
-▶ **[Live demo](https://noegel.io/stagecraft/)** — the deck about Stagecraft, built with Stagecraft. Auto-deployed from `main` via GitHub Pages.
+▶ **[Live demo gallery](https://noegel.io/stagecraft/)** — four highly customised decks:
+
+- **Stagecraft** · a deck about Stagecraft itself — every component + transition exercised
+- **C64** · a retro history of the Commodore 64 with a custom pixel-font theme
+- **Tokyo · April 2026** · a travel diary with Unsplash photography (full attribution)
+- **Apollo 11** · keynote-grade retelling of the Moon landing — NASA imagery, animated countdown, the 1202 alarm, the famous quotes
+
+Auto-deployed from `main` via GitHub Pages.
 
 A small JavaScript library for animated slide decks. Source is plain JS files loaded by `<script>` tags — no bundler, no framework, opens directly in any browser. Designed so an LLM can generate a deck that doesn't look like an LLM generated it.
 

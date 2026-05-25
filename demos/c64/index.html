@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="phosphor">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>C64 — Eight Bits That Changed Everything</title>
+  <meta name="description" content="A Stagecraft deck about the Commodore 64 — the best-selling computer of all time, in its original blue.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Period-accurate-feel pixel + monospace pair -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Material Symbols — used sparingly in Pillars -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+
+  <!-- Base bundle (engine + helpers + components + phosphor theme). Bundles live at deploy-root/dist/. -->
+  <link rel="stylesheet" href="../../dist/themes/phosphor.bundle.css">
+
+  <!-- C64 overrides — applied on top of phosphor to repaint everything in Commodore blue. -->
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+  <div class="welcome" id="welcome">
+    <div class="key-prompt"><span class="accent">&#9608;</span>&nbsp;&nbsp;PRESS <span class="accent">&rarr;</span> OR <span class="accent">SPACE</span> TO LOAD</div>
+    <h1>C64</h1>
+    <div class="by">EIGHT BITS THAT CHANGED EVERYTHING</div>
+  </div>
+
+  <main id="stage"></main>
+
+  <div class="ui">
+    <div class="ui-brand"><span class="br-accent">C64</span>&middot;DECK</div>
+    <div class="ui-title" id="uiTitle"></div>
+    <div class="ui-counter">
+      <span id="curSec">00</span><span class="slash">/</span><span class="total">00</span>
+    </div>
+    <div class="ui-dots" id="uiDots"></div>
+    <div class="ui-hint" id="uiHint">&rarr; next &middot; &larr; prev &middot; S storyboard &middot; F fullscreen &middot; R replay &middot; P presenter</div>
+  </div>
+
+  <!-- Single bundle: engine + helpers + transitions + all components + edit-mode. -->
+  <script src="../../dist/stagecraft.bundle.js"></script>
+  <!-- Deck manifest: order + transitions. -->
+  <script src="stagecraft.config.js"></script>
+</body>
+</html>

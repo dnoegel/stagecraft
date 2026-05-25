@@ -1,0 +1,387 @@
+/* ============================================================================
+ * Tokyo · April 2026 — travel-diary theme
+ *
+ * Layers on top of the Paper theme. Repaints tokens to warm cream + sunset
+ * coral + deep blue-grey, swaps fonts to Cormorant Garamond / Caveat / Inter,
+ * adds a subtle paper-grain texture, gives images a Polaroid frame.
+ * ============================================================================ */
+
+:root[data-theme="paper"] {
+  /* Warm cream paper background, near-black warm ink, warm grey for dim */
+  --bg: #FAF4E9;
+  --bg-elevated: #FFFBF2;
+  --fg: #2A2520;
+  --dim: #85786B;
+  --dim-2: #E3D9C7;
+
+  /* Sunset coral primary accent — Tokyo-warm */
+  --accent: #E07856;
+  --accent-soft: rgba(224, 120, 86, 0.10);
+  --accent-glow: rgba(224, 120, 86, 0.22);
+
+  /* Secondary accent: deep blue-grey for night photography mood */
+  --blue: #3C5A6E;
+  --amber: #B8762A;
+  --red: #9B3A2C;
+
+  /* Fonts: Cormorant for display (serif), Inter for body, Caveat handwritten */
+  --mono: 'Cormorant Garamond', 'Source Serif 4', Georgia, serif;
+  --display: 'Cormorant Garamond', 'Source Serif 4', Georgia, serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --hand: 'Caveat', 'Bradley Hand', cursive;
+}
+
+/* ---------------------------------------------------------------------------
+ * Paper-grain texture: subtle SVG noise sitting under everything.
+ * Inline SVG keeps the demo self-contained.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] body {
+  background-color: var(--bg);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.14  0 0 0 0 0.12  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  background-repeat: repeat;
+}
+
+/* Make sure the texture sits behind, not on top of slide content */
+:root[data-theme="paper"] body::before,
+:root[data-theme="paper"] body::after { display: none; }
+
+/* ---------------------------------------------------------------------------
+ * Welcome screen — diary feel.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .welcome h1 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+:root[data-theme="paper"] .welcome .by {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+:root[data-theme="paper"] .welcome .key-prompt {
+  font-family: var(--body);
+  color: var(--dim);
+}
+
+/* ---------------------------------------------------------------------------
+ * Chrome — UI bar restyle.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .ui {
+  font-family: var(--body);
+  color: var(--dim);
+}
+:root[data-theme="paper"] .ui .br-accent {
+  color: var(--accent);
+  font-family: var(--hand);
+  font-size: 1.15em;
+  letter-spacing: 0.04em;
+}
+:root[data-theme="paper"] .ui-title {
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--fg);
+}
+
+/* ---------------------------------------------------------------------------
+ * KineticText — display serif for big lines, Caveat for "diary" beats.
+ * Lines marked with the 'amber' color act as our handwritten accent.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .kinetic .line {
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+:root[data-theme="paper"] .kinetic .line.fg {
+  color: var(--fg);
+  font-style: italic;
+}
+:root[data-theme="paper"] .kinetic .line.dim {
+  color: var(--dim);
+  font-style: italic;
+  font-weight: 400;
+}
+:root[data-theme="paper"] .kinetic .line.accent {
+  color: var(--accent);
+  font-style: italic;
+}
+:root[data-theme="paper"] .kinetic .line.blue {
+  color: var(--blue);
+  font-style: italic;
+}
+/* Use 'amber' lines as handwritten Caveat */
+:root[data-theme="paper"] .kinetic .line.amber {
+  font-family: var(--hand);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 1.2em;
+  letter-spacing: 0.005em;
+}
+
+/* ---------------------------------------------------------------------------
+ * SectionCard — diary "Day X" feel. Number becomes the day,
+ * tag gets the handwritten Caveat.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .section-card .sec-num {
+  font-family: var(--hand);
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 2.2rem;
+  letter-spacing: 0.02em;
+}
+:root[data-theme="paper"] .section-card .sec-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--fg);
+  letter-spacing: -0.015em;
+}
+:root[data-theme="paper"] .section-card .sec-tag {
+  font-family: var(--hand);
+  font-weight: 500;
+  color: var(--blue);
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+:root[data-theme="paper"] .section-card .sec-line {
+  background: var(--dim-2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Quote — magazine pull quote in serif italic.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .q-text {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.22;
+}
+:root[data-theme="paper"] .q-mark {
+  color: var(--accent);
+  opacity: 0.7;
+}
+:root[data-theme="paper"] .q-author {
+  font-family: var(--hand);
+  color: var(--accent);
+  font-size: 1.6rem;
+  font-style: normal;
+}
+:root[data-theme="paper"] .q-role,
+:root[data-theme="paper"] .q-source {
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--dim);
+}
+
+/* ---------------------------------------------------------------------------
+ * ImageText / FullImage / ImageGrid — the Polaroid treatment.
+ *
+ * - white border
+ * - subtle paper drop shadow
+ * - 2deg rotate on hover (presenter-pause delight)
+ * - photo a touch desaturated for "film print" feel
+ * ------------------------------------------------------------------------- */
+
+/* ImageText figure → Polaroid */
+:root[data-theme="paper"] .it-figure {
+  background: #FFFFFF;
+  padding: 14px 14px 56px 14px;          /* extra bottom: room for caption */
+  border-radius: 2px;
+  box-shadow:
+    0 1px 2px rgba(42, 37, 32, 0.10),
+    0 18px 32px -16px rgba(42, 37, 32, 0.30);
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: rotate(-0.8deg);
+}
+:root[data-theme="paper"] .it-figure:hover {
+  transform: rotate(2deg) scale(1.01);
+}
+:root[data-theme="paper"] .it-img {
+  filter: saturate(0.82) contrast(1.04);
+  border-radius: 0;
+}
+:root[data-theme="paper"] .it-img-frame {
+  display: none;       /* don't double-frame; polaroid frame is enough */
+}
+:root[data-theme="paper"] .it-heading {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--fg);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+:root[data-theme="paper"] .it-line {
+  font-family: var(--body);
+  font-weight: 300;
+  color: var(--fg);
+  line-height: 1.55;
+}
+:root[data-theme="paper"] .it-caption {
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  color: var(--accent);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+/* ImageGrid — gallery of Polaroids, each at a slight different rotation */
+:root[data-theme="paper"] .ig-cell {
+  background: #FFFFFF;
+  padding: 10px 10px 40px 10px;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 2px rgba(42, 37, 32, 0.10),
+    0 14px 28px -14px rgba(42, 37, 32, 0.28);
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:root[data-theme="paper"] .ig-cell:nth-child(4n+1) { transform: rotate(-1.4deg); }
+:root[data-theme="paper"] .ig-cell:nth-child(4n+2) { transform: rotate(1.1deg); }
+:root[data-theme="paper"] .ig-cell:nth-child(4n+3) { transform: rotate(-0.6deg); }
+:root[data-theme="paper"] .ig-cell:nth-child(4n+4) { transform: rotate(1.8deg); }
+:root[data-theme="paper"] .ig-cell:hover {
+  transform: rotate(2deg) scale(1.03);
+  z-index: 2;
+}
+:root[data-theme="paper"] .ig-frame {
+  border-radius: 0;
+  box-shadow: none;
+}
+:root[data-theme="paper"] .ig-img {
+  filter: saturate(0.82) contrast(1.04);
+}
+:root[data-theme="paper"] .ig-cap {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-align: center;
+  margin-top: 0.4em;
+}
+
+/* FullImage — let the photo bleed but keep overlay text legible & magazine. */
+:root[data-theme="paper"] .full-image .fi-bg {
+  filter: saturate(0.85) contrast(1.05);
+}
+:root[data-theme="paper"] .fi-headline {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  text-shadow:
+    0 2px 8px rgba(0,0,0,0.55),
+    0 0 24px rgba(0,0,0,0.25);
+}
+:root[data-theme="paper"] .fi-body {
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+/* Stronger scrim for dark photos so light overlay text reads */
+:root[data-theme="paper"] .fi-scrim--bottom-left,
+:root[data-theme="paper"] .fi-scrim--bottom-right {
+  background: linear-gradient(45deg, rgba(20, 16, 14, 0.65), transparent 65%);
+}
+:root[data-theme="paper"] .fi-scrim--bottom-right {
+  background: linear-gradient(315deg, rgba(20, 16, 14, 0.65), transparent 65%);
+}
+:root[data-theme="paper"] .fi-scrim--center {
+  background: radial-gradient(ellipse at center, rgba(20, 16, 14, 0.45) 0%, rgba(20, 16, 14, 0.05) 70%);
+}
+
+/* ---------------------------------------------------------------------------
+ * BigNumber — sunset coral, serif numerals.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .bn-num,
+:root[data-theme="paper"] .bn-unit {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+}
+:root[data-theme="paper"] .bn-label {
+  font-family: var(--body);
+  font-weight: 300;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+}
+:root[data-theme="paper"] .bn-caption {
+  font-family: var(--hand);
+  font-size: 1.4rem;
+  color: var(--dim);
+}
+
+/* ---------------------------------------------------------------------------
+ * Statement — magazine declarative.
+ * ------------------------------------------------------------------------- */
+:root[data-theme="paper"] .statement-text {
+  font-family: var(--display);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--fg);
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+}
+:root[data-theme="paper"] .statement-text .st-em--accent {
+  color: var(--accent);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------------
+ * A reusable "diary stamp" — small date label tucked into a slide corner.
+ * Slides opt-in by adding a node with class .diary-stamp.
+ * ------------------------------------------------------------------------- */
+.diary-stamp {
+  position: absolute;
+  top: 2.2rem;
+  right: 2.6rem;
+  font-family: var(--hand);
+  font-size: 1.35rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  transform: rotate(2deg);
+  opacity: 0;
+  transition: opacity 700ms ease 200ms;
+}
+.diary-stamp.in { opacity: 0.85; }
+
+/* ---------------------------------------------------------------------------
+ * Photo credit chip — tiny dim text for inline Unsplash attribution.
+ * Used in custom slides for on-slide credit beside an image.
+ * ------------------------------------------------------------------------- */
+.photo-credit {
+  font-family: var(--body);
+  font-size: 0.72rem;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.photo-credit a {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+/* Small caption underneath ImageText figure (added via custom slide). */
+.it-photo-credit {
+  margin-top: 0.6rem;
+  font-family: var(--body);
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}

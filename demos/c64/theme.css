@@ -1,0 +1,268 @@
+/* ============================================================================
+ * C64 theme override — repaints the phosphor theme in Commodore blue.
+ *
+ * The phosphor bundle is already loaded; we override its tokens and a few
+ * cosmetics so everything inherits the C64 startup-screen aesthetic:
+ *   - deep blue screen (#3329C2)
+ *   - lighter blue TV-bezel border (#7C70DA)
+ *   - pale lavender/blue text (#A399E9)
+ *   - pure white for highlighted chars
+ *   - "Press Start 2P" headlines / "VT323" body — both pixelly + free
+ *   - subtle scanline overlay
+ *   - block cursor with slow blink
+ * ========================================================================== */
+
+:root[data-theme="phosphor"] {
+  /* Palette — straight from the C64 hardware palette. */
+  --bg:           #3329C2;                       /* screen blue */
+  --bg-elevated:  #2a22a8;                       /* slightly darker for cards */
+  --fg:           #A399E9;                       /* pale lavender/blue text */
+  --dim:          #7C70DA;                       /* border-blue, used as muted */
+  --dim-2:        #4a3ed4;                       /* subtle separators */
+  --accent:       #FFFFFF;                       /* highlighted CHARS = white */
+  --accent-soft:  rgba(255, 255, 255, 0.14);
+  --accent-glow:  rgba(255, 255, 255, 0.55);
+  --blue:         #A399E9;                       /* alias so the 'blue' color slot stays in-palette */
+  --amber:        #FFFFFF;                       /* re-route warm accents into the C64 palette */
+  --red:          #FFFFFF;                       /* same — we keep the duotone discipline */
+
+  /* Typography — Press Start 2P for headlines, VT323 for body. Both monospace,
+     both era-correct in feel, both free from Google Fonts. */
+  --mono:    'VT323', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --display: 'Press Start 2P', 'VT323', ui-monospace, monospace;
+  --body:    'VT323', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ----------------------------------------------------------------------------
+ * The TV bezel — a lighter-blue ring around the body simulating the C64's
+ * border / overscan. Implemented as a fixed-position frame so it sits above
+ * the slide content without distorting layout.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] body {
+  /* VT323 is small at default sizes; bump the base. */
+  font-size: 18px;
+  letter-spacing: 0.01em;
+}
+
+/* The bezel ring */
+:root[data-theme="phosphor"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  /* 24px solid bezel, rounded; sit on top of slide content. */
+  border: 28px solid #7C70DA;
+  border-radius: 22px;
+  pointer-events: none;
+  z-index: 90;                                   /* below the .ui chrome (100) */
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),         /* tiny crisp inner edge */
+    inset 0 0 60px rgba(0, 0, 0, 0.35);          /* soft inner vignette */
+  background: transparent;                       /* override phosphor's ambient gradient */
+}
+
+/* Replace the phosphor film-grain ::after with a subtle CRT scanline pattern. */
+:root[data-theme="phosphor"] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 1px,
+    rgba(0, 0, 0, 0.18) 1px,
+    rgba(0, 0, 0, 0.18) 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: normal;
+  opacity: 0.5;                                  /* applied to a very light alpha already */
+}
+
+/* ----------------------------------------------------------------------------
+ * Caret — the iconic C64 block cursor: solid white, slow blink.
+ * Override phosphor's caret animation entirely.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .caret {
+  width: 0.8em;
+  height: 1.05em;
+  background: var(--accent);
+  margin-left: 0.05em;
+  vertical-align: -0.15em;
+  box-shadow: none;                              /* no glow — the C64 cursor was hard-edged */
+  animation: c64-blink 600ms steps(2, end) infinite;
+}
+@keyframes c64-blink { 50% { opacity: 0; } }
+
+/* ----------------------------------------------------------------------------
+ * Typography tweaks.
+ *
+ * VT323 is a tall, condensed terminal face — perfect for body. Press Start 2P
+ * is chunky and pixel-perfect — perfect for headlines but unreadable at small
+ * sizes. We use Press Start 2P only on hero/display elements, VT323 everywhere
+ * else. We also bump line-heights since VT323 sits tightly.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .hero,
+:root[data-theme="phosphor"] .hero-xl {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+/* The hero-xl variant is huge — Press Start 2P at its widest cap. */
+:root[data-theme="phosphor"] .hero-xl {
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  max-width: 22ch;
+}
+
+/* Regular hero: a touch smaller since pixel fonts feel bigger optically. */
+:root[data-theme="phosphor"] .hero {
+  font-size: clamp(1.6rem, 4.2vw, 3.5rem);
+  max-width: 24ch;
+}
+
+/* Pre-label and sub copy: VT323, slightly bumped. */
+:root[data-theme="phosphor"] .pre-label {
+  font-family: var(--body);
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+}
+:root[data-theme="phosphor"] .pre-label .dot {
+  background: var(--accent);
+  width: 9px;
+  height: 9px;
+}
+:root[data-theme="phosphor"] .sub {
+  font-family: var(--body);
+  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+}
+
+/* ----------------------------------------------------------------------------
+ * Welcome screen — keep it on-brand.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .welcome {
+  background: var(--bg);
+}
+:root[data-theme="phosphor"] .welcome h1 {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  color: var(--accent);
+  letter-spacing: 0;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .welcome .by {
+  font-family: var(--body);
+  font-size: 1.3rem;
+  color: var(--fg);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+:root[data-theme="phosphor"] .welcome .key-prompt {
+  font-family: var(--body);
+  font-size: 1.1rem;
+  color: var(--fg);
+  letter-spacing: 0.25em;
+}
+
+/* ----------------------------------------------------------------------------
+ * Chrome strip (ui-brand, counter, dots, hint).
+ * Keep it tiny but in palette.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .ui {
+  font-family: var(--body);
+  font-size: 0.95rem;
+  letter-spacing: 0.22em;
+  color: var(--dim);
+}
+:root[data-theme="phosphor"] .ui-brand .br-accent {
+  color: var(--accent);
+}
+:root[data-theme="phosphor"] .ui-counter { color: var(--fg); }
+:root[data-theme="phosphor"] .ui-counter .slash { color: var(--dim); }
+:root[data-theme="phosphor"] .ui-counter .total { color: var(--dim); }
+:root[data-theme="phosphor"] .ui-dots .dot { background: var(--dim-2); }
+:root[data-theme="phosphor"] .ui-dots .dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+:root[data-theme="phosphor"] .ui-dots .dot.past { background: var(--dim); }
+
+/* Nudge the chrome inward so the bezel doesn't clip it. */
+:root[data-theme="phosphor"] .ui-brand   { top: 2.2rem; left: 2.8rem; }
+:root[data-theme="phosphor"] .ui-title   { top: 2.2rem; right: 2.8rem; }
+:root[data-theme="phosphor"] .ui-counter { bottom: 2.2rem; left: 2.8rem; }
+:root[data-theme="phosphor"] .ui-dots    { bottom: 2.2rem; right: 2.8rem; }
+:root[data-theme="phosphor"] .ui-hint    { bottom: 2.2rem; }
+
+/* ----------------------------------------------------------------------------
+ * Cards / panels — components like Pillars, Stats, BigNumber rely on borders
+ * and `--bg-elevated`. Repaint borders in C64 dim-blue.
+ * -------------------------------------------------------------------------- */
+:root[data-theme="phosphor"] .pillar,
+:root[data-theme="phosphor"] .stat-block,
+:root[data-theme="phosphor"] .kpi-card,
+:root[data-theme="phosphor"] .codeblock,
+:root[data-theme="phosphor"] .activity-list .item {
+  border-color: var(--dim);
+}
+
+/* CodeBlock: lean into the terminal aesthetic — no chrome, just text. */
+:root[data-theme="phosphor"] .codeblock {
+  background: var(--bg);
+  border: 1px solid var(--dim);
+}
+:root[data-theme="phosphor"] .codeblock pre,
+:root[data-theme="phosphor"] .codeblock code {
+  font-family: var(--body);
+  font-size: clamp(1rem, 1.6vw, 1.5rem);
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+/* Big numbers should be in the Press Start 2P pixel face — feels arcade. */
+:root[data-theme="phosphor"] .big-number,
+:root[data-theme="phosphor"] .stat-block .number,
+:root[data-theme="phosphor"] .kpi-value {
+  font-family: var(--display);
+  letter-spacing: 0;
+}
+
+/* SectionCard heading and numbers */
+:root[data-theme="phosphor"] .section-card .num,
+:root[data-theme="phosphor"] .section-card .title {
+  font-family: var(--display);
+  letter-spacing: 0;
+}
+
+/* Statement — large declarative. Use display face. */
+:root[data-theme="phosphor"] .statement,
+:root[data-theme="phosphor"] .statement .text {
+  font-family: var(--display);
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+/* KineticText lines — keep in display face; bump readability. */
+:root[data-theme="phosphor"] .kinetic-line,
+:root[data-theme="phosphor"] .kt-line {
+  font-family: var(--display);
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* ShiftArrow — both sides in display. */
+:root[data-theme="phosphor"] .shift-arrow .from,
+:root[data-theme="phosphor"] .shift-arrow .to,
+:root[data-theme="phosphor"] .shift-arrow .arrow {
+  font-family: var(--display);
+  letter-spacing: 0;
+}
+
+/* Material icon color — when used, blend it into the palette. */
+:root[data-theme="phosphor"] .material-symbols-outlined {
+  color: var(--accent);
+}
