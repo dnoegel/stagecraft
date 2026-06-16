@@ -4,6 +4,7 @@
 
 ### CLI
 - New **`stagecraft check`** command — the blind-agent feedback loop. Renders the deck headless (same engine as `export pdf`), walks every slide, steps through each slide's internal steps (exercising every `onStep`), and reports **empty slides**, **broken assets** (`>= 400` responses), and **console / page errors**, attributed per slide. `--shots DIR` screenshots each slide; `--channel chrome` drives an installed Chrome instead of bundled chromium. Exits non-zero on problems, so it drops into CI or a pre-publish hook. Needs `playwright`.
+- New **`stagecraft export static`** command. Assembles a self-contained copy of the deck — the deck files plus only the `stagecraft` package — into one folder, skipping the rest of `node_modules`, `.git`, build output, and zips. The result has no external dependencies: open its `index.html` to present, zip it to share with someone who lacks the repo, or drop it on any static host. Pure file copy — no playwright, no browser, no deps.
 
 ### Documentation
 - **Step model** (`AGENT.md` §6): documented the `steps` off-by-one explicitly. Steps are 0-indexed and step 0 fires on entry, so `steps` must equal (highest step index `onStep` uses) + 1. Spelled out both silent failure modes — a reveal gated too high never fires; an over-count produces a "dead click" — with the counting rule and a worked example.

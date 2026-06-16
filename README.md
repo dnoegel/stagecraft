@@ -172,6 +172,14 @@ npx stagecraft export pdf --out my-deck.pdf
 
 Renders each slide at 1920×1080, concatenates into a single PDF. Skips transitions; respects each slide's `init()` animation timing (waits 1.2s by default; tune with `--wait`).
 
+## Export to a self-contained folder
+
+```bash
+npx stagecraft export static --out my-deck-share
+```
+
+A deck made with `init` references the runtime via `node_modules/stagecraft/dist/...`, so you can't just zip the deck folder and send it to someone without the repo. `export static` copies the deck **plus only the stagecraft package** into one folder, skipping the noise (the rest of `node_modules`, `.git`, build output, zips). The result has no external dependencies: open `my-deck-share/index.html` to present, or zip the folder and hand it to anyone — or drop it on any static host. No browser or extra deps required (it's a pure file copy).
+
 ## Check the deck (the blind-agent feedback loop)
 
 ```bash

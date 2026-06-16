@@ -24,14 +24,16 @@ switch (cmd) {
   case 'init':   run('init.js'); break;
   case 'serve':  run('serve.js'); break;
   case 'check':  run('check.js'); break;
-  case 'export':
-    if (rest[0] !== 'pdf') {
-      console.error('Only `export pdf` is supported.');
+  case 'export': {
+    const sub = rest.shift();
+    if (sub === 'pdf') run('export.js');
+    else if (sub === 'static') run('export-static.js');
+    else {
+      console.error('Usage: stagecraft export <pdf|static>');
       process.exit(1);
     }
-    rest.shift();
-    run('export.js');
     break;
+  }
   case '--help':
   case '-h':
   case undefined:
@@ -45,6 +47,8 @@ Usage:
                                                         assets / JS errors (needs playwright)
   stagecraft export pdf [--out deck.pdf] [--root DIR]   render deck to PDF
                                                         (needs playwright + pdf-lib)
+  stagecraft export static [--out DIR] [--root DIR]     copy the deck + runtime into one
+                                                        self-contained folder (no deps)
 
 Without the dev server, open index.html in a browser to present.
 Press P during a presentation to open the presenter view in a second window.`);
