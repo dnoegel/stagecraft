@@ -740,9 +740,37 @@ Available globally as `Stage.<name>`. Use them in any slide's `init()` to build 
 A slide may declare `steps: N`. The engine:
 
 - Tracks `currentStep` (starts at 0).
+- On entry, calls `onStep(el, 0)` once (step 0 is the slide's initial state, not a click).
 - On `→`: if `currentStep < N-1`, increment and call `onStep(el, currentStep)`. Otherwise advance to next slide.
 - On `←`: mirror.
 - On `R`: reset to step 0, re-run `init`.
+
+### Counting `steps` correctly (read this — it is the #1 footgun)
+
+The steps are **0-indexed and step 0 is free** (it fires on entry, before any click). So:
+
+```
+reachable steps = 0, 1, 2, … , N-1        (N = your `steps` value)
+highest step you can ever reach = N - 1
+clicks it takes to get there      = N - 1
+```
+
+**The rule:** `steps` = (the highest step index your `onStep` actually uses) + 1.
+
+```js
+onStep(el, step) {
+  el.querySelector('#a').classList.toggle('on', step >= 1);  // appears on click 1
+  el.querySelector('#b').classList.toggle('on', step >= 2);  // appears on click 2
+}
+// highest index used is 2  ->  steps: 3   (entry, click→1, click→2)
+```
+
+Two ways this bites, both silent (no error, just a broken slide):
+
+- **`steps` too low** — a reveal gated at `step >= N` (or higher) *never fires*. The content is in the DOM but the audience never sees it. If `steps: 3` and you check `step >= 3`, that branch is dead.
+- **`steps` too high** — the last `steps - 1 - (highest used)` clicks do *nothing visible*. You stand there clicking and the slide just sits, a "dead click", before it finally advances.
+
+If you have no per-click reveals, **omit `steps`** (or set `0`) — the slide advances on the first `→`. Only add `steps` when `onStep` actually does something. `npx stagecraft check` walks every step of every slide, so it surfaces a slide that renders nothing — but it can't read your intent, so count carefully.
 
 ```js
 Stage.register({
@@ -851,3 +879,22 @@ Switch live from the storyboard, or set `data-theme="..."` on `<html>` and link 
 `→ ← Space` navigate · `1-9` jump to section · `R` replay · `F` fullscreen
 `S` storyboard · `P` presenter window · `E` toggle edit mode · `N` slide-level note
 `?` show hint · `Esc` close overlay
+
+## 13. Check your work — you are blind
+
+You authored this deck but you cannot see it. Before you hand it over, render it and look:
+
+```bash
+npx stagecraft check                 # walk every slide, report problems
+npx stagecraft check --shots out/    # ...and screenshot each slide into out/
+```
+
+`check` serves the deck like presentation mode, walks every slide, **steps through each slide's `steps`** (so every `onStep` fires), and reports:
+
+- **empty slides** — a `#stage` that rendered (almost) nothing (a broken `render`, a thrown `init`)
+- **broken assets** — any response `>= 400` (a wrong image/font path)
+- **JS errors** — console errors + uncaught page errors, attributed per slide
+
+It exits non-zero when anything looks broken. With `--shots DIR` it writes one screenshot per slide — open them and judge the composition, the pacing, the typography. The catalog tells you what is *possible*; the screenshots tell you what you actually *made*. Close the loop.
+
+Needs `playwright` (`npm install --save-dev playwright && npx playwright install chromium`). Pass `--channel chrome` to drive an installed Chrome instead.
