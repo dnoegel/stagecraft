@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### CLI
+- New **`stagecraft check`** command — the blind-agent feedback loop. Renders the deck headless (same engine as `export pdf`), walks every slide, steps through each slide's internal steps (exercising every `onStep`), and reports **empty slides**, **broken assets** (`>= 400` responses), and **console / page errors**, attributed per slide. `--shots DIR` screenshots each slide; `--channel chrome` drives an installed Chrome instead of bundled chromium. Exits non-zero on problems, so it drops into CI or a pre-publish hook. Needs `playwright`.
+
 ## 0.2.0 — 2026-05-23
 
 ### Themes

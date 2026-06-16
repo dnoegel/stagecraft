@@ -152,6 +152,23 @@ npx stagecraft export pdf --out my-deck.pdf
 
 Renders each slide at 1920×1080, concatenates into a single PDF. Skips transitions; respects each slide's `init()` animation timing (waits 1.2s by default; tune with `--wait`).
 
+## Check the deck (the blind-agent feedback loop)
+
+```bash
+npm install --save-dev playwright
+npx playwright install chromium
+npx stagecraft check                 # walk every slide, report problems
+npx stagecraft check --shots out/    # …and screenshot each slide into out/
+```
+
+Stagecraft is built so an agent can author a deck — but the agent is **blind**: it can't see what it produced. `check` is the feedback loop. It renders the deck headless, walks every slide, **steps through each slide's internal steps** (exercising every `onStep`), and reports:
+
+- **empty slides** — a slide whose `#stage` rendered (almost) nothing
+- **broken assets** — any response `>= 400` (a wrong image/font path)
+- **JS errors** — console errors and uncaught page errors, attributed per slide
+
+With `--shots DIR` it writes one screenshot per slide so the agent (or you) can actually look. It exits non-zero when anything looks broken, so it drops straight into CI or a pre-publish hook. Same engine as `export pdf`; only needs `playwright`. Pass `--channel chrome` to drive an installed Chrome instead of downloading chromium.
+
 ## Visual regression tests
 
 ```bash

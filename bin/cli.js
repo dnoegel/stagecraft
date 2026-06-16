@@ -23,6 +23,7 @@ function run(script) {
 switch (cmd) {
   case 'init':   run('init.js'); break;
   case 'serve':  run('serve.js'); break;
+  case 'check':  run('check.js'); break;
   case 'export':
     if (rest[0] !== 'pdf') {
       console.error('Only `export pdf` is supported.');
@@ -39,6 +40,9 @@ switch (cmd) {
 Usage:
   stagecraft init                                       scaffold a new project
   stagecraft serve [--port N] [--root DIR]              dev server (edit mode)
+  stagecraft check [--root DIR] [--shots DIR] [--channel chrome]  render headless,
+                                                        report empty slides / broken
+                                                        assets / JS errors (needs playwright)
   stagecraft export pdf [--out deck.pdf] [--root DIR]   render deck to PDF
                                                         (needs playwright + pdf-lib)
 
