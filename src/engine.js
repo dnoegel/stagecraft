@@ -872,4 +872,25 @@
     getStageEl: () => stage,
   };
 
+  // ---------------------------------------------------------------------------
+  // Public navigation API
+  //
+  // A small, stable surface for tooling, tests, custom controls, and headless
+  // drivers (e.g. `stagecraft check`) — so they don't have to simulate
+  // keypresses to move the deck. `Stage._engine` above stays internal/unstable
+  // (it's the edit-mode UI's private channel); this is the documented contract.
+  //
+  // Navigation respects the step model: Stage.next()/prev() advance within a
+  // slide's steps before crossing to the next/previous slide, exactly like the
+  // arrow keys. Stage.go(i) jumps straight to slide i (step 0).
+  // ---------------------------------------------------------------------------
+  Stage.go = (i) => { go(i); return Stage.current; };
+  Stage.next = () => { next(); return Stage.current; };
+  Stage.prev = () => { prev(); return Stage.current; };
+  Stage.replay = () => { replay(); };
+  Stage.section = (n) => { jumpToSection(n); return Stage.current; };
+  Object.defineProperty(Stage, 'current', { get: () => current, enumerable: true });
+  Object.defineProperty(Stage, 'step', { get: () => currentStep, enumerable: true });
+  Object.defineProperty(Stage, 'count', { get: () => Stage.slides.length, enumerable: true });
+
 })(typeof window !== 'undefined' ? window : globalThis);

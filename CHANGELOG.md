@@ -9,6 +9,9 @@
 - **Step model** (`AGENT.md` §6): documented the `steps` off-by-one explicitly. Steps are 0-indexed and step 0 fires on entry, so `steps` must equal (highest step index `onStep` uses) + 1. Spelled out both silent failure modes — a reveal gated too high never fires; an over-count produces a "dead click" — with the counting rule and a worked example.
 - **`check` in `AGENT.md`** (new §13): the authoring agent is pointed at `stagecraft check` (+ `--shots`) to render and inspect what it produced — closing the blind-author loop.
 
+### Engine
+- New **public navigation API** on `Stage`: `Stage.go(i)`, `Stage.next()`, `Stage.prev()`, `Stage.section(n)`, `Stage.replay()`, plus the read-only getters `Stage.current`, `Stage.step`, and `Stage.count`. A stable, documented surface for tooling, tests, custom controls, and headless drivers — so they no longer have to simulate keypresses to move the deck. `next()` / `prev()` respect the step model exactly like the arrow keys. `Stage._engine` stays private to the edit-mode UI.
+
 ## 0.2.0 — 2026-05-23
 
 ### Themes

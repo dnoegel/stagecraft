@@ -85,6 +85,24 @@ Press `P` during a presentation → a new window opens with the presenter view:
 
 Drag the presenter window to your laptop screen, drag the main window to the beamer (or vice versa), full-screen the main one. Both windows stay synchronized via the browser's `BroadcastChannel` API: any nav action in either window updates the other.
 
+## Programmatic navigation
+
+`Stage` exposes a small, stable navigation API so tooling, tests, custom controls, and headless drivers can move the deck without simulating keypresses:
+
+```js
+Stage.go(7);        // jump to slide 7 (step 0); returns the new index
+Stage.next();       // advance one step, or to the next slide; returns the index
+Stage.prev();       // mirror
+Stage.section(3);   // jump to the first slide of section 3
+Stage.replay();     // re-run the current slide's init
+
+Stage.current;      // current slide index
+Stage.step;         // current step within the slide
+Stage.count;        // number of slides (=== Stage.slides.length)
+```
+
+`next()` / `prev()` respect the step model (they step through a slide's `steps` before crossing to the neighbor), exactly like the arrow keys. Call these once the deck has initialized (after the slide scripts have registered). `Stage._engine` remains private to the edit-mode UI; this is the public contract.
+
 ## 50 components in 7 families
 
 | Family | Count | Examples |
