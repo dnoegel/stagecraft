@@ -880,6 +880,8 @@ Switch live from the storyboard, or set `data-theme="..."` on `<html>` and link 
 `S` storyboard · `P` presenter window · `E` toggle edit mode · `N` slide-level note
 `?` show hint · `Esc` close overlay
 
+Programmatic equivalents (for tooling/tests/custom controls): `Stage.go(i)`, `Stage.next()`, `Stage.prev()`, `Stage.section(n)`, `Stage.replay()`, and the read-only `Stage.current` / `Stage.step` / `Stage.count`.
+
 ## 13. Check your work — you are blind
 
 You authored this deck but you cannot see it. Before you hand it over, render it and look:
