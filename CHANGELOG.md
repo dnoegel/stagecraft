@@ -12,6 +12,9 @@
 ### Engine
 - New **public navigation API** on `Stage`: `Stage.go(i)`, `Stage.next()`, `Stage.prev()`, `Stage.section(n)`, `Stage.replay()`, plus the read-only getters `Stage.current`, `Stage.step`, and `Stage.count`. A stable, documented surface for tooling, tests, custom controls, and headless drivers — so they no longer have to simulate keypresses to move the deck. `next()` / `prev()` respect the step model exactly like the arrow keys. `Stage._engine` stays private to the edit-mode UI.
 
+### Scaffold
+- **Offline-safe font loading.** The scaffold `index.html` (and the demo + gallery decks) now load Google Fonts non-render-blocking (`media="print"` + `onload="this.media='all'"`) instead of as render-blocking stylesheets. The deck paints immediately in each theme's fallback font stack rather than stalling on a blank screen for seconds when a font request hangs — the common case on conference wifi or fully offline. The engine already requires JS, so no `<noscript>` fallback is needed; comments point at self-hosting for a fully offline deck.
+
 ## 0.2.0 — 2026-05-23
 
 ### Themes

@@ -145,6 +145,8 @@ Themes override visuals. Unknown name → falls back to `fade`. Hover any transi
 
 Switch live from the edit-mode storyboard, or set `data-theme="..."` on `<html>` plus link the matching theme CSS bundle.
 
+**Fonts load offline-safe.** The scaffold's `index.html` pulls its web fonts non-render-blocking (`media="print"` + an `onload` swap), so the deck paints immediately in each theme's fallback stack (system mono / Inter) instead of freezing on a blank screen when a font request hangs — which is exactly what happens on conference wifi or fully offline. To remove the network dependency entirely, self-host the two font stylesheets and their `woff2` files and point the `href`s at the local copies.
+
 ## Speaker notes
 
 Slides can carry notes for the presenter view:
