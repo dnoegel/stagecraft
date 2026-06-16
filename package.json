@@ -1,6 +1,6 @@
 {
   "name": "stagecraft",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Cinematic, agent-authored presentations. No build step.",
   "type": "module",
   "main": "src/engine.js",

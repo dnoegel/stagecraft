@@ -1,9 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-06-16
 
 ### CLI
 - New **`stagecraft check`** command — the blind-agent feedback loop. Renders the deck headless (same engine as `export pdf`), walks every slide, steps through each slide's internal steps (exercising every `onStep`), and reports **empty slides**, **broken assets** (`>= 400` responses), and **console / page errors**, attributed per slide. `--shots DIR` screenshots each slide; `--channel chrome` drives an installed Chrome instead of bundled chromium. Exits non-zero on problems, so it drops into CI or a pre-publish hook. Needs `playwright`.
+
+### Documentation
+- **Step model** (`AGENT.md` §6): documented the `steps` off-by-one explicitly. Steps are 0-indexed and step 0 fires on entry, so `steps` must equal (highest step index `onStep` uses) + 1. Spelled out both silent failure modes — a reveal gated too high never fires; an over-count produces a "dead click" — with the counting rule and a worked example.
+- **`check` in `AGENT.md`** (new §13): the authoring agent is pointed at `stagecraft check` (+ `--shots`) to render and inspect what it produced — closing the blind-author loop.
 
 ## 0.2.0 — 2026-05-23
 
